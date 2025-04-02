@@ -1,0 +1,165 @@
+{% extends "auctions/layout.html" %}
+{% load custom_filters %}
+
+{% block body %}
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <!-- Centered Title -->
+            <div class="col-md-8 text-center">
+                <h1 class="mb-3">{{ listing.title }}</h1>
+            </div>
+        </div>
+        <div class="row">
+            <!-- Left Column: Listing Details -->
+            <div class="col-md-8">
+                <!-- Image Carousel -->
+                {% if listing.images.all %}
+                    <div class="carousel mb-3" id="carousel-listing-detail">
+                        {% for image in listing.images.all %}
+                            <img src="{{ image.image.url }}" alt="{{ listing.title }}" class="listing-image carousel-image" style="display: none;">
+                        {% endfor %}
+                        <!-- Navigation Buttons -->
+                        <button class="carousel-prev" onclick="prevImage('carousel-listing-detail')">&#10094;</button>
+                        <button class="carousel-next" onclick="nextImage('carousel-listing-detail')">&#10095;</button>
+                    </div>
+                {% endif %}
+                <p>{{ listing.description }}</p>
+                <p><strong>Current Price:</strong> ${{ listing.current_price }}</p>
+                <p><strong>Category:</strong> {{ listing.category.name|default:"No category" }}</p>
+                <p><strong>Listed by:</strong> {{ listing.creator.username|truncate_username }}</p>
+                <p><strong>Listed on:</strong> {{ listing.created_at|date:"F j, Y" }}</p>
+
+                {% if listing.active %}
+                    {% if user.is_authenticated %}
+                        <!-- Bidding Form -->
+                        <form method="POST" class="mb-3">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="bid_amount">Bid Amount</label>
+                                <input type="number" name="bid_amount" step="0.01" min="{{ listing.current_price|add:1 }}" max="{{ listing.current_price|mul:10 }}" class="form-control" required>
+                                <small class="form-text text-muted">Your bid must be at least $1 higher than the current price and no more than 10 times the current price (${{ listing.current_price|mul:10|floatformat:2 }}).</small>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Place Bid</button>
+                        </form>
+
+                        <!-- Watchlist Form -->
+                        <form method="POST" class="mb-3">
+                            {% csrf_token %}
+                            <input type="hidden" name="watchlist" value="1">
+                            <button type="submit" class="btn btn-{% if in_watchlist %}danger{% else %}success{% endif %}">
+                                {% if in_watchlist %}Remove from Watchlist{% else %}Add to Watchlist{% endif %}
+                            </button>
+                        </form>
+
+                        <!-- Comment Form -->
+                        <form method="POST" class="mb-3">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <textarea name="comment" class="form-control" rows="3" placeholder="Add a comment..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Post Comment</button>
+                        </form>
+
+                        <!-- Edit Listing Button -->
+                        {% if is_creator %}
+                            <form method="GET" action="{% url 'edit_listing' listing.id %}" class="mb-3">
+                                <button type="submit" class="btn btn-warning">Edit Listing</button>
+                            </form>
+                        {% endif %}
+                    {% else %}
+                        <div class="alert alert-info">
+                            Please <a href="{% url 'login' %}?next={{ request.path }}">log in</a> to place bids, add to watchlist, or comment.
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="alert alert-info">
+                        {% if is_winner %}
+                            <h4>Congratulations! You won this auction!</h4>
+                        {% else %}
+                            <h4>This auction is closed.</h4>
+                            {% if listing.winner %}
+                                <p>Winner: {{ listing.winner.username }}</p>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Right Column: Bid History and Comments -->
+            <div class="col-md-4">
+                <!-- Bid History -->
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h5 class="card-title">Bid History</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if bids %}
+                            <ul class="list-group list-group-flush">
+                                {% for bid in bids %}
+                                    <li class="list-group-item">
+                                        <strong>{{ bid.bidder.username|truncate_username }}</strong> bid ${{ bid.amount }} on {{ bid.created_at|date:"F j, Y" }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p>No bids yet.</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Comments -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Comments</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if comments %}
+                            <ul class="list-group list-group-flush">
+                                {% for comment in comments %}
+                                    <li class="list-group-item">
+                                        <strong>{{ comment.author.username|truncate_username }}</strong> on {{ comment.created_at|date:"F j, Y" }}:
+                                        <p>{{ comment.content }}</p>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p>No comments yet.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize carousels
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.carousel').forEach(carousel => {
+                const images = carousel.querySelectorAll('.carousel-image');
+                if (images.length > 0) {
+                    images[0].style.display = 'block'; // Show the first image
+                }
+            });
+        });
+
+        // Function to show the next image
+        function nextImage(carouselId) {
+            const carousel = document.getElementById(carouselId);
+            const images = carousel.querySelectorAll('.carousel-image');
+            let currentIndex = Array.from(images).findIndex(img => img.style.display === 'block');
+            images[currentIndex].style.display = 'none'; // Hide current image
+            currentIndex = (currentIndex + 1) % images.length; // Move to next image
+            images[currentIndex].style.display = 'block'; // Show next image
+        }
+
+        // Function to show the previous image
+        function prevImage(carouselId) {
+            const carousel = document.getElementById(carouselId);
+            const images = carousel.querySelectorAll('.carousel-image');
+            let currentIndex = Array.from(images).findIndex(img => img.style.display === 'block');
+            images[currentIndex].style.display = 'none'; // Hide current image
+            currentIndex = (currentIndex - 1 + images.length) % images.length; // Move to previous image
+            images[currentIndex].style.display = 'block'; // Show previous image
+        }
+    </script>
+{% endblock %} 

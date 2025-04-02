@@ -1,0 +1,29 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %} Search Results {% endblock %}
+
+{% block body %}
+    <h1>Search Results for "{{ query }}"</h1>
+
+    {% if title_matches %}
+        <h3>Related articles:</h3>
+        <ul>
+            {% for result in title_matches %}
+                <li><a href="{% url 'encyclopedia:entry_page' result %}">{{ result }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if content_matches %}
+        <h3>Other articles:</h3>
+        <ul>
+            {% for result in content_matches %}
+                <li><a href="{% url 'encyclopedia:entry_page' result %}">{{ result }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if not title_matches and not content_matches %}
+        <p>❌ No results found for "{{ query }}".</p>
+    {% endif %}
+{% endblock %}

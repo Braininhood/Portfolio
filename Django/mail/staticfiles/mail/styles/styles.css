@@ -1,0 +1,157 @@
+textarea {
+    min-height: 400px;
+}
+/* Base styles */
+.email {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.2s;
+}
+
+.email:hover {
+    background-color: #f8f9fa;
+    cursor: pointer;
+}
+
+.timestamp {
+    color: #6c6f7d;
+    font-size: 0.85em;
+    margin-left: 10px;
+}
+
+/* Responsive layout adjustments */
+@media (max-width: 768px) {
+    .email {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .email button {
+        margin-top: 10px;
+        align-self: flex-end;
+    }
+    
+    textarea.form-control {
+        min-height: 200px; /* Smaller height on mobile */
+    }
+}
+
+/* Ensure proper display on small screens */
+@media (max-width: 576px) {
+    h3 {
+        font-size: 1.5rem;
+    }
+    
+    .btn-sm {
+        display: block;
+        width: 100%;
+        margin-bottom: 5px;
+    }
+}
+
+/* Add these styles to your existing CSS */
+.mailbox-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.select-all-container {
+    display: flex;
+    align-items: center;
+}
+
+.select-all-container label {
+    margin-left: 5px;
+    font-weight: normal;
+}
+
+.email {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+}
+
+.email-checkbox {
+    margin-right: 10px;
+}
+
+.email-content {
+    flex-grow: 1;
+    cursor: pointer;
+}
+
+#batch-actions {
+    margin-bottom: 15px;
+}
+
+#batch-actions button {
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+/* Add these styles to your existing CSS */
+.form-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.form-buttons button, 
+.form-buttons input[type="submit"] {
+    min-width: 100px;
+}
+
+/* Ensure proper display on small screens */
+@media (max-width: 576px) {
+    .form-buttons {
+        flex-direction: column;
+    }
+    
+    .form-buttons button, 
+    .form-buttons input[type="submit"] {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+}
+
+/* Style for quoted email text in replies */
+.email-quote {
+  border-left: 2px solid #ccc;
+  padding-left: 10px;
+  color: #555;
+  margin-top: 10px;
+}
+
+/* Add these styles for email reply formatting */
+.email-body {
+  margin-top: 20px;
+  white-space: pre-wrap;
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+}
+
+.quote-header {
+  margin-top: 15px;
+  color: #555;
+  font-style: italic;
+}
+
+.email-quote {
+  margin-top: 5px;
+  margin-bottom: 15px;
+  padding-left: 15px;
+  border-left: 3px solid #ccc;
+  color: #555;
+}
+

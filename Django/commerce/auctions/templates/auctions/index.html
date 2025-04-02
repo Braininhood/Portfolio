@@ -1,0 +1,87 @@
+{% extends "auctions/layout.html" %}
+{% load custom_filters %}
+
+{% block body %}
+    <h2>Active Listings</h2>
+
+    {% if messages %}
+        <div class="alert alert-success">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="container">
+        <div class="row">
+            {% for listing in listings %}
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h3 class="card-title center-text">
+                                <a href="{% url 'listing_detail' listing.id %}">{{ listing.title }}</a>
+                            </h3>
+                            <!-- Image Carousel -->
+                            {% if listing.images.all %}
+                                <div class="carousel" id="carousel-{{ listing.id }}">
+                                    {% for image in listing.images.all %}
+                                        <img src="{{ image.image.url }}" alt="{{ listing.title }}" class="listing-image carousel-image" style="display: none;">
+                                    {% endfor %}
+                                    <!-- Navigation Buttons -->
+                                    <button class="carousel-prev" onclick="prevImage('carousel-{{ listing.id }}')">&#10094;</button>
+                                    <button class="carousel-next" onclick="nextImage('carousel-{{ listing.id }}')">&#10095;</button>
+                                </div>
+                            {% endif %}
+                            <p>{{ listing.description|truncate_description }}</p>
+                            <p><strong>Price:</strong> ${{ listing.current_price }}</p>
+                            <p><strong>Category:</strong> {{ listing.category.name|default:"No Category" }}</p>
+                            <p><strong>Created by:</strong> {{ listing.creator.username|truncate_username }}</p>
+                            <p><strong>Created on:</strong> {{ listing.created_at|date:"M d, Y H:i" }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        // Initialize carousels
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.carousel').forEach(carousel => {
+                const images = carousel.querySelectorAll('.carousel-image');
+                if (images.length > 0) {
+                    images[0].style.display = 'block'; // Show the first image
+                }
+            });
+        });
+
+        // Function to show the next image
+        function nextImage(carouselId) {
+            const carousel = document.getElementById(carouselId);
+            const images = carousel.querySelectorAll('.carousel-image');
+            let currentIndex = Array.from(images).findIndex(img => img.style.display === 'block');
+            images[currentIndex].style.display = 'none'; // Hide current image
+            currentIndex = (currentIndex + 1) % images.length; // Move to next image
+            images[currentIndex].style.display = 'block'; // Show next image
+        }
+
+        // Function to show the previous image
+        function prevImage(carouselId) {
+            const carousel = document.getElementById(carouselId);
+            const images = carousel.querySelectorAll('.carousel-image');
+            let currentIndex = Array.from(images).findIndex(img => img.style.display === 'block');
+            images[currentIndex].style.display = 'none'; // Hide current image
+            currentIndex = (currentIndex - 1 + images.length) % images.length; // Move to previous image
+            images[currentIndex].style.display = 'block'; // Show previous image
+        }
+    </script>
+
+    <style>
+        @media (max-width: 768px) {
+            .col-md-3 {
+                flex: 0 0 100%; /* Full width on smaller screens */
+                max-width: 100%;
+            }
+        }
+    </style>
+{% endblock %}

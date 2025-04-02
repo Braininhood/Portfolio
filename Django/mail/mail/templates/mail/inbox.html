@@ -1,0 +1,64 @@
+{% extends "mail/layout.html" %}
+{% load static %}
+
+{% block body %}
+    <h2>{{ request.user.email }}</h2>
+
+    <button class="btn btn-sm btn-outline-primary" id="compose">New Email</button>
+    <button class="btn btn-sm btn-outline-primary" id="inbox">Inbox</button>
+    <button class="btn btn-sm btn-outline-primary" id="sent">Sent</button>
+    <button class="btn btn-sm btn-outline-primary" id="drafts">Drafts</button>
+    <button class="btn btn-sm btn-outline-primary" id="archived">Archived</button>
+    <a class="btn btn-sm btn-outline-primary" href="{% url 'logout' %}">Log Out</a>
+    <hr>
+
+    <div id="emails-view">
+      <h3 id="mailbox-title">Inbox</h3>
+      <!-- Action bar will be inserted here dynamically -->
+      <div id="emails-list">
+        <!-- Emails will be loaded here dynamically -->
+      </div>
+    </div>
+
+    <div id="batch-actions" style="display: none; margin-bottom: 10px;">
+        <button class="btn btn-sm btn-outline-primary" id="batch-archive">Archive Selected</button>
+        <button class="btn btn-sm btn-outline-primary" id="batch-mark-read">Mark as Read</button>
+        <button class="btn btn-sm btn-outline-primary" id="batch-mark-unread">Mark as Unread</button>
+        <button class="btn btn-sm btn-outline-danger" id="batch-delete">Delete Selected</button>
+    </div>
+
+    <div id="compose-view">
+        <h3>New Email</h3>
+        <form id="compose-form">
+            <div class="form-group">
+                From: <input disabled class="form-control" value="{{ request.user.email }}">
+            </div>
+            <div class="form-group">
+                <label for="compose-recipients" class="required-field">To:</label>
+                <input id="compose-recipients" class="form-control" required
+                       placeholder="user@example.com, user2@example.com" 
+                       title="Enter valid email addresses separated by commas">
+            </div>
+            <div class="form-group">
+                <input class="form-control" id="compose-subject" placeholder="Subject">
+            </div>
+            <textarea class="form-control" id="compose-body" placeholder="Body"></textarea>
+            <div class="form-buttons">
+                <button type="submit" class="btn btn-primary" id="send-email">Send</button>
+                <button type="button" class="btn btn-success" id="save-draft">Save Draft</button>
+                <button type="button" class="btn btn-secondary" id="cancel-compose">Cancel</button>
+            </div>
+            <input type="hidden" id="draft-id" value="">
+        </form>
+    </div>
+
+    <div id="email-view" style="display: none;">
+      <!-- Email content will be loaded here dynamically -->
+    </div>
+{% endblock %}
+
+{% block script %}
+    <link rel="stylesheet" href="{% static 'mail/styles/styles.css' %}">
+    <script src="{% static 'mail/js/inbox.js' %}"></script>
+    <script src="{% static 'mail/js/compose-validation.js' %}"></script>
+{% endblock %}
