@@ -93,7 +93,6 @@ Feel free to contact me for collaboration or employment opportunities:
 
 - **Email**: [braininhood@gmail.com]
 - **LinkedIn**: [www.linkedin.com/in/andrii-b-191a072ba]
-- **GitHub**: [github.com/braininhood]
 
 ---
 
