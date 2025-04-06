@@ -73,6 +73,31 @@ An eBay-like e-commerce auction site that allows users to post auction listings,
 * Django Pagination
 * Bootstrap for responsive design
 
+### Network
+
+A Twitter-like social network web application that allows users to create posts, follow other users, and interact with content.
+
+**Key Features:**
+* User profile creation and management
+* Create and edit posts
+* Follow/unfollow other users
+* Custom feed based on followed users
+* Like/unlike posts
+* Pagination for post listings
+
+**Project Structure:**
+* `/network/` - Main project directory
+* `/network/network/` - Main app with models, views, and templates
+* `/network/network/static/` - JavaScript and CSS files
+* `/network/network/templates/` - HTML templates
+
+**Technologies Used:**
+* Django
+* JavaScript for asynchronous interactions
+* AJAX for frontend-backend communication
+* Django REST framework for API endpoints
+* Bootstrap for responsive design
+
 ## Getting Started
 
 Each project can be run independently. To start any of the projects:

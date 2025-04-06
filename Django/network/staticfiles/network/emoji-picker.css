@@ -1,0 +1,53 @@
+/* Basic emoji picker styling */
+emoji-picker {
+  --background: white;
+  --border-color: #ddd;
+  --category-emoji-padding: 0.5rem;
+  --emoji-padding: 0.4rem;
+  --indicator-color: #007bff;
+  --input-border-color: #ddd;
+  --input-font-color: #333;
+  --input-placeholder-color: #999;
+  --outline-color: #007bff;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  z-index: 1000 !important;
+  font-family: sans-serif;
+  border: 1px solid var(--border-color);
+  background: var(--background);
+  width: 350px;
+  height: 400px;
+}
+
+emoji-picker.light {
+  --background: white;
+  --border-color: #ddd;
+  --input-border-color: #ddd;
+  --indicator-color: #007bff;
+}
+
+emoji-picker .emoji {
+  display: inline-block;
+  font-size: 1.375rem;
+  padding: var(--emoji-padding);
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+emoji-picker .emoji:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+emoji-picker input {
+  border: 1px solid var(--input-border-color);
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+  width: calc(100% - 1.5rem);
+  margin: 0.75rem;
+  font-family: inherit;
+  color: var(--input-font-color);
+}
+
+emoji-picker input::placeholder {
+  color: var(--input-placeholder-color);
+} 

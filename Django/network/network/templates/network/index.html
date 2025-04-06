@@ -1,0 +1,19 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block body %}
+    <div id="root"></div>
+    <!-- Emoji Picker Element -->
+    <script src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1.16.0/index.js" type="module"></script>
+    <!-- Custom fix for navigation issues -->
+    <script>
+        // Disable the problematic setupNavigation function
+        window.disableOriginalNavigation = true;
+    </script>
+    <!-- Custom JavaScript for navigation and UI enhancements - load BEFORE main.js -->
+    <script src="{% static 'network/src/custom.js' %}"></script>
+    <!-- Main React application -->
+    <script src="{% static 'network/dist/main.js' %}"></script>
+    <!-- Emoji support for posts and comments -->
+    <script src="{% static 'network/src/direct-emoji.js' %}"></script>
+{% endblock %}

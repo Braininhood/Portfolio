@@ -1,0 +1,214 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block body %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Edit Profile</h3>
+                </div>
+                <div class="card-body">
+                    <form id="profile-form" enctype="multipart/form-data">
+                        <div class="text-center mb-4">
+                            <div class="avatar-container mb-3">
+                                <img id="avatar-preview" src="{% if user.avatar %}{{ user.avatar.url }}{% else %}{% static 'network/images/default-avatar.svg' %}{% endif %}" alt="{{ user.username }}" 
+                                    class="rounded-circle" style="width: 150px; height: 150px; object-fit: cover;">
+                                <div class="overlay">
+                                    <span>Change photo</span>
+                                </div>
+                            </div>
+                            <input type="file" id="avatar-upload" name="avatar" accept="image/png, image/jpeg, image/jpg" class="d-none">
+                            <button type="button" id="avatar-upload-btn" class="btn btn-outline-primary btn-sm">
+                                <i class="fas fa-camera me-1"></i> Change Profile Picture
+                            </button>
+                            <div class="text-muted small mt-1">Supported formats: PNG, JPG (max 5MB)</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" value="{{ user.username }}" disabled>
+                            <div class="form-text text-muted">Username cannot be changed</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="bio" class="form-label">Bio</label>
+                            <textarea class="form-control" id="bio" name="bio" rows="4" placeholder="Tell us about yourself">{{ user.bio }}</textarea>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'profile' user.username %}" class="btn btn-outline-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="status-message" class="toast align-items-center position-fixed bottom-0 end-0 m-3" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+        <div class="toast-body"></div>
+        <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Avatar preview functionality
+    const avatarUpload = document.getElementById('avatar-upload');
+    const avatarPreview = document.getElementById('avatar-preview');
+    const avatarUploadBtn = document.getElementById('avatar-upload-btn');
+    const profileForm = document.getElementById('profile-form');
+    const statusMessage = document.getElementById('status-message');
+    const toast = new bootstrap.Toast(statusMessage);
+
+    // Trigger file upload when button is clicked
+    avatarUploadBtn.addEventListener('click', function() {
+        avatarUpload.click();
+    });
+
+    // Preview the uploaded image
+    avatarUpload.addEventListener('change', function() {
+        if (this.files && this.files[0]) {
+            const file = this.files[0];
+            
+            // Check file type
+            const fileType = file.type;
+            if (fileType !== 'image/png' && fileType !== 'image/jpeg' && fileType !== 'image/jpg') {
+                statusMessage.querySelector('.toast-body').textContent = 'Error: Only PNG and JPG images are allowed.';
+                statusMessage.classList.add('bg-danger', 'text-white');
+                toast.show();
+                this.value = ''; // Clear the input
+                return;
+            }
+            
+            // Check file size (5MB max)
+            const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+            if (file.size > maxSize) {
+                statusMessage.querySelector('.toast-body').textContent = 'Error: Image size should be less than 5MB.';
+                statusMessage.classList.add('bg-danger', 'text-white');
+                toast.show();
+                this.value = ''; // Clear the input
+                return;
+            }
+            
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                avatarPreview.src = e.target.result;
+            }
+            
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Handle form submission
+    profileForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData();
+        
+        // Add bio to form data
+        const bio = document.getElementById('bio').value;
+        formData.append('bio', bio);
+        
+        // Add avatar to form data if a file was selected
+        if (avatarUpload.files.length > 0) {
+            formData.append('avatar', avatarUpload.files[0]);
+        }
+        
+        // Show loading state
+        const submitBtn = document.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Saving...';
+        
+        // Submit the form
+        fetch('/api/profile/update', {
+            method: 'POST',
+            body: formData,
+            credentials: 'same-origin'
+        })
+        .then(response => {
+            // Parse the JSON first
+            return response.json().then(data => {
+                // Add the status to the data for error handling
+                return { ...data, ok: response.ok, status: response.status };
+            });
+        })
+        .then(data => {
+            // Reset button state
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalBtnText;
+            
+            if (!data.ok) {
+                // Show error message from the server
+                statusMessage.querySelector('.toast-body').textContent = data.error || 'Error updating profile. Please try again.';
+                statusMessage.classList.add('bg-danger', 'text-white');
+                toast.show();
+                return;
+            }
+            
+            // Show success message
+            statusMessage.querySelector('.toast-body').textContent = 'Profile updated successfully!';
+            statusMessage.classList.add('bg-success', 'text-white');
+            toast.show();
+            
+            // Redirect to profile page after a delay
+            setTimeout(() => {
+                window.location.href = `/profile/{{ user.username }}`;
+            }, 2000);
+        })
+        .catch(error => {
+            // Reset button state
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalBtnText;
+            
+            // Show error message
+            statusMessage.querySelector('.toast-body').textContent = 'Error updating profile. Please try again.';
+            statusMessage.classList.add('bg-danger', 'text-white');
+            toast.show();
+            console.error('Error:', error);
+        });
+    });
+});
+</script>
+
+<style>
+.avatar-container {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.avatar-container .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.avatar-container:hover .overlay {
+    opacity: 1;
+}
+
+.overlay span {
+    color: white;
+    font-size: 14px;
+    text-align: center;
+}
+</style>
+{% endblock %} 
