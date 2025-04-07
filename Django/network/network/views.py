@@ -14,7 +14,16 @@ from .forms import CustomAuthenticationForm, CustomUserCreationForm, PostForm, C
 from .utils import sanitize_text, sanitize_html, validate_image_file, detect_sql_injection, detect_xss, escape_json_string, get_nested_comments
 
 
+def welcome_view(request):
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("index"))
+    context = {'is_welcome_page': True}
+    return render(request, "network/welcome.html", context)
+
+
 def index(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("welcome"))
     return render(request, "network/index.html")
 
 
@@ -39,25 +48,25 @@ def profile_view(request, username):
 
 def login_view(request):
     if request.method == "POST":
-        # Use our custom authentication form for validation
+        username = request.POST.get("username", "")
+        password = request.POST.get("password", "")
+        
+        # First check if username exists
+        if not User.objects.filter(username=username).exists():
+            return JsonResponse({
+                "error": "Username does not exist.",
+                "redirect": True,
+                "message": "Username does not exist. Please register instead."
+            })
+            
         form = CustomAuthenticationForm(request, data=request.POST)
         if form.is_valid():
-            # Get the user object
             user = form.get_user()
             login(request, user)
-            return HttpResponseRedirect(reverse("index"))
+            return JsonResponse({"success": True})
         else:
-            # Check if username exists
-            username = request.POST.get("username", "")
-            if User.objects.filter(username=username).exists():
-                # Redirect to index with error message in URL params for our modal
-                return HttpResponseRedirect(reverse("index") + "?login_error=invalid_credentials&username=" + username)
-            else:
-                # If username doesn't exist, redirect to index with registration suggestion
-                return HttpResponseRedirect(reverse("index") + "?register_message=username_not_found&username=" + username)
-    else:
-        # For normal GET requests, redirect to index where our JS will show the modal
-        return HttpResponseRedirect(reverse("index") + "?show_login=true")
+            return JsonResponse({"error": "Invalid password."}, status=400)
+    return HttpResponseRedirect(reverse("welcome"))
 
 
 def logout_view(request):
@@ -67,29 +76,29 @@ def logout_view(request):
 
 def register(request):
     if request.method == "POST":
+        # Check if username already exists
+        username = request.POST.get("username", "")
+        if User.objects.filter(username=username).exists():
+            return JsonResponse({
+                "error": "Username already exists.",
+                "redirect": True,
+                "message": "Username already exists. Please login instead."
+            })
+            
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            # Form validation already handles:
-            # - Username format (alphanumeric + underscore)
-            # - Email uniqueness
-            # - Password validation (Django's built-in rules)
-            # - Password confirmation matching
             user = form.save()
             login(request, user)
-            return HttpResponseRedirect(reverse("index"))
+            return JsonResponse({"success": True})
         else:
-            # Check if username exists specifically
-            username = request.POST.get("username", "")
-            if User.objects.filter(username=username).exists():
-                # If username exists, redirect to index with login suggestion
-                return HttpResponseRedirect(reverse("index") + "?login_message=username_exists&username=" + username)
-            
-            # Otherwise, return to index with error message
-            errors = "&".join([f"{field}={error}" for field, error_list in form.errors.items() for error in error_list])
-            return HttpResponseRedirect(reverse("index") + "?register_error=form_invalid&" + errors)
-    else:
-        # For normal GET requests, redirect to index where our JS will show the modal
-        return HttpResponseRedirect(reverse("index") + "?show_register=true")
+            errors = {}
+            for field, error_list in form.errors.items():
+                errors[field] = error_list
+            return JsonResponse({
+                "error": "Registration failed.",
+                "details": errors
+            }, status=400)
+    return HttpResponseRedirect(reverse("welcome"))
 
 
 # API Routes
