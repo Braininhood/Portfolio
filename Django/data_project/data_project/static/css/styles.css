@@ -1,0 +1,86 @@
+/* Main Layout Styles */
+body {
+    padding-top: 60px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    flex: 1;
+}
+
+footer {
+    margin-top: auto;
+    padding: 20px 0;
+    background-color: #f8f9fa;
+    text-align: center;
+}
+
+/* Carousel Styles */
+.carousel-item img {
+    height: 400px;
+    object-fit: cover;
+}
+
+/* Card Styles */
+.card {
+    margin-bottom: 20px;
+}
+
+.card-header h3, .card-header h4 {
+    margin-bottom: 0;
+}
+
+/* Form Styles */
+.form-text ul {
+    padding-left: 20px;
+}
+
+/* Table Styles */
+.table-responsive {
+    overflow-x: auto;
+}
+
+/* Visualization Container */
+.viz-container {
+    max-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.viz-container img {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+/* Visualization Preview Styles */
+.viz-preview-container {
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.viz-preview {
+    width: 100%;
+}
+
+#previewPlaceholder {
+    padding: 20px;
+}
+
+.example-image {
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+    background-color: #f8f9fa;
+}
+
+.viz-type-description {
+    font-style: italic;
+    margin-top: 5px;
+    color: #6c757d;
+} 

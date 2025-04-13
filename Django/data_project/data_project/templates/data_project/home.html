@@ -1,0 +1,131 @@
+{% extends 'data_project/layout.html' %}
+
+{% block title %}Data Visualization - Home{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-4">
+    <div class="col-md-10">
+        <div class="card shadow-lg">
+            <div class="card-body p-0">
+                <div id="homeCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <!-- Carousel indicators -->
+                    <div class="carousel-indicators">
+                        {% for slide in slides %}
+                        <button type="button" data-bs-target="#homeCarousel" data-bs-slide-to="{{ forloop.counter0 }}" 
+                            {% if forloop.first %}class="active"{% endif %}></button>
+                        {% empty %}
+                        <!-- Default slides if no images are uploaded yet -->
+                        <button type="button" data-bs-target="#homeCarousel" data-bs-slide-to="0" class="active"></button>
+                        <button type="button" data-bs-target="#homeCarousel" data-bs-slide-to="1"></button>
+                        <button type="button" data-bs-target="#homeCarousel" data-bs-slide-to="2"></button>
+                        {% endfor %}
+                    </div>
+                    
+                    <!-- Carousel content -->
+                    <div class="carousel-inner">
+                        {% for slide in slides %}
+                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                            <img src="{{ slide.image.url }}" class="d-block w-100" alt="{{ slide.title }}">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h2>{{ slide.title }}</h2>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <!-- Default slides if no images are uploaded yet -->
+                        <div class="carousel-item active">
+                            <div class="bg-primary text-white d-flex align-items-center justify-content-center" style="height: 400px;">
+                                <div class="text-center">
+                                    <i class="fas fa-chart-bar fa-5x mb-3"></i>
+                                    <h2>Welcome to Data Visualization</h2>
+                                    <p class="lead">Analyze and visualize your data with ease</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="bg-success text-white d-flex align-items-center justify-content-center" style="height: 400px;">
+                                <div class="text-center">
+                                    <i class="fas fa-upload fa-5x mb-3"></i>
+                                    <h2>Upload Your Data</h2>
+                                    <p class="lead">Support for CSV, Excel, and DB files</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="bg-info text-white d-flex align-items-center justify-content-center" style="height: 400px;">
+                                <div class="text-center">
+                                    <i class="fas fa-magic fa-5x mb-3"></i>
+                                    <h2>Transform Your Data</h2>
+                                    <p class="lead">Clean and visualize with a few clicks</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <!-- Carousel controls -->
+                    <button class="carousel-control-prev" type="button" data-bs-target="#homeCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#homeCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Call to Action Buttons -->
+<div class="text-center my-5">
+    {% if user.is_authenticated %}
+    <h2 class="mb-4">Ready to visualize your data?</h2>
+    <a href="{% url 'upload_file' %}" class="btn btn-primary btn-lg me-3">
+        <i class="fas fa-upload me-2"></i> Upload Data
+    </a>
+    <a href="{% url 'dashboard' %}" class="btn btn-outline-primary btn-lg">
+        <i class="fas fa-tachometer-alt me-2"></i> Go to Dashboard
+    </a>
+    {% else %}
+    <h2 class="mb-4">Get started with Data Visualization</h2>
+    <a href="{% url 'login' %}" class="btn btn-primary btn-lg me-3">
+        <i class="fas fa-sign-in-alt me-2"></i> Login
+    </a>
+    <a href="{% url 'signup' %}" class="btn btn-success btn-lg">
+        <i class="fas fa-user-plus me-2"></i> Register
+    </a>
+    {% endif %}
+</div>
+
+<!-- Features Section -->
+<div class="row mt-5">
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+                <i class="fas fa-file-upload fa-3x text-primary mb-3"></i>
+                <h4>Multiple File Formats</h4>
+                <p>Upload data in CSV, Excel, or SQLite database formats for analysis and visualization.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+                <i class="fas fa-broom fa-3x text-success mb-3"></i>
+                <h4>Data Cleaning</h4>
+                <p>Clean your data by removing duplicates, handling missing values, and more.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+                <i class="fas fa-chart-pie fa-3x text-info mb-3"></i>
+                <h4>Visualization Options</h4>
+                <p>Create bar charts, line graphs, scatter plots, pie charts, and histograms.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

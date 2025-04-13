@@ -1,0 +1,149 @@
+{% extends 'data_project/layout.html' %}
+
+{% block title %}Connect to Database{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0"><i class="fas fa-database me-2"></i>Connect to Remote Database</h3>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="id_title" class="form-label">Connection Name</label>
+                        <input type="text" name="title" id="id_title" class="form-control" required>
+                        <div class="form-text">Give this database connection a descriptive name</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="id_file_type" class="form-label">Database Type</label>
+                        {{ form.file_type }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="id_db_host" class="form-label">Host/Server</label>
+                        <input type="text" name="db_host" id="id_db_host" class="form-control" required>
+                        <div class="form-text">Example: localhost, 192.168.1.100, db.example.com</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="id_db_port" class="form-label">Port</label>
+                        <input type="number" name="db_port" id="id_db_port" class="form-control" required>
+                        <div class="form-text">{{ form.db_port.help_text }}</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="id_db_name" class="form-label">Database Name</label>
+                        <input type="text" name="db_name" id="id_db_name" class="form-control" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="id_db_username" class="form-label">Username</label>
+                        <input type="text" name="db_username" id="id_db_username" class="form-control" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="id_db_password" class="form-label">Password</label>
+                        <input type="password" name="db_password" id="id_db_password" class="form-control" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="id_db_password_confirm" class="form-label">Confirm Password</label>
+                        <input type="password" name="db_password_confirm" id="id_db_password_confirm" class="form-control" required>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-plug me-2"></i>Connect to Database
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Database Connection Tips -->
+        <div class="card mt-4 shadow-sm">
+            <div class="card-header bg-light">
+                <h4 class="mb-0">Database Connection Tips</h4>
+            </div>
+            <div class="card-body">
+                <div class="accordion" id="dbConnectTips">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#mysqlTips">
+                                <i class="fas fa-database me-2 text-primary"></i>MySQL Connection
+                            </button>
+                        </h2>
+                        <div id="mysqlTips" class="accordion-collapse collapse" data-bs-parent="#dbConnectTips">
+                            <div class="accordion-body">
+                                <ul>
+                                    <li>Default port is 3306</li>
+                                    <li>Make sure your MySQL server allows remote connections</li>
+                                    <li>The user must have SELECT permissions on the tables you want to visualize</li>
+                                    <li>For local connections, use "localhost" as the host</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#postgresTips">
+                                <i class="fas fa-database me-2 text-success"></i>PostgreSQL Connection
+                            </button>
+                        </h2>
+                        <div id="postgresTips" class="accordion-collapse collapse" data-bs-parent="#dbConnectTips">
+                            <div class="accordion-body">
+                                <ul>
+                                    <li>Default port is 5432</li>
+                                    <li>Check your pg_hba.conf file to ensure it allows connections from this application</li>
+                                    <li>The user must have permission to read from the schema containing your tables</li>
+                                    <li>For enhanced security, consider creating a read-only user for this application</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#mssqlTips">
+                                <i class="fas fa-database me-2 text-danger"></i>SQL Server Connection
+                            </button>
+                        </h2>
+                        <div id="mssqlTips" class="accordion-collapse collapse" data-bs-parent="#dbConnectTips">
+                            <div class="accordion-body">
+                                <ul>
+                                    <li>Default port is 1433</li>
+                                    <li>Make sure SQL Server is configured to allow TCP/IP connections</li>
+                                    <li>SQL Server Authentication must be enabled (not just Windows Authentication)</li>
+                                    <li>The user must have db_datareader role on the database</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#securityTips">
+                                <i class="fas fa-shield-alt me-2 text-warning"></i>Security Considerations
+                            </button>
+                        </h2>
+                        <div id="securityTips" class="accordion-collapse collapse" data-bs-parent="#dbConnectTips">
+                            <div class="accordion-body">
+                                <ul>
+                                    <li>Always use a dedicated read-only user for visualization tools</li>
+                                    <li>Never use production database credentials</li>
+                                    <li>Consider using SSH tunneling for added security</li>
+                                    <li>Your database credentials will be encrypted before storing</li>
+                                    <li>We recommend using a database user with minimal permissions (SELECT only)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

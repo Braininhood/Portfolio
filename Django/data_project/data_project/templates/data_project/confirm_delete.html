@@ -1,0 +1,48 @@
+{% extends 'data_project/layout.html' %}
+
+{% block title %}Confirm Delete{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header bg-danger text-white">
+                <h4 class="mb-0"><i class="fas fa-trash-alt me-2"></i>Confirm Deletion</h4>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    <strong>Warning:</strong> This action cannot be undone.
+                </div>
+                
+                <p>
+                    Are you sure you want to delete the file <strong>"{{ data_file.title }}"</strong>?
+                </p>
+                
+                <p>
+                    This will permanently delete:
+                </p>
+                
+                <ul>
+                    <li>The file itself</li>
+                    <li>All associated visualizations ({{ data_file.visualizations.count }})</li>
+                    <li>All data processing history</li>
+                </ul>
+                
+                <div class="d-flex justify-content-between mt-4">
+                    <a href="{% url 'file_detail' data_file.id %}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left me-2"></i>Cancel
+                    </a>
+                    
+                    <form method="post" action="{% url 'delete_file' data_file.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-trash-alt me-2"></i>Delete Permanently
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

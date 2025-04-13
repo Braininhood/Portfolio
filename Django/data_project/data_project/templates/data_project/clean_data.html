@@ -1,0 +1,480 @@
+{% extends 'data_project/layout.html' %}
+{% load data_project_filters %}
+
+{% block title %}Clean Data{% endblock %}
+
+{% block extra_css %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/clean-data.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                {% if data_file.file_type == 'db' and selected_table %}
+                <li class="breadcrumb-item"><a href="{% url 'file_detail' data_file.id %}?table={{ selected_table }}">{{ data_file.title }}</a></li>
+                {% else %}
+                <li class="breadcrumb-item"><a href="{% url 'file_detail' data_file.id %}">{{ data_file.title }}</a></li>
+                {% endif %}
+                <li class="breadcrumb-item active">Clean Data</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-success text-white">
+                <h3 class="mb-0"><i class="fas fa-broom me-2"></i>Data Preparation Studio</h3>
+            </div>
+            <div class="card-body">
+                {% if data_file.file_type == 'db' and selected_table %}
+                <div class="alert alert-info mb-3">
+                    <i class="fas fa-table me-2"></i>
+                    Working with table: <strong>{{ selected_table }}</strong>
+                </div>
+                {% endif %}
+                
+                <p class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    <strong>Warning:</strong> Cleaning operations will modify your original data file. Consider making a backup before proceeding.
+                </p>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    {% if data_file.file_type == 'db' and selected_table %}
+                    <input type="hidden" name="table" value="{{ selected_table }}">
+                    {% endif %}
+                    
+                    <div class="mb-3">
+                        <label for="id_column" class="form-label">Select Column</label>
+                        <select name="column" id="id_column" class="form-select" required>
+                            <option value="" selected disabled>Choose a column to clean</option>
+                            {% for column in columns %}
+                            <option value="{{ column }}" {% if form_data.column == column %}selected{% endif %}>
+                                {{ column }} 
+                                {% if column_types %}
+                                    {% if column_types|get_item:column == 'numeric' %}
+                                    (Numeric)
+                                    {% elif column_types|get_item:column == 'datetime' %}
+                                    (Date/Time)
+                                    {% else %}
+                                    (Text)
+                                    {% endif %}
+                                {% endif %}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <div class="form-text">Select multiple columns for batch operations with the options below</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="id_action" class="form-label">Cleaning Action</label>
+                        <select name="action" id="id_action" class="form-select" required>
+                            <option value="" selected disabled>Choose an action</option>
+                            <optgroup label="Missing Value Handling">
+                                <option value="drop_na" {% if form_data.action == 'drop_na' %}selected{% endif %}>Drop rows with missing values</option>
+                                <option value="fill_na" {% if form_data.action == 'fill_na' %}selected{% endif %}>Fill missing values</option>
+                                <option value="fill_interpolate" {% if form_data.action == 'fill_interpolate' %}selected{% endif %}>Interpolate missing values (numeric)</option>
+                            </optgroup>
+                            <optgroup label="Duplicate Handling">
+                                <option value="drop_duplicates" {% if form_data.action == 'drop_duplicates' %}selected{% endif %}>Remove duplicate rows</option>
+                            </optgroup>
+                            <optgroup label="Outlier Handling">
+                                <option value="remove_outliers" {% if form_data.action == 'remove_outliers' %}selected{% endif %}>Remove outliers (IQR method)</option>
+                                <option value="cap_outliers" {% if form_data.action == 'cap_outliers' %}selected{% endif %}>Cap outliers (winsorize)</option>
+                            </optgroup>
+                            <optgroup label="Data Transformation">
+                                <option value="normalize" {% if form_data.action == 'normalize' %}selected{% endif %}>Normalize values (0-1 scale)</option>
+                                <option value="standardize" {% if form_data.action == 'standardize' %}selected{% endif %}>Standardize values (z-score)</option>
+                                <option value="log_transform" {% if form_data.action == 'log_transform' %}selected{% endif %}>Log transformation</option>
+                                <option value="bin_values" {% if form_data.action == 'bin_values' %}selected{% endif %}>Bin numeric values</option>
+                            </optgroup>
+                            <optgroup label="Text Processing">
+                                <option value="trim_text" {% if form_data.action == 'trim_text' %}selected{% endif %}>Trim whitespace</option>
+                                <option value="lowercase" {% if form_data.action == 'lowercase' %}selected{% endif %}>Convert to lowercase</option>
+                                <option value="uppercase" {% if form_data.action == 'uppercase' %}selected{% endif %}>Convert to uppercase</option>
+                                <option value="replace_text" {% if form_data.action == 'replace_text' %}selected{% endif %}>Replace text</option>
+                            </optgroup>
+                            <optgroup label="Type Conversion">
+                                <option value="to_numeric" {% if form_data.action == 'to_numeric' %}selected{% endif %}>Convert to numeric</option>
+                                <option value="to_datetime" {% if form_data.action == 'to_datetime' %}selected{% endif %}>Convert to date/time</option>
+                                <option value="to_category" {% if form_data.action == 'to_category' %}selected{% endif %}>Convert to categorical</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    
+                    <!-- Action-specific parameter fields -->
+                    <div id="actionParameters">
+                        <!-- Basic fill value -->
+                        <div class="mb-3 action-param" id="fillValueDiv" style="display: none;">
+                            <label for="id_value" class="form-label">Fill Value</label>
+                            <input type="text" name="value" id="id_value" class="form-control" placeholder="Value to fill missing data">
+                            <div class="form-text" id="fillValueHelp">
+                                <div id="numericValueHelp">
+                                    <strong>For numeric columns:</strong>
+                                    <ul>
+                                        <li><code>mean</code> - Fill with the average value</li>
+                                        <li><code>median</code> - Fill with the middle value</li>
+                                        <li><code>mode</code> - Fill with the most common value</li>
+                                        <li><code>min</code> - Fill with the minimum value</li>
+                                        <li><code>max</code> - Fill with the maximum value</li>
+                                        <li>Or enter a specific number (e.g., <code>0</code>, <code>-1</code>, <code>42.5</code>)</li>
+                                    </ul>
+                                </div>
+                                <div id="textValueHelp">
+                                    <strong>For text/categorical columns:</strong>
+                                    <ul>
+                                        <li>Enter any text value (e.g., <code>Unknown</code>, <code>N/A</code>, <code>Not specified</code>)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Outlier handling parameters -->
+                        <div class="mb-3 action-param" id="outlierMethodDiv" style="display: none;">
+                            <label for="id_outlier_method" class="form-label">Outlier Method</label>
+                            <select name="outlier_method" id="id_outlier_method" class="form-select">
+                                <option value="iqr" selected>IQR Method (values outside 1.5*IQR)</option>
+                                <option value="zscore">Z-Score Method (values beyond ±3 std dev)</option>
+                                <option value="percentile">Percentile Method (values outside specified range)</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Percentile range for outlier detection -->
+                        <div class="mb-3 action-param" id="percentileRangeDiv" style="display: none;">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="id_lower_percentile" class="form-label">Lower Percentile</label>
+                                    <input type="number" name="lower_percentile" id="id_lower_percentile" class="form-control" value="5" min="0" max="50">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="id_upper_percentile" class="form-label">Upper Percentile</label>
+                                    <input type="number" name="upper_percentile" id="id_upper_percentile" class="form-control" value="95" min="50" max="100">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Binning parameters -->
+                        <div class="mb-3 action-param" id="binningDiv" style="display: none;">
+                            <label for="id_num_bins" class="form-label">Number of Bins</label>
+                            <input type="number" name="num_bins" id="id_num_bins" class="form-control" value="5" min="2" max="100">
+                            <div class="form-check mt-2">
+                                <input type="checkbox" name="bin_labels" id="id_bin_labels" class="form-check-input" value="true">
+                                <label for="id_bin_labels" class="form-check-label">Add bin labels</label>
+                            </div>
+                        </div>
+                        
+                        <!-- Text replacement parameters -->
+                        <div class="mb-3 action-param" id="textReplaceDiv" style="display: none;">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="id_find_text" class="form-label">Text to Find</label>
+                                    <input type="text" name="find_text" id="id_find_text" class="form-control" placeholder="Text to find">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="id_replace_text" class="form-label">Replacement Text</label>
+                                    <input type="text" name="replace_text" id="id_replace_text" class="form-control" placeholder="Replacement text">
+                                </div>
+                            </div>
+                            <div class="form-check mt-2">
+                                <input type="checkbox" name="regex_search" id="id_regex_search" class="form-check-input" value="true">
+                                <label for="id_regex_search" class="form-check-label">Use regular expression</label>
+                            </div>
+                        </div>
+                        
+                        <!-- Date format for conversion -->
+                        <div class="mb-3 action-param" id="dateFormatDiv" style="display: none;">
+                            <label for="id_date_format" class="form-label">Date Format</label>
+                            <input type="text" name="date_format" id="id_date_format" class="form-control" placeholder="%Y-%m-%d">
+                            <div class="form-text">
+                                <p>Common formats:</p>
+                                <ul>
+                                    <li><code>%Y-%m-%d</code> - 2023-01-31</li>
+                                    <li><code>%m/%d/%Y</code> - 01/31/2023</li>
+                                    <li><code>%d-%b-%Y</code> - 31-Jan-2023</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-broom me-2"></i>Apply Cleaning
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-light">
+                <h4 class="mb-0">Batch Operations</h4>
+            </div>
+            <div class="card-body">
+                <form method="post" action="{% url 'batch_clean' data_file.id %}">
+                    {% csrf_token %}
+                    
+                    {% if data_file.file_type == 'db' and selected_table %}
+                    <input type="hidden" name="table" value="{{ selected_table }}">
+                    {% endif %}
+                    
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input type="checkbox" name="drop_all_na" id="id_drop_all_na" class="form-check-input">
+                            <label for="id_drop_all_na" class="form-check-label">Drop all rows with any missing values</label>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input type="checkbox" name="drop_all_duplicates" id="id_drop_all_duplicates" class="form-check-input">
+                            <label for="id_drop_all_duplicates" class="form-check-label">Remove all duplicate rows</label>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input type="checkbox" name="trim_all_text" id="id_trim_all_text" class="form-check-input">
+                            <label for="id_trim_all_text" class="form-check-label">Trim whitespace from all text columns</label>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-cogs me-2"></i>Run Batch Operations
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-light">
+                <h4 class="mb-0">Data Issues</h4>
+            </div>
+            <div class="card-body p-0">
+                <div class="list-group list-group-flush">
+                    <div class="list-group-item">
+                        <h5 class="mb-1">Missing Values</h5>
+                        <small>Columns with missing data</small>
+                        <ul class="mt-2 mb-0">
+                            {% for column, count in na_counts.items %}
+                                {% if count > 0 %}
+                                <li>{{ column }}: {{ count }} missing values</li>
+                                {% endif %}
+                            {% empty %}
+                            <li class="text-success">No missing values found</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="list-group-item">
+                        <h5 class="mb-1">Duplicate Values</h5>
+                        <small>Number of duplicates per column</small>
+                        <ul class="mt-2 mb-0">
+                            {% for column, count in duplicate_counts.items %}
+                                {% if count > 0 %}
+                                <li>{{ column }}: {{ count }} duplicates</li>
+                                {% endif %}
+                            {% empty %}
+                            <li class="text-success">No duplicates found</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% if outliers %}
+                    <div class="list-group-item">
+                        <h5 class="mb-1">Potential Outliers</h5>
+                        <small>Columns with outlier values (IQR method)</small>
+                        <ul class="mt-2 mb-0">
+                            {% for column, count in outliers.items %}
+                                {% if count > 0 %}
+                                <li>{{ column }}: {{ count }} outliers</li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="card shadow-sm">
+            <div class="card-header bg-light">
+                <h4 class="mb-0">Data Cleaning Guide</h4>
+            </div>
+            <div class="card-body">
+                <div class="accordion" id="cleaningGuide">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#missingValuesGuide">
+                                Missing Values
+                            </button>
+                        </h2>
+                        <div id="missingValuesGuide" class="accordion-collapse collapse" data-bs-parent="#cleaningGuide">
+                            <div class="accordion-body small">
+                                <p>Missing values can skew your analysis. Options:</p>
+                                <ul>
+                                    <li><strong>Drop rows:</strong> Remove rows with missing values in selected columns.</li>
+                                    <li><strong>Fill values:</strong> Replace with zeros, means, or custom values.</li>
+                                    <li><strong>Interpolate:</strong> Fill missing values using neighboring values (for time series or ordered data).</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#outliersGuide">
+                                Outliers
+                            </button>
+                        </h2>
+                        <div id="outliersGuide" class="accordion-collapse collapse" data-bs-parent="#cleaningGuide">
+                            <div class="accordion-body small">
+                                <p>Outliers can distort statistical analysis and visualizations:</p>
+                                <ul>
+                                    <li><strong>IQR Method:</strong> Values below Q1-1.5*IQR or above Q3+1.5*IQR</li>
+                                    <li><strong>Z-score:</strong> Values beyond 3 standard deviations from mean</li>
+                                    <li><strong>Percentile:</strong> Values outside a specific percentile range</li>
+                                </ul>
+                                <p>Choose between removing outliers or capping them at threshold values.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#transformationsGuide">
+                                Data Transformations
+                            </button>
+                        </h2>
+                        <div id="transformationsGuide" class="accordion-collapse collapse" data-bs-parent="#cleaningGuide">
+                            <div class="accordion-body small">
+                                <p>Transform your data to improve analysis and visualization:</p>
+                                <ul>
+                                    <li><strong>Normalization:</strong> Scale values to 0-1 range</li>
+                                    <li><strong>Standardization:</strong> Transform to z-scores (mean=0, std=1)</li>
+                                    <li><strong>Log transformation:</strong> Reduce skewness, handle exponential growth</li>
+                                    <li><strong>Binning:</strong> Group numeric values into categories</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#textProcessingGuide">
+                                Text Processing
+                            </button>
+                        </h2>
+                        <div id="textProcessingGuide" class="accordion-collapse collapse" data-bs-parent="#cleaningGuide">
+                            <div class="accordion-body small">
+                                <p>Clean and standardize text data:</p>
+                                <ul>
+                                    <li><strong>Trim whitespace:</strong> Remove leading/trailing spaces</li>
+                                    <li><strong>Case conversion:</strong> Convert to lower/uppercase for consistency</li>
+                                    <li><strong>Text replacement:</strong> Replace specific text patterns</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{% load static %}
+<script src="{% static 'js/clean-data-form.js' %}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const actionSelect = document.getElementById('id_action');
+        const columnSelect = document.getElementById('id_column');
+        const fillValueDiv = document.getElementById('fillValueDiv');
+        const outlierMethodDiv = document.getElementById('outlierMethodDiv');
+        const percentileRangeDiv = document.getElementById('percentileRangeDiv');
+        const binningDiv = document.getElementById('binningDiv');
+        const textReplaceDiv = document.getElementById('textReplaceDiv');
+        const dateFormatDiv = document.getElementById('dateFormatDiv');
+        const numericHelp = document.getElementById('numericValueHelp');
+        const textHelp = document.getElementById('textValueHelp');
+        const outlierMethodSelect = document.getElementById('id_outlier_method');
+        
+        // Hide all parameter divs
+        function hideAllParams() {
+            document.querySelectorAll('.action-param').forEach(el => {
+                el.style.display = 'none';
+            });
+        }
+        
+        // Update parameter visibility based on selected action
+        function updateParamVisibility() {
+            hideAllParams();
+            
+            const action = actionSelect.value;
+            
+            // Show relevant parameter divs based on action
+            if (action === 'fill_na') {
+                fillValueDiv.style.display = 'block';
+            } else if (action === 'remove_outliers' || action === 'cap_outliers') {
+                outlierMethodDiv.style.display = 'block';
+                // Show percentile range if that method is selected
+                if (outlierMethodSelect.value === 'percentile') {
+                    percentileRangeDiv.style.display = 'block';
+                }
+            } else if (action === 'bin_values') {
+                binningDiv.style.display = 'block';
+            } else if (action === 'replace_text') {
+                textReplaceDiv.style.display = 'block';
+            } else if (action === 'to_datetime') {
+                dateFormatDiv.style.display = 'block';
+            }
+        }
+        
+        // Update help text based on column type
+        function updateHelpText() {
+            const selectedOption = columnSelect.options[columnSelect.selectedIndex];
+            const columnText = selectedOption.text || '';
+            
+            if (columnText.includes('(Numeric)')) {
+                numericHelp.style.display = 'block';
+                textHelp.style.display = 'none';
+            } else {
+                numericHelp.style.display = 'none';
+                textHelp.style.display = 'block';
+            }
+        }
+        
+        // Initial updates
+        if (actionSelect) {
+            actionSelect.addEventListener('change', updateParamVisibility);
+        }
+        
+        if (columnSelect) {
+            columnSelect.addEventListener('change', updateHelpText);
+            updateHelpText();
+        }
+        
+        if (outlierMethodSelect) {
+            outlierMethodSelect.addEventListener('change', function() {
+                if (this.value === 'percentile') {
+                    percentileRangeDiv.style.display = 'block';
+                } else {
+                    percentileRangeDiv.style.display = 'none';
+                }
+            });
+        }
+        
+        // Initial visibility update
+        updateParamVisibility();
+    });
+</script>
+{% endblock %} 

@@ -1,0 +1,673 @@
+{% extends 'data_project/layout.html' %}
+
+{% block title %}Advanced Visualization{% endblock %}
+
+{% block extra_css %}
+{% load static %}
+{% load data_project_filters %}
+<link rel="stylesheet" href="{% static 'css/visualization.css' %}">
+<style>
+.viz-options {
+    background-color: #f8f9fa;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-left: 4px solid #0d6efd;
+}
+
+.column-select {
+    background-color: #f0f7ff;
+}
+
+.appearance-options {
+    background-color: #f0fff7;
+    border-left-color: #20c997;
+}
+
+.style-options {
+    background-color: #fff7f0;
+    border-left-color: #fd7e14;
+}
+
+#previewContainer {
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed #dee2e6;
+    border-radius: 0.5rem;
+    background-color: #f8f9fa;
+    margin-top: 1rem;
+    position: relative;
+    padding-bottom: 50px; /* Add space for the buttons */
+}
+
+.color-palette-item {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 0.5rem;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.color-palette-item.active {
+    border-color: #212529;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                {% if data_file.file_type == 'db' and selected_table %}
+                <li class="breadcrumb-item"><a href="{% url 'file_detail' data_file.id %}?table={{ selected_table }}">{{ data_file.title }}</a></li>
+                {% else %}
+                <li class="breadcrumb-item"><a href="{% url 'file_detail' data_file.id %}">{{ data_file.title }}</a></li>
+                {% endif %}
+                <li class="breadcrumb-item active">Advanced Visualization</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0"><i class="fas fa-chart-line me-2"></i>Advanced Visualization Creator</h3>
+            </div>
+            <div class="card-body">
+                <form method="post" id="vizForm">
+                    {% csrf_token %}
+                    
+                    {% if data_file.file_type == 'db' and selected_table %}
+                    <input type="hidden" name="table" value="{{ selected_table }}">
+                    {% endif %}
+                    
+                    <div class="mb-3">
+                        <label for="id_title" class="form-label">Visualization Title</label>
+                        <input type="text" name="title" id="id_title" class="form-control" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="id_viz_type" class="form-label">Visualization Type</label>
+                        <select name="viz_type" id="id_viz_type" class="form-select" required>
+                            <option value="" selected disabled>Select visualization type</option>
+                            <optgroup label="Basic Charts">
+                                <option value="bar">Bar Chart</option>
+                                <option value="line">Line Chart</option>
+                                <option value="scatter">Scatter Plot</option>
+                                <option value="pie">Pie Chart</option>
+                                <option value="histogram">Histogram</option>
+                            </optgroup>
+                            <optgroup label="Advanced Charts">
+                                <option value="bubble">Bubble Chart</option>
+                                <option value="heatmap">Heatmap</option>
+                                <option value="box">Box Plot</option>
+                                <option value="violin">Violin Plot</option>
+                                <option value="3d_scatter">3D Scatter Plot</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    
+                    <!-- Data Columns Selection -->
+                    <div class="viz-options column-select">
+                        <h5>Data Selection</h5>
+                        
+                        <div class="mb-3">
+                            <label for="id_x_column" class="form-label">X-Axis Column</label>
+                            <select name="x_column" id="id_x_column" class="form-select" required>
+                                <option value="" selected disabled>Choose a column</option>
+                                {% for column in columns %}
+                                <option value="{{ column }}">
+                                    {{ column }}
+                                    {% if column_types %}
+                                    {% if column_types|get_item:column == 'numeric' %}
+                                    (Numeric)
+                                    {% elif column_types|get_item:column == 'datetime' %}
+                                    (Date/Time)
+                                    {% else %}
+                                    (Text)
+                                    {% endif %}
+                                    {% endif %}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3 conditional-field" id="y_column_div">
+                            <label for="id_y_column" class="form-label">Y-Axis Column</label>
+                            <select name="y_column" id="id_y_column" class="form-select">
+                                <option value="" selected disabled>Choose a column</option>
+                                {% for column in columns %}
+                                <option value="{{ column }}">
+                                    {{ column }}
+                                    {% if column_types %}
+                                    {% if column_types|get_item:column == 'numeric' %}
+                                    (Numeric)
+                                    {% elif column_types|get_item:column == 'datetime' %}
+                                    (Date/Time)
+                                    {% else %}
+                                    (Text)
+                                    {% endif %}
+                                    {% endif %}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3 conditional-field" id="z_column_div" style="display: none;">
+                            <label for="id_z_column" class="form-label">Z-Axis Column (for 3D plots)</label>
+                            <select name="z_column" id="id_z_column" class="form-select">
+                                <option value="" selected disabled>Choose a column</option>
+                                {% for column in columns %}
+                                {% if column_types|get_item:column == 'numeric' %}
+                                <option value="{{ column }}">{{ column }} (Numeric)</option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="id_color_column" class="form-label">Color By Column (optional)</label>
+                            <select name="color_column" id="id_color_column" class="form-select">
+                                <option value="">None</option>
+                                {% for column in columns %}
+                                <option value="{{ column }}">
+                                    {{ column }}
+                                    {% if column_types %}
+                                    {% if column_types|get_item:column == 'numeric' %}
+                                    (Numeric)
+                                    {% elif column_types|get_item:column == 'datetime' %}
+                                    (Date/Time)
+                                    {% else %}
+                                    (Text)
+                                    {% endif %}
+                                    {% endif %}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3 conditional-field" id="size_column_div" style="display: none;">
+                            <label for="id_size_column" class="form-label">Size By Column (for bubble charts)</label>
+                            <select name="size_column" id="id_size_column" class="form-select">
+                                <option value="">None</option>
+                                {% for column in columns %}
+                                {% if column_types|get_item:column == 'numeric' %}
+                                <option value="{{ column }}">{{ column }} (Numeric)</option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Appearance Options -->
+                    <div class="viz-options appearance-options">
+                        <h5>Appearance Options</h5>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="id_figsize_width" class="form-label">Width (inches)</label>
+                                    <input type="number" name="figsize_width" id="id_figsize_width" class="form-control" value="10" min="4" max="20" step="0.5">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="id_figsize_height" class="form-label">Height (inches)</label>
+                                    <input type="number" name="figsize_height" id="id_figsize_height" class="form-control" value="6" min="3" max="15" step="0.5">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="id_color_palette" class="form-label">Color Palette</label>
+                            <select name="color_palette" id="id_color_palette" class="form-select">
+                                {% for palette in color_palettes %}
+                                <option value="{{ palette }}" {% if palette == "viridis" %}selected{% endif %}>{{ palette|title }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="id_title_fontsize" class="form-label">Title Font Size</label>
+                                    <input type="number" name="title_fontsize" id="id_title_fontsize" class="form-control" value="14" min="8" max="24">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="id_axis_fontsize" class="form-label">Axis Font Size</label>
+                                    <input type="number" name="axis_fontsize" id="id_axis_fontsize" class="form-control" value="12" min="8" max="18">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="id_legend_position" class="form-label">Legend Position</label>
+                            <select name="legend_position" id="id_legend_position" class="form-select">
+                                {% for position in legend_positions %}
+                                <option value="{{ position }}">{{ position|title }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Style Options -->
+                    <div class="viz-options style-options">
+                        <h5>Style Options</h5>
+                        
+                        <div class="mb-3">
+                            <label for="id_plot_style" class="form-label">Plot Style</label>
+                            <select name="plot_style" id="id_plot_style" class="form-select">
+                                {% for style in plot_styles %}
+                                <option value="{{ style }}">{{ style|title }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input type="checkbox" name="grid" id="id_grid" class="form-check-input" checked>
+                                <label for="id_grid" class="form-check-label">Show Grid Lines</label>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input type="checkbox" name="transparent_bg" id="id_transparent_bg" class="form-check-input">
+                                <label for="id_transparent_bg" class="form-check-label">Transparent Background</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="button" id="previewBtn" class="btn btn-outline-primary mb-3">
+                            <i class="fas fa-eye me-2"></i>Preview Visualization
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-chart-line me-2"></i>Create Visualization
+                        </button>
+                    </div>
+                </form>
+                
+                <div id="previewContainer" class="mt-4">
+                    <div id="previewPlaceholder" class="text-center text-muted">
+                        <i class="fas fa-chart-bar fa-3x mb-3"></i>
+                        <p>Fill in the form and click "Preview Visualization" to see a preview</p>
+                    </div>
+                    <div id="previewLoading" style="display: none;">
+                        <div class="spinner"></div>
+                    </div>
+                    <img id="previewImage" src="" style="display: none; max-width: 100%; max-height: 400px;">
+                    <div id="previewError" class="alert alert-danger" style="display: none;"></div>
+                    <div id="previewActions" class="mt-3 text-center w-100" style="display: none; position: absolute; bottom: 10px; left: 0; right: 0;">
+                        <button id="savePreviewBtn" class="btn btn-sm btn-success me-2">
+                            <i class="fas fa-download me-1"></i> Save Preview
+                        </button>
+                        <button id="copyPreviewBtn" class="btn btn-sm btn-secondary">
+                            <i class="fas fa-copy me-1"></i> Copy to Clipboard
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-4">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-light">
+                <h4 class="mb-0">Visualization Types</h4>
+            </div>
+            <div class="card-body">
+                <div class="accordion" id="vizTypesAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#barChartInfo">
+                                Bar Chart
+                            </button>
+                        </h2>
+                        <div id="barChartInfo" class="accordion-collapse collapse" data-bs-parent="#vizTypesAccordion">
+                            <div class="accordion-body">
+                                <p>Best for comparing discrete categories.</p>
+                                <ul>
+                                    <li><strong>X-Axis:</strong> Categorical variable</li>
+                                    <li><strong>Y-Axis (optional):</strong> Numerical variable</li>
+                                    <li><strong>Color:</strong> Group bars by category</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#lineChartInfo">
+                                Line Chart
+                            </button>
+                        </h2>
+                        <div id="lineChartInfo" class="accordion-collapse collapse" data-bs-parent="#vizTypesAccordion">
+                            <div class="accordion-body">
+                                <p>Best for showing trends over time or ordered data.</p>
+                                <ul>
+                                    <li><strong>X-Axis:</strong> Typically time or ordered data</li>
+                                    <li><strong>Y-Axis:</strong> Numerical values</li>
+                                    <li><strong>Color:</strong> Create multiple lines by group</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#scatterChartInfo">
+                                Scatter Plot
+                            </button>
+                        </h2>
+                        <div id="scatterChartInfo" class="accordion-collapse collapse" data-bs-parent="#vizTypesAccordion">
+                            <div class="accordion-body">
+                                <p>Best for showing relationships between two variables.</p>
+                                <ul>
+                                    <li><strong>X-Axis:</strong> Numerical variable</li>
+                                    <li><strong>Y-Axis:</strong> Numerical variable</li>
+                                    <li><strong>Color:</strong> Group points by category</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#bubbleChartInfo">
+                                Bubble Chart
+                            </button>
+                        </h2>
+                        <div id="bubbleChartInfo" class="accordion-collapse collapse" data-bs-parent="#vizTypesAccordion">
+                            <div class="accordion-body">
+                                <p>Scatter plot with sized points to show a third dimension.</p>
+                                <ul>
+                                    <li><strong>X-Axis:</strong> Numerical variable</li>
+                                    <li><strong>Y-Axis:</strong> Numerical variable</li>
+                                    <li><strong>Size:</strong> Numerical variable (required)</li>
+                                    <li><strong>Color:</strong> Group bubbles by category</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#heatmapInfo">
+                                Heatmap
+                            </button>
+                        </h2>
+                        <div id="heatmapInfo" class="accordion-collapse collapse" data-bs-parent="#vizTypesAccordion">
+                            <div class="accordion-body">
+                                <p>Color grid showing relationships between categories.</p>
+                                <ul>
+                                    <li><strong>X-Axis:</strong> Categorical variable</li>
+                                    <li><strong>Y-Axis:</strong> Categorical variable</li>
+                                    <li><strong>Z-Value (optional):</strong> Value to determine color</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#3dScatterInfo">
+                                3D Scatter Plot
+                            </button>
+                        </h2>
+                        <div id="3dScatterInfo" class="accordion-collapse collapse" data-bs-parent="#vizTypesAccordion">
+                            <div class="accordion-body">
+                                <p>3D plot showing relationships between three variables.</p>
+                                <ul>
+                                    <li><strong>X-Axis:</strong> Numerical variable</li>
+                                    <li><strong>Y-Axis:</strong> Numerical variable</li>
+                                    <li><strong>Z-Axis:</strong> Numerical variable (required)</li>
+                                    <li><strong>Color:</strong> Group points by category</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{% load static %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const vizTypeSelect = document.getElementById('id_viz_type');
+    const yColumnDiv = document.getElementById('y_column_div');
+    const zColumnDiv = document.getElementById('z_column_div');
+    const sizeColumnDiv = document.getElementById('size_column_div');
+    const yColumnSelect = document.getElementById('id_y_column');
+    const zColumnSelect = document.getElementById('id_z_column');
+    const sizeColumnSelect = document.getElementById('id_size_column');
+    const previewBtn = document.getElementById('previewBtn');
+    const previewPlaceholder = document.getElementById('previewPlaceholder');
+    const previewLoading = document.getElementById('previewLoading');
+    const previewImage = document.getElementById('previewImage');
+    const previewError = document.getElementById('previewError');
+    const previewActions = document.getElementById('previewActions');
+    const savePreviewBtn = document.getElementById('savePreviewBtn');
+    const copyPreviewBtn = document.getElementById('copyPreviewBtn');
+    
+    // Update visible fields based on visualization type
+    function updateVisibleFields() {
+        const vizType = vizTypeSelect.value;
+        
+        // Reset required attributes
+        yColumnSelect.required = false;
+        zColumnSelect.required = false;
+        sizeColumnSelect.required = false;
+        
+        // Show/hide fields based on visualization type
+        if (vizType === 'scatter' || vizType === 'line' || vizType === 'bubble') {
+            yColumnDiv.style.display = 'block';
+            yColumnSelect.required = true;
+        } else if (vizType === 'pie' || vizType === 'histogram') {
+            yColumnDiv.style.display = 'none';
+        } else {
+            yColumnDiv.style.display = 'block';
+        }
+        
+        // Z-axis for 3D plots
+        if (vizType === '3d_scatter') {
+            zColumnDiv.style.display = 'block';
+            zColumnSelect.required = true;
+        } else {
+            zColumnDiv.style.display = 'none';
+        }
+        
+        // Size column for bubble charts
+        if (vizType === 'bubble') {
+            sizeColumnDiv.style.display = 'block';
+            sizeColumnSelect.required = true;
+        } else {
+            sizeColumnDiv.style.display = 'none';
+        }
+    }
+    
+    // Handle preview button click
+    function handlePreview() {
+        const form = document.getElementById('vizForm');
+        const formData = new FormData(form);
+        
+        // Basic validation
+        const vizType = vizTypeSelect.value;
+        const xCol = document.getElementById('id_x_column').value;
+        
+        if (!vizType || !xCol) {
+            previewError.textContent = 'Please select a visualization type and X-axis column.';
+            previewError.style.display = 'block';
+            previewPlaceholder.style.display = 'none';
+            previewImage.style.display = 'none';
+            previewActions.style.display = 'none';
+            return;
+        }
+        
+        // Y-axis validation for required chart types
+        if ((vizType === 'scatter' || vizType === 'line' || vizType === 'bubble') && !yColumnSelect.value) {
+            previewError.textContent = `${vizType.charAt(0).toUpperCase() + vizType.slice(1)} charts require a Y-axis column.`;
+            previewError.style.display = 'block';
+            previewPlaceholder.style.display = 'none';
+            previewImage.style.display = 'none';
+            previewActions.style.display = 'none';
+            return;
+        }
+        
+        // Z-axis validation for 3D scatter
+        if (vizType === '3d_scatter' && !zColumnSelect.value) {
+            previewError.textContent = '3D scatter plots require X, Y, and Z columns.';
+            previewError.style.display = 'block';
+            previewPlaceholder.style.display = 'none';
+            previewImage.style.display = 'none';
+            previewActions.style.display = 'none';
+            return;
+        }
+        
+        // Size validation for bubble charts
+        if (vizType === 'bubble' && !sizeColumnSelect.value) {
+            previewError.textContent = 'Bubble charts require a size column.';
+            previewError.style.display = 'block';
+            previewPlaceholder.style.display = 'none';
+            previewImage.style.display = 'none';
+            previewActions.style.display = 'none';
+            return;
+        }
+        
+        // Show loading spinner
+        previewPlaceholder.style.display = 'none';
+        previewLoading.style.display = 'flex';
+        previewImage.style.display = 'none';
+        previewError.style.display = 'none';
+        previewActions.style.display = 'none';
+        
+        // Get CSRF token
+        const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+        
+        // Send the preview request
+        fetch('{% url "custom_visualization_preview" data_file.id %}', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrfToken
+            },
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(data => {
+                    throw new Error(data.error || 'Failed to generate preview');
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Hide loading indicator
+            previewLoading.style.display = 'none';
+            
+            if (data.success) {
+                // Display the image
+                previewImage.src = 'data:image/png;base64,' + data.image;
+                previewImage.style.display = 'block';
+                previewActions.style.display = 'block';
+            } else if (data.error) {
+                // Show error message
+                previewError.textContent = data.error;
+                previewError.style.display = 'block';
+            }
+        })
+        .catch(error => {
+            // Handle error
+            previewLoading.style.display = 'none';
+            previewError.textContent = error.message;
+            previewError.style.display = 'block';
+            previewActions.style.display = 'none';
+        });
+    }
+    
+    // Handle save preview button click
+    function handleSavePreview() {
+        if (previewImage.src) {
+            // Create a temporary anchor element
+            const link = document.createElement('a');
+            const vizTitle = document.getElementById('id_title').value || 'visualization';
+            const fileName = vizTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase() + '.png';
+            
+            // Set download attributes
+            link.download = fileName;
+            link.href = previewImage.src;
+            
+            // Trigger download
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    }
+    
+    // Handle copy to clipboard button click
+    async function handleCopyPreview() {
+        if (previewImage.src) {
+            try {
+                // Fetch the image as a blob
+                const response = await fetch(previewImage.src);
+                const blob = await response.blob();
+                
+                // Copy to clipboard using Clipboard API
+                await navigator.clipboard.write([
+                    new ClipboardItem({
+                        'image/png': blob
+                    })
+                ]);
+                
+                // Show success message
+                const originalText = copyPreviewBtn.innerHTML;
+                copyPreviewBtn.innerHTML = '<i class="fas fa-check me-1"></i> Copied!';
+                copyPreviewBtn.classList.replace('btn-secondary', 'btn-success');
+                
+                // Reset button after 2 seconds
+                setTimeout(() => {
+                    copyPreviewBtn.innerHTML = originalText;
+                    copyPreviewBtn.classList.replace('btn-success', 'btn-secondary');
+                }, 2000);
+            } catch (err) {
+                console.error('Error copying image: ', err);
+                alert('Could not copy image to clipboard. Your browser may not support this feature.');
+            }
+        }
+    }
+    
+    // Add event listeners
+    if (vizTypeSelect) {
+        vizTypeSelect.addEventListener('change', updateVisibleFields);
+    }
+    
+    if (previewBtn) {
+        previewBtn.addEventListener('click', handlePreview);
+    }
+    
+    if (savePreviewBtn) {
+        savePreviewBtn.addEventListener('click', handleSavePreview);
+    }
+    
+    if (copyPreviewBtn) {
+        copyPreviewBtn.addEventListener('click', handleCopyPreview);
+    }
+    
+    // Initial setup
+    updateVisibleFields();
+});
+</script>
+{% endblock %} 
