@@ -1,0 +1,33 @@
+/* Form validation styling */
+input:not([type="submit"]):not([type="button"]).invalid,
+select.invalid,
+textarea.invalid {
+    border: 1px solid #dc3545;
+    background-color: rgba(220, 53, 69, 0.05);
+}
+
+input:not([type="submit"]):not([type="button"]).valid,
+select.valid,
+textarea.valid {
+    border: 1px solid #28a745;
+    background-color: rgba(40, 167, 69, 0.05);
+}
+
+.error-message {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    display: none;
+}
+
+button[type="submit"].disabled,
+input[type="submit"].disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Style for required field indicators */
+.required-field::after {
+    content: " *";
+    color: #dc3545;
+}
