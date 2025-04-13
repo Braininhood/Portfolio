@@ -1,0 +1,27 @@
+{% extends 'data_project/layout.html' %}
+
+{% block title %}Logout Confirmation{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header bg-warning text-dark">
+                <h3 class="mb-0"><i class="fas fa-sign-out-alt me-2"></i>Logout Confirmation</h3>
+            </div>
+            <div class="card-body text-center">
+                <p class="lead">Are you sure you want to logout?</p>
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-warning">
+                        <i class="fas fa-sign-out-alt me-2"></i>Yes, Logout
+                    </button>
+                    <a href="{% url 'home' %}" class="btn btn-outline-secondary ms-2">
+                        <i class="fas fa-times me-2"></i>Cancel
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

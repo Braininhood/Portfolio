@@ -1,0 +1,537 @@
+{% extends 'data_project/layout.html' %}
+
+{% block title %}Create Visualization{% endblock %}
+
+{% block extra_css %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/visualization.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                {% if data_file.file_type == 'db' and selected_table %}
+                <li class="breadcrumb-item"><a href="{% url 'file_detail' data_file.id %}?table={{ selected_table }}">{{ data_file.title }}</a></li>
+                {% else %}
+                <li class="breadcrumb-item"><a href="{% url 'file_detail' data_file.id %}">{{ data_file.title }}</a></li>
+                {% endif %}
+                <li class="breadcrumb-item active">Create Visualization</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+{% if data_file.file_type == 'db' and selected_table %}
+<div class="alert alert-info mb-4">
+    <i class="fas fa-table me-2"></i>
+    Creating visualization for database table: <strong>{{ selected_table }}</strong>
+</div>
+{% endif %}
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card shadow mb-4">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0"><i class="fas fa-chart-line me-2"></i>Create Visualization</h3>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    {% if data_file.file_type == 'db' and selected_table %}
+                    <!-- Hidden input to preserve selected table -->
+                    <input type="hidden" name="table" value="{{ selected_table }}">
+                    <div class="alert alert-info">
+                        <i class="fas fa-table me-2"></i>Creating visualization for table: <strong>{{ selected_table }}</strong>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="mb-3">
+                        <label for="id_title" class="form-label">Title</label>
+                        <input type="text" name="title" id="id_title" class="form-control" required>
+                    </div>
+                    
+                    {% if 'file_type' in form.fields %}
+                    <div class="mb-3">
+                        <label class="form-label">File Type (Auto-detected)</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                {% if data_file.file_type == 'csv' %}
+                                <i class="fas fa-file-csv text-primary"></i>
+                                {% elif data_file.file_type == 'excel' %}
+                                <i class="fas fa-file-excel text-success"></i>
+                                {% elif data_file.file_type == 'db' %}
+                                <i class="fas fa-database text-info"></i>
+                                {% endif %}
+                            </span>
+                            {{ form.file_type }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="mb-3">
+                        <label for="id_viz_type" class="form-label">Visualization Type</label>
+                        <select name="viz_type" id="id_viz_type" class="form-select" required>
+                            <option value="" selected disabled>Select visualization type</option>
+                            <option value="bar">Bar Chart</option>
+                            <option value="line">Line Chart</option>
+                            <option value="scatter">Scatter Plot</option>
+                            <option value="pie">Pie Chart</option>
+                            <option value="histogram">Histogram</option>
+                        </select>
+                        <div class="form-text viz-type-description" id="viz_type_description"></div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="id_x_column" class="form-label">X-Axis Column</label>
+                        {{ form.x_column }}
+                        <div class="form-text">Choose a column for the X-axis</div>
+                    </div>
+                    
+                    <div class="mb-3" id="y_column_div">
+                        <label for="id_y_column" class="form-label">Y-Axis Column (Optional for some charts)</label>
+                        {{ form.y_column }}
+                        <div class="form-text">Required for scatter plots, optional for bar and line charts, not used for pie charts and histograms.</div>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-chart-line me-2"></i>Create Visualization
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-4">
+        <!-- Visualization Tips -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-light">
+                <h4 class="mb-0">Visualization Preview</h4>
+            </div>
+            <div class="card-body p-0">
+                <div class="viz-preview-container text-center p-3">
+                    <div id="previewPlaceholder" class="text-muted">
+                        <i class="fas fa-chart-bar fa-3x mb-2"></i><br>
+                        Select a visualization type to see a preview
+                    </div>
+                    
+                    <!-- Real-time preview -->
+                    <div id="realTimePreview" class="viz-preview">
+                        <div class="preview-loading">
+                            <div class="spinner"></div>
+                        </div>
+                        <img id="realTimePreviewImg" src="" alt="Visualization preview" class="img-fluid rounded">
+                        <div id="previewError" class="preview-error alert alert-danger">
+                            <i class="fas fa-exclamation-triangle me-2"></i><span id="errorMessage"></span>
+                        </div>
+                        <div class="btn-group mt-3 preview-actions" role="group">
+                            <button type="button" class="btn btn-outline-primary" id="saveRealTimePreview">
+                                <i class="fas fa-download me-1"></i>Save
+                            </button>
+                            <button type="button" class="btn btn-outline-success" id="copyRealTimePreview">
+                                <i class="fas fa-copy me-1"></i>Copy
+                            </button>
+                        </div>
+                    </div>
+                    
+                    {% if example_images %}
+                        {% for viz_type, image_data in example_images.items %}
+                        <div id="preview_{{ viz_type }}" class="viz-preview" style="display: none;">
+                            <img id="preview_img_{{ viz_type }}" src="data:image/png;base64,{{ image_data }}" alt="{{ viz_type }} preview" class="img-fluid rounded">
+                            <div class="btn-group mt-3 preview-actions" role="group">
+                                <button type="button" class="btn btn-outline-danger delete-preview" data-type="{{ viz_type }}">
+                                    <i class="fas fa-trash-alt me-1"></i>Delete
+                                </button>
+                                <button type="button" class="btn btn-outline-primary save-preview" data-type="{{ viz_type }}">
+                                    <i class="fas fa-download me-1"></i>Save
+                                </button>
+                                <button type="button" class="btn btn-outline-success copy-preview" data-type="{{ viz_type }}">
+                                    <i class="fas fa-copy me-1"></i>Copy
+                                </button>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    
+        <div class="card shadow-sm">
+            <div class="card-header bg-light">
+                <h4 class="mb-0">Visualization Tips</h4>
+            </div>
+            <div class="card-body">
+                <div class="accordion" id="vizTips">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#barChartTips">
+                                Bar Chart
+                            </button>
+                        </h2>
+                        <div id="barChartTips" class="accordion-collapse collapse" data-bs-parent="#vizTips">
+                            <div class="accordion-body">
+                                <p>Best for comparing discrete categories.</p>
+                                <ul>
+                                    <li><strong>X-Axis:</strong> Categorical variable (e.g., product names, countries)</li>
+                                    <li><strong>Y-Axis (optional):</strong> Numerical variable to compare (e.g., sales, counts)</li>
+                                    <li>If Y-Axis is not specified, a count of occurrences will be used</li>
+                                </ul>
+                                {% if example_images.bar %}
+                                <div class="example-image text-center mt-2">
+                                    <img src="data:image/png;base64,{{ example_images.bar }}" alt="Bar Chart Example" class="img-fluid rounded">
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#lineChartTips">
+                                Line Chart
+                            </button>
+                        </h2>
+                        <div id="lineChartTips" class="accordion-collapse collapse" data-bs-parent="#vizTips">
+                            <div class="accordion-body">
+                                <p>Best for showing trends over time or sequences.</p>
+                                <ul>
+                                    <li><strong>X-Axis:</strong> Usually a time-related variable</li>
+                                    <li><strong>Y-Axis (optional):</strong> Value to track over time</li>
+                                </ul>
+                                {% if example_images.line %}
+                                <div class="example-image text-center mt-2">
+                                    <img src="data:image/png;base64,{{ example_images.line }}" alt="Line Chart Example" class="img-fluid rounded">
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#scatterPlotTips">
+                                Scatter Plot
+                            </button>
+                        </h2>
+                        <div id="scatterPlotTips" class="accordion-collapse collapse" data-bs-parent="#vizTips">
+                            <div class="accordion-body">
+                                <p>Best for examining relationships between two numerical variables.</p>
+                                <ul>
+                                    <li><strong>X-Axis:</strong> First numerical variable</li>
+                                    <li><strong>Y-Axis (required):</strong> Second numerical variable</li>
+                                    <li>Both axes should be numerical for meaningful results</li>
+                                </ul>
+                                {% if example_images.scatter %}
+                                <div class="example-image text-center mt-2">
+                                    <img src="data:image/png;base64,{{ example_images.scatter }}" alt="Scatter Plot Example" class="img-fluid rounded">
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pieChartTips">
+                                Pie Chart
+                            </button>
+                        </h2>
+                        <div id="pieChartTips" class="accordion-collapse collapse" data-bs-parent="#vizTips">
+                            <div class="accordion-body">
+                                <p>Best for showing composition or proportions of a whole.</p>
+                                <ul>
+                                    <li><strong>X-Axis:</strong> Categorical variable with relatively few categories</li>
+                                    <li><strong>Y-Axis:</strong> Not used for pie charts</li>
+                                    <li>Works best with 5-7 categories maximum</li>
+                                </ul>
+                                {% if example_images.pie %}
+                                <div class="example-image text-center mt-2">
+                                    <img src="data:image/png;base64,{{ example_images.pie }}" alt="Pie Chart Example" class="img-fluid rounded">
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#histogramTips">
+                                Histogram
+                            </button>
+                        </h2>
+                        <div id="histogramTips" class="accordion-collapse collapse" data-bs-parent="#vizTips">
+                            <div class="accordion-body">
+                                <p>Best for showing the distribution of a numerical variable.</p>
+                                <ul>
+                                    <li><strong>X-Axis:</strong> Numerical variable to analyze distribution</li>
+                                    <li><strong>Y-Axis:</strong> Not used for histograms</li>
+                                    <li>Works best with continuous numerical data</li>
+                                </ul>
+                                {% if example_images.histogram %}
+                                <div class="example-image text-center mt-2">
+                                    <img src="data:image/png;base64,{{ example_images.histogram }}" alt="Histogram Example" class="img-fluid rounded">
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{% load static %}
+<script src="{% static 'js/visualization-form.js' %}"></script>
+<script src="{% static 'js/image-utils.js' %}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const vizTypeSelect = document.getElementById('id_viz_type');
+        const xColumnSelect = document.getElementById('id_x_column');
+        const yColumnSelect = document.getElementById('id_y_column');
+        const yColumnDiv = document.getElementById('y_column_div');
+        const previewPlaceholder = document.getElementById('previewPlaceholder');
+        const vizTypeDescription = document.getElementById('viz_type_description');
+        const realTimePreview = document.getElementById('realTimePreview');
+        const realTimePreviewImg = document.getElementById('realTimePreviewImg');
+        const previewLoading = document.querySelector('.preview-loading');
+        const previewError = document.getElementById('previewError');
+        const errorMessage = document.getElementById('errorMessage');
+        const saveRealTimePreview = document.getElementById('saveRealTimePreview');
+        const copyRealTimePreview = document.getElementById('copyRealTimePreview');
+        
+        // Timeout for debouncing preview requests
+        let previewTimeout = null;
+        
+        // Descriptions for each visualization type
+        const descriptions = {
+            'bar': 'Bar charts are best for comparing categorical data or showing data over time intervals.',
+            'line': 'Line charts display data points connected by straight lines, showing trends over time.',
+            'scatter': 'Scatter plots show relationships between two variables using dots.',
+            'pie': 'Pie charts show parts of a whole as percentages (works best with 2-7 categories).',
+            'histogram': 'Histograms show the distribution of a numerical variable into bins.'
+        };
+        
+        // Function to request a real-time preview
+        function requestPreview() {
+            const vizType = vizTypeSelect.value;
+            const xColumn = xColumnSelect.value;
+            const yColumn = yColumnSelect.value;
+            
+            // Clear existing timeout
+            if (previewTimeout) {
+                clearTimeout(previewTimeout);
+            }
+            
+            // Ensure we have minimum required data
+            if (!vizType || !xColumn) {
+                // Hide the real-time preview
+                realTimePreview.style.display = 'none';
+                previewError.style.display = 'none';
+                
+                // If there's a selected viz type without columns, show example preview
+                if (vizType) {
+                    showExamplePreview(vizType);
+                } else {
+                    previewPlaceholder.style.display = 'block';
+                }
+                return;
+            }
+            
+            // Special validation for scatter plots
+            if (vizType === 'scatter' && !yColumn) {
+                showError('Scatter plots require both X and Y columns');
+                return;
+            }
+            
+            // Hide example previews
+            document.querySelectorAll('.viz-preview[id^="preview_"]').forEach(el => {
+                el.style.display = 'none';
+            });
+            
+            // Show real-time preview container
+            realTimePreview.style.display = 'block';
+            previewPlaceholder.style.display = 'none';
+            previewError.style.display = 'none';
+            previewLoading.style.display = 'flex';
+            
+            // Set a timeout to prevent too many requests while the user is still selecting options
+            previewTimeout = setTimeout(() => {
+                // Get CSRF token
+                const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+                
+                // Build the form data
+                const formData = new FormData();
+                formData.append('viz_type', vizType);
+                formData.append('x_column', xColumn);
+                if (yColumn) {
+                    formData.append('y_column', yColumn);
+                }
+                
+                // Add table name if present
+                const tableInput = document.querySelector('input[name="table"]');
+                if (tableInput) {
+                    formData.append('table', tableInput.value);
+                }
+                
+                // Send the request
+                fetch('{% url "preview_visualization" data_file.id %}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': csrfToken
+                    },
+                    body: formData
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(data => {
+                            throw new Error(data.error || 'Failed to generate preview');
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Hide loading indicator
+                    previewLoading.style.display = 'none';
+                    
+                    if (data.success) {
+                        // Set the image
+                        realTimePreviewImg.src = 'data:image/png;base64,' + data.image;
+                        realTimePreviewImg.style.display = 'block';
+                    } else if (data.error) {
+                        showError(data.error);
+                    }
+                })
+                .catch(error => {
+                    showError(error.message);
+                });
+            }, 500); // Wait 500ms to prevent too many requests
+        }
+        
+        function showError(message) {
+            previewLoading.style.display = 'none';
+            realTimePreviewImg.style.display = 'none';
+            previewError.style.display = 'block';
+            errorMessage.textContent = message;
+        }
+        
+        function showExamplePreview(vizType) {
+            // Hide all previews including real-time
+            document.querySelectorAll('.viz-preview').forEach(el => {
+                el.style.display = 'none';
+            });
+            previewPlaceholder.style.display = 'none';
+            
+            // Show the example preview for this viz type
+            const examplePreview = document.getElementById(`preview_${vizType}`);
+            if (examplePreview) {
+                examplePreview.style.display = 'block';
+            }
+        }
+        
+        // Handle preview action buttons
+        // Delete button - hide the preview
+        document.querySelectorAll('.delete-preview').forEach(button => {
+            button.addEventListener('click', function() {
+                const vizType = this.getAttribute('data-type');
+                const previewElement = document.getElementById(`preview_${vizType}`);
+                
+                if (previewElement) {
+                    previewElement.style.display = 'none';
+                    
+                    // Reset viz type selection
+                    if (vizTypeSelect.value === vizType) {
+                        vizTypeSelect.value = '';
+                        vizTypeDescription.textContent = '';
+                    }
+                    
+                    // Show placeholder if no other preview is visible
+                    const visiblePreviews = document.querySelectorAll('.viz-preview[style="display: block;"]');
+                    if (visiblePreviews.length === 0) {
+                        previewPlaceholder.style.display = 'block';
+                    }
+                }
+            });
+        });
+        
+        // Handle real-time preview buttons
+        // Save button for real-time preview
+        if (saveRealTimePreview) {
+            saveRealTimePreview.addEventListener('click', function() {
+                saveImage(realTimePreviewImg, 'visualization_preview');
+            });
+        }
+        
+        // Copy button for real-time preview
+        if (copyRealTimePreview) {
+            copyRealTimePreview.addEventListener('click', function() {
+                copyImageToClipboard(realTimePreviewImg, this);
+            });
+        }
+        
+        // Save button for example previews
+        document.querySelectorAll('.save-preview').forEach(button => {
+            button.addEventListener('click', function() {
+                const vizType = this.getAttribute('data-type');
+                const imgElement = document.getElementById(`preview_img_${vizType}`);
+                saveImage(imgElement, `visualization_${vizType}`);
+            });
+        });
+        
+        // Copy button for example previews
+        document.querySelectorAll('.copy-preview').forEach(button => {
+            button.addEventListener('click', function() {
+                const vizType = this.getAttribute('data-type');
+                const imgElement = document.getElementById(`preview_img_${vizType}`);
+                copyImageToClipboard(imgElement, this);
+            });
+        });
+        
+        function updateVizTypeInfo() {
+            const selectedVizType = vizTypeSelect.value;
+            
+            // Update Y-axis visibility
+            if (selectedVizType === 'scatter') {
+                yColumnDiv.style.display = 'block';
+                document.getElementById('id_y_column').required = true;
+            } else if (selectedVizType === 'pie' || selectedVizType === 'histogram') {
+                yColumnDiv.style.display = 'none';
+                document.getElementById('id_y_column').required = false;
+                document.getElementById('id_y_column').value = '';
+            } else {
+                yColumnDiv.style.display = 'block';
+                document.getElementById('id_y_column').required = false;
+            }
+            
+            // Update description
+            if (selectedVizType && descriptions[selectedVizType]) {
+                vizTypeDescription.textContent = descriptions[selectedVizType];
+            } else {
+                vizTypeDescription.textContent = '';
+            }
+            
+            // Update preview - only show example when no columns selected yet
+            if (selectedVizType && (!xColumnSelect.value || (selectedVizType === 'scatter' && !yColumnSelect.value))) {
+                // If we have a viz type but not enough data for a real preview, show example
+                showExamplePreview(selectedVizType);
+            } else {
+                // Try to generate a real-time preview
+                requestPreview();
+            }
+        }
+        
+        if (vizTypeSelect) {
+            // Add event listeners for form field changes
+            vizTypeSelect.addEventListener('change', updateVizTypeInfo);
+            xColumnSelect.addEventListener('change', requestPreview);
+            yColumnSelect.addEventListener('change', requestPreview);
+            
+            // Initial check
+            updateVizTypeInfo();
+        }
+    });
+</script>
+{% endblock %} 

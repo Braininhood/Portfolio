@@ -1,0 +1,190 @@
+{% extends 'data_project/layout.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block extra_css %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h2><i class="fas fa-tachometer-alt me-2"></i>Dashboard</h2>
+            <p class="text-muted">Welcome back, {{ user.username }}. Here's your data visualization workspace.</p>
+        </div>
+        <div class="col-md-4 text-end">
+            <a href="{% url 'upload_file' %}" class="btn btn-primary">
+                <i class="fas fa-upload me-2"></i>Upload New Data
+            </a>
+            <a href="{% url 'connect_database' %}" class="btn btn-success ms-2">
+                <i class="fas fa-database me-1"></i>Connect DB
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Statistics Section -->
+{% if user_files %}
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="stats-box stats-box-blue">
+            <div class="number">{{ user_files.count }}</div>
+            <div class="label">Total Data Files</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stats-box stats-box-green">
+            <div class="number">{{ total_visualizations }}</div>
+            <div class="label">Visualizations</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stats-box stats-box-purple">
+            <div class="number">{{ file_counts.csv|add:file_counts.excel }}</div>
+            <div class="label">File Uploads</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stats-box stats-box-orange">
+            <div class="number">{{ file_counts.db|add:file_counts.online }}</div>
+            <div class="label">Database Connections</div>
+        </div>
+    </div>
+</div>
+
+<div id="dashboard-charts" class="mb-4"
+    data-csv-count="{{ file_counts.csv }}"
+    data-excel-count="{{ file_counts.excel }}"
+    data-db-count="{{ file_counts.db }}"
+    data-online-count="{{ file_counts.online }}"
+    data-bar-count="{{ viz_counts.bar }}"
+    data-line-count="{{ viz_counts.line }}"
+    data-scatter-count="{{ viz_counts.scatter }}"
+    data-pie-count="{{ viz_counts.pie }}"
+    data-histogram-count="{{ viz_counts.histogram }}">
+    <!-- React will render charts here -->
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card dashboard-card shadow-sm">
+            <div class="card-header bg-light">
+                <h4 class="mb-0">Your Data Files</h4>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Title</th>
+                                <th>Type</th>
+                                <th>Upload Date</th>
+                                <th>Visualizations</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for file in user_files %}
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        {% if file.file_type == 'csv' %}
+                                        <i class="fas fa-file-csv data-file-icon text-primary"></i>
+                                        {% elif file.file_type == 'excel' %}
+                                        <i class="fas fa-file-excel data-file-icon text-success"></i>
+                                        {% elif file.file_type == 'db' %}
+                                        <i class="fas fa-database data-file-icon text-info"></i>
+                                        {% else %}
+                                        <i class="fas fa-server data-file-icon text-warning"></i>
+                                        {% endif %}
+                                        {{ file.title }}
+                                    </div>
+                                </td>
+                                <td>
+                                    {% if file.file_type == 'csv' %}
+                                    <span class="badge bg-primary">CSV</span>
+                                    {% elif file.file_type == 'excel' %}
+                                    <span class="badge bg-success">Excel</span>
+                                    {% elif file.file_type == 'db' %}
+                                    <span class="badge bg-info">Database</span>
+                                    {% elif file.file_type == 'mysql' %}
+                                    <span class="badge bg-warning">Online MySQL</span>
+                                    {% elif file.file_type == 'postgres' %}
+                                    <span class="badge bg-warning">Online PostgreSQL</span>
+                                    {% elif file.file_type == 'mssql' %}
+                                    <span class="badge bg-warning">Online SQL Server</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ file.uploaded_at|date:"M d, Y" }}</td>
+                                <td>
+                                    <span class="badge bg-secondary">{{ file.visualizations.count }}</span>
+                                </td>
+                                <td>
+                                    <a href="{% url 'file_detail' file.id %}" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-eye me-1"></i>View
+                                    </a>
+                                    <a href="{% url 'delete_file' file.id %}" class="btn btn-sm btn-outline-danger">
+                                        <i class="fas fa-trash-alt me-1"></i>Delete
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="row">
+    <div class="col-12">
+        <div class="card dashboard-card shadow-sm">
+            <div class="card-body text-center py-5">
+                <i class="fas fa-database fa-4x text-muted mb-3"></i>
+                <h3>No data files uploaded yet</h3>
+                <p>Start by uploading a CSV, Excel, or database file for visualization.</p>
+                <div class="mt-3">
+                    <a href="{% url 'upload_file' %}" class="btn btn-primary">
+                        <i class="fas fa-upload me-2"></i>Upload Data
+                    </a>
+                    <a href="{% url 'connect_database' %}" class="btn btn-success ms-2">
+                        <i class="fas fa-database me-2"></i>Connect to Database
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Quick Tips Section -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="quick-tips">
+            <h4><i class="fas fa-lightbulb me-2"></i>Quick Tips</h4>
+            <ul>
+                <li>CSV Files: Make sure your CSV files have a header row with column names.</li>
+                <li>Excel Files: The first sheet of your Excel workbook will be used for analysis.</li>
+                <li>Database Files: For SQLite databases, the first table found will be used.</li>
+                <li>Create multiple visualizations from a single data file to explore different perspectives.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- React and ReactDOM -->
+<script src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+<!-- Babel for JSX -->
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Dashboard Charts Component -->
+{% load static %}
+<script type="text/babel" src="{% static 'js/dashboard-charts.js' %}"></script>
+{% endblock %} 

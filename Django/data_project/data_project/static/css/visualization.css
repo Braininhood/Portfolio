@@ -1,0 +1,64 @@
+.viz-preview-container {
+    position: relative;
+}
+
+.preview-actions {
+    width: 100%;
+    justify-content: center;
+}
+
+.viz-preview img {
+    max-height: 300px;
+    object-fit: contain;
+}
+
+.copy-feedback {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    z-index: 1000;
+}
+
+.preview-loading {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
+    z-index: 10;
+    justify-content: center;
+    align-items: center;
+}
+
+.preview-error {
+    display: none;
+    color: #dc3545;
+    margin-top: 10px;
+    font-size: 0.9rem;
+}
+
+#realTimePreview {
+    display: none;
+    margin-top: 15px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.spinner {
+    border: 4px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 4px solid #3498db;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+} 

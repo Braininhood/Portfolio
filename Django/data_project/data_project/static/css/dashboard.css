@@ -1,0 +1,101 @@
+.chart-container {
+    height: 300px;
+}
+
+.dashboard-header {
+    margin-bottom: 2rem;
+}
+
+.dashboard-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 1.5rem;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.data-file-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.data-file-card .card-body {
+    flex: 1;
+}
+
+.data-file-actions {
+    margin-top: auto;
+}
+
+.data-file-icon {
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+}
+
+.file-count-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    font-size: 0.8rem;
+}
+
+.quick-tips {
+    background-color: #f8f9fa;
+    border-left: 4px solid #0d6efd;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.quick-tips h4 {
+    color: #0d6efd;
+    margin-bottom: 0.5rem;
+}
+
+.quick-tips ul {
+    margin-bottom: 0;
+}
+
+.stats-box {
+    text-align: center;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    color: white;
+    margin-bottom: 1.5rem;
+}
+
+.stats-box-blue {
+    background: linear-gradient(135deg, #0d6efd, #0a58ca);
+}
+
+.stats-box-green {
+    background: linear-gradient(135deg, #198754, #157347);
+}
+
+.stats-box-purple {
+    background: linear-gradient(135deg, #6f42c1, #5a32a3);
+}
+
+.stats-box-orange {
+    background: linear-gradient(135deg, #fd7e14, #dc6502);
+}
+
+.stats-box .number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.stats-box .label {
+    font-size: 1rem;
+    opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+    .chart-container {
+        height: 250px;
+        margin-bottom: 1.5rem;
+    }
+} 
