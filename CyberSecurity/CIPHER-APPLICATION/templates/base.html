@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Cipher Application</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <script src="{{ url_for('static', filename='js/scripts.js') }}" defer></script>
+    </head>
+
+    <body>
+        <header>
+            <nav>
+                {% if not session['user_id'] %}
+                    <div class="auth-buttons">
+                        <a href="/login">Login</a>
+                        <a href="/signup">Sign Up</a>
+                    </div>
+                {% else %}
+                    <a href="/cipher">Cipher</a>
+                    <form action="{{ url_for('logout') }}" method="POST" style="display:inline;">
+                        <button type="submit">Logout</button>
+                    </form>
+                {% endif %}
+            </nav>
+        </header>
+
+        <main>
+            {% block content %}
+            {% endblock %}
+        </main>
+    </body>
+
+</html>

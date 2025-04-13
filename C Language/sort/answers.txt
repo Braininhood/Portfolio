@@ -1,0 +1,8 @@
+sort1 uses: Bubble Sort
+How do you know?: Bubble Sort shows worse performance than Selection Sort, confirming its expected O(n²) complexity.
+
+sort2 uses: Merge Sort
+How do you know?: Merge Sort has a time complexity of O(n log n), making it the fastest for large datasets.
+
+sort3 uses: Selection Sort
+How do you know?: Selection Sort is better than Bubble Sort on some datasets, which explains its faster performance.

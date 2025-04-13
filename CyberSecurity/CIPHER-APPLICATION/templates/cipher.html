@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Cipher</h1>
+    <form method="POST" id="cipherForm">
+        <label for="message">Message:</label>
+        <textarea name="message" id="message" required maxlength="1000" rows="10"></textarea>
+        <p id="wordCountMessage" style="color: red;"></p>
+
+        <h2>Select Cipher:</h2>
+        <input type="radio" name="cipher_choice" value="f" id="fibonacci" required>
+        <label for="fibonacci">Fibonacci</label>
+        <input type="number" name="num_fib" id="num_fib" placeholder="Enter Fibonacci length" min="1">
+
+        <input type="radio" name="cipher_choice" value="c" id="caesar">
+        <label for="caesar">Caesar</label>
+        <input type="number" name="shift_value" id="shift_value" placeholder="Shift Value" min="1">
+
+        <input type="radio" name="cipher_choice" value="v" id="vigenere">
+        <label for="vigenere">Vigenère</label>
+        <input type="text" name="keyword" id="keyword" placeholder="Keyword">
+
+        <input type="radio" name="cipher_choice" value="a" id="atbash">
+        <label for="atbash">Atbash</label>
+
+        <h2>Actions:</h2>
+        <button type="submit" name="action" value="encrypt">Encrypt</button>
+        <button type="submit" name="action" value="decrypt">Decrypt</button>
+    </form>
+
+    {% if result %}
+        <h2>Result:</h2>
+        <p>{{ result }}</p>
+    {% endif %}
+{% endblock %}
