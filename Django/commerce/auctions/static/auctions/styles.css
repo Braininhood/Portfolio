@@ -1,0 +1,258 @@
+body {
+    padding: 10px;
+}
+
+.card {
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: scale(1.03);
+}
+
+.card-img-top {
+    max-height: 300px;
+    object-fit: cover;
+}
+
+.card-title {
+    min-height: 3rem;
+}
+
+.card-text {
+    min-height: 6rem;
+}
+
+.nav-link-form {
+    display: inline;
+}
+
+.nav-link-form button {
+    background: none;
+    border: none;
+    padding: 0;
+    color: #007bff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.nav-link-form button:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+.list-group-item {
+    border: none;
+    padding: 0.5rem 1rem;
+}
+
+.list-group-item strong {
+    font-weight: 500;
+}
+
+/* Login Page Styles */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.alert {
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: center; /* Center the labels */
+}
+
+.form-group div {
+    margin-top: 5px; /* Add some space between label and input */
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.btn-block {
+    width: 100%;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.mt-3 {
+    margin-top: 1rem;
+}
+
+.listings {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.listing {
+    border: 1px solid #ddd;
+    padding: 15px;
+    width: 300px;
+}
+
+.carousel {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.carousel-image {
+    width: 100%; /* Adjust to fit the container */
+    max-width: 500px; /* Set a maximum width */
+    height: 300px; /* Set a fixed height */
+    object-fit: contain; /* Ensure the entire image is visible */
+    display: block; /* Ensure images are block elements */
+    margin: 0 auto; /* Center the images horizontally */
+    transition: transform 0.3s ease; /* Smooth transition for zoom */
+}
+
+.carousel-image:hover {
+    transform: scale(1.1); /* Zoom in on hover */
+}
+
+.carousel-prev, .carousel-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.carousel-prev {
+    left: 0;
+}
+
+.carousel-next {
+    right: 0;
+}
+
+.nav {
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-item {
+    margin-right: 15px;
+}
+
+.nav-link {
+    color: #006eff;
+    text-decoration: none;
+    padding: 10px;
+    transition: color 0.3s;
+}
+
+.nav-link:hover {
+    color: #b31b00;
+    text-decoration: underline;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: flex-end; /* Align items to the right */
+}
+
+/* Button Styles */
+.btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #b34800;
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    text-align: center; /* Center the title */
+}
+
+h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    text-align: center; /* Center the subtitle */
+}
+
+p {
+    margin-bottom: 0.5rem;
+}
+
+.form-control-file {
+    display: inline-block;
+    width: auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.listing-image {
+    width: 100%; /* Adjust to fit the container */
+    max-width: 150px; /* Set a maximum width */
+    height: 150px; /* Set a fixed height */
+    object-fit: cover; /* Ensure the image covers the area without distortion */
+    display: block; /* Ensure images are block elements */
+    margin: 0 auto; /* Center the images horizontally */
+}
+
+.col-md-3 {
+    padding: 5px; /* Reduce padding to decrease space between images */
+}
+
+.mb-3 {
+    margin-bottom: 10px; /* Adjust margin to control vertical spacing */
+}
+
+.center-text {
+    text-align: center;
+    display: block; /* Ensure it behaves as a block element */
+    width: 100%; /* Take up full width of its container */
+}
+
+.listing h3.center-text {
+    text-align: center;
+    display: block;
+    width: 100%;
+}

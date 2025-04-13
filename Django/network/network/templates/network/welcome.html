@@ -1,0 +1,159 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block title %}Welcome to Threads{% endblock %}
+
+{% block head %}
+{{ block.super }}
+<link href="{% static 'network/styles/welcome.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<div class="welcome-container text-center">
+    <div class="welcome-content">
+        <img src="{% static 'network/images/dragon_in_egg.png' %}" alt="Dragon in Egg" class="welcome-image mb-4">
+        <h1 class="welcome-title mb-4">Welcome to Threads</h1>
+        <p class="welcome-text mb-4">Sign in to post and interact with other users.</p>
+        <div class="welcome-buttons">
+            <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+            <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
+        </div>
+    </div>
+</div>
+
+<!-- Login Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Login</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="login-form">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <input type="text" class="form-control" name="username" placeholder="Username" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="password" class="form-control" name="password" placeholder="Password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Register Modal -->
+<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registerModalLabel">Register</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="register-form">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <input type="text" class="form-control" name="username" placeholder="Username" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="email" class="form-control" name="email" placeholder="Email" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="password" class="form-control" name="password" placeholder="Password" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="password" class="form-control" name="confirmation" placeholder="Confirm Password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle login form submission
+    document.querySelector('#login-form').onsubmit = function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        
+        fetch('/login', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                if (data.redirect) {
+                    // Show the message and open register modal
+                    alert(data.message);
+                    const loginModal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
+                    loginModal.hide();
+                    const registerModal = new bootstrap.Modal(document.getElementById('registerModal'));
+                    registerModal.show();
+                    // Pre-fill the username in register form
+                    document.querySelector('#register-form input[name="username"]').value = formData.get('username');
+                } else {
+                    alert(data.error);
+                }
+            } else {
+                window.location.href = '/index';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred during login');
+        });
+    };
+
+    // Handle register form submission
+    document.querySelector('#register-form').onsubmit = function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        
+        // Validate password match before submission
+        const password = formData.get('password');
+        const confirmation = formData.get('confirmation');
+        if (password !== confirmation) {
+            alert('Passwords do not match. Please try again.');
+            return;
+        }
+        
+        fetch('/register', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                if (data.redirect) {
+                    // Show the message and open login modal
+                    alert(data.message);
+                    const registerModal = bootstrap.Modal.getInstance(document.getElementById('registerModal'));
+                    registerModal.hide();
+                    const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+                    loginModal.show();
+                    // Pre-fill the username in login form
+                    document.querySelector('#login-form input[name="username"]').value = formData.get('username');
+                } else {
+                    alert(data.message || data.error);
+                }
+            } else {
+                window.location.href = '/index';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred during registration');
+        });
+    };
+});
+</script>
+{% endblock %} 

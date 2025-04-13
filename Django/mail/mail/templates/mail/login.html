@@ -1,0 +1,30 @@
+{% extends "mail/layout.html" %}
+
+{% block body %}
+
+    <h2>Login</h2>
+
+    {% if message %}
+        <div class="alert alert-danger">{{ message }}</div>
+    {% endif %}
+
+    <form action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="email" class="required-field">Email</label>
+            <input autofocus class="form-control" type="email" name="email" id="email" 
+                   placeholder="user@example.com" required
+                   pattern="[^\s@]+@[^\s@]+\.[^\s@]+" 
+                   title="Please enter a valid email address (e.g., user@example.com)">
+        </div>
+        <div class="form-group">
+            <label for="password" class="required-field">Password</label>
+            <input class="form-control" type="password" name="password" id="password" 
+                   placeholder="Password" required minlength="8">
+        </div>
+        <input class="btn btn-primary" type="submit" value="Login">
+    </form>
+
+    Don't have an account? <a href="{% url 'register' %}">Register here.</a>
+
+{% endblock %}
