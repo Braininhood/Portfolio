@@ -1,8 +1,33 @@
 # Cybersecurity Portfolio
 
-This repository contains a collection of cybersecurity projects and tools focused on network security, cryptography, and authentication mechanisms.
+This repository contains a collection of cybersecurity projects and tools focused on network security, cryptography, authentication mechanisms, vulnerability scanning, and system monitoring.
 
 ## Projects
+
+### [Website-Vulnerability-Scanner](./Website-Vulnerability-Scanner/)
+- **Description**: GUI-based scanner that checks websites for common security vulnerabilities.
+- **Features**:
+  - Security headers check (OWASP recommendations)
+  - Open ports scanning (TCP & UDP)
+  - CMS detection (WordPress, Joomla, Drupal, Magento)
+  - SQL Injection vulnerability check
+  - XSS vulnerability check
+  - API endpoint discovery
+  - Sensitive file/directory exposure check
+  - GUI interface using Tkinter
+- **Files**:
+  - `Website_Vulnerability_Scanner.py` - Main scanner implementation
+
+### [System-Monitor](./System-Monitor/)
+- **Description**: Comprehensive real-time system monitoring tool for security and performance analysis.
+- **Features**:
+  - System health monitoring (CPU, memory, disk, swap usage)
+  - Process management with filtering options
+  - Network usage monitoring
+  - Memory leak detection
+  - Customizable update intervals
+- **Files**:
+  - `system.py` - Main monitoring implementation
 
 ### [OTP-Generator](./OTP-Generator/)
 - **Description**: Secure One-Time Password generator using Fibonacci sequence mapping and proportional mean calculations.
@@ -82,7 +107,7 @@ This repository contains a collection of cybersecurity projects and tools focuse
 ## Technologies Used
 
 - **Programming Languages**: Python
-- **Libraries**: Scapy, Tkinter, Flask, base64, cryptography
+- **Libraries**: Scapy, Tkinter, Flask, psutil, requests, bs4, termcolor, cryptography
 - **Web Technologies**: HTML, CSS, JavaScript
 - **Database**: SQLite
 - **Development Environment**: Jupyter Notebooks, VS Code
