@@ -1,0 +1,127 @@
+{% extends "layout.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title text-center">Register</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('main.register') }}" id="register-form" class="needs-validation" novalidate>
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" required
+                               minlength="3" maxlength="20" pattern="[a-zA-Z0-9_]+"
+                               title="Username must be between 3-20 characters and may only contain letters, numbers, and underscores">
+                        <div class="invalid-feedback">Username must be 3-20 characters and contain only letters, numbers, and underscores</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                        <div class="invalid-feedback">Please enter a valid email address</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required minlength="8">
+                        <div class="form-text">Password must be at least 8 characters long and include uppercase letters, lowercase letters, and numbers.</div>
+                        <div class="invalid-feedback">Password must be at least 8 characters with at least one uppercase letter, one lowercase letter, and one number</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirm-password" class="form-label">Confirm Password</label>
+                        <input type="password" class="form-control" id="confirm-password" required minlength="8">
+                        <div class="invalid-feedback">Passwords do not match</div>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Register</button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-center">
+                <p class="mb-0">Already have an account? <a href="{{ url_for('main.login') }}">Login here</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get form element
+        const form = document.getElementById('register-form');
+        const username = document.getElementById('username');
+        const email = document.getElementById('email');
+        const password = document.getElementById('password');
+        const confirmPassword = document.getElementById('confirm-password');
+        
+        // Add submit event listener
+        form.addEventListener('submit', function(event) {
+            let isValid = true;
+            
+            // Username validation
+            const usernameRegex = /^[a-zA-Z0-9_]{3,20}$/;
+            if (!usernameRegex.test(username.value)) {
+                username.setCustomValidity('Username must be 3-20 characters and contain only letters, numbers, and underscores');
+                isValid = false;
+            } else {
+                username.setCustomValidity('');
+            }
+            
+            // Email validation
+            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!emailRegex.test(email.value)) {
+                email.setCustomValidity('Please enter a valid email address');
+                isValid = false;
+            } else {
+                email.setCustomValidity('');
+            }
+            
+            // Password validation
+            const passwordRegex = {
+                minLength: /.{8,}/,
+                hasUpperCase: /[A-Z]/,
+                hasLowerCase: /[a-z]/,
+                hasNumber: /[0-9]/,
+            };
+            
+            if (!passwordRegex.minLength.test(password.value) || 
+                !passwordRegex.hasUpperCase.test(password.value) || 
+                !passwordRegex.hasLowerCase.test(password.value) || 
+                !passwordRegex.hasNumber.test(password.value)) {
+                
+                password.setCustomValidity('Password must be at least 8 characters with at least one uppercase letter, one lowercase letter, and one number');
+                isValid = false;
+            } else {
+                password.setCustomValidity('');
+            }
+            
+            // Confirm password validation
+            if (password.value !== confirmPassword.value) {
+                confirmPassword.setCustomValidity('Passwords do not match');
+                isValid = false;
+            } else {
+                confirmPassword.setCustomValidity('');
+            }
+            
+            if (!form.checkValidity() || !isValid) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            
+            form.classList.add('was-validated');
+        });
+        
+        // Real-time password matching validation
+        confirmPassword.addEventListener('input', function() {
+            if (password.value !== this.value) {
+                this.setCustomValidity('Passwords do not match');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+    });
+</script>
+{% endblock %} 

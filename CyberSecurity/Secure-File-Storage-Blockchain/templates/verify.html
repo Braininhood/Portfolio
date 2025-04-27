@@ -1,0 +1,118 @@
+{% extends "layout.html" %}
+
+{% block title %}Verify File Integrity{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col">
+            <h2>File Integrity Verification</h2>
+            <p class="text-muted">Blockchain verification for file integrity</p>
+        </div>
+        <div class="col-auto">
+            <a href="{{ url_for('main.dashboard') }}" class="btn btn-outline-secondary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left me-1" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+                </svg>
+                Back to Dashboard
+            </a>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h4 class="mb-0">File Details</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Filename:</strong> {{ file.filename }}</p>
+                    <p><strong>Uploaded:</strong> {{ file.uploaded_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                    <p><strong>Uploaded by:</strong> {{ file.owner.username }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>File ID:</strong> {{ file.id }}</p>
+                    <p><strong>Blockchain Entries:</strong> {{ blockchain_entries|length }}</p>
+                    <p>
+                        <strong>Status:</strong>
+                        <span class="badge bg-success">Verified</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h4 class="mb-0">Blockchain History</h4>
+        </div>
+        <div class="card-body">
+            {% if blockchain_entries %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Block ID</th>
+                                <th>Timestamp</th>
+                                <th>File Hash</th>
+                                <th>Previous Hash</th>
+                                <th>Nonce</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for entry in blockchain_entries %}
+                            <tr>
+                                <td>{{ entry.id }}</td>
+                                <td>{{ entry.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                                <td>
+                                    <span class="text-truncate d-inline-block" style="max-width: 200px;" 
+                                          title="{{ entry.file_hash }}">
+                                        {{ entry.file_hash }}
+                                    </span>
+                                </td>
+                                <td>
+                                    {% if entry.previous_hash %}
+                                    <span class="text-truncate d-inline-block" style="max-width: 200px;"
+                                          title="{{ entry.previous_hash }}">
+                                        {{ entry.previous_hash }}
+                                    </span>
+                                    {% else %}
+                                    <span class="text-muted">Genesis Block</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ entry.nonce }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="alert alert-info">
+                    No blockchain entries found for this file.
+                </div>
+            {% endif %}
+        </div>
+        <div class="card-footer">
+            <div class="blockchain-info">
+                <h5 class="mb-2">Understanding Blockchain Verification</h5>
+                <p>Each file is secured through a blockchain verification process:</p>
+                <ol>
+                    <li>When a file is uploaded, a hash of the file is calculated and recorded in the blockchain</li>
+                    <li>Each blockchain entry references the previous entry, creating a chain of verification</li>
+                    <li>Any tampering with the file would result in a different hash, breaking the chain</li>
+                    <li>The integrity of the file is verified by comparing hashes in the blockchain</li>
+                </ol>
+                <p class="mb-0 text-muted">This ensures that your files remain unmodified and secure.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // You could add additional verification logic here if needed
+    });
+</script>
+{% endblock %} 

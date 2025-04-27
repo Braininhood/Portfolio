@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title text-center">Login</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('main.login') }}" id="login-form">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" required 
+                               minlength="3" maxlength="20" pattern="[a-zA-Z0-9_]+" 
+                               title="Username must be between 3-20 characters and may only contain letters, numbers, and underscores">
+                        <div class="invalid-feedback">Please enter a valid username (3-20 characters, letters, numbers, underscores only)</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required minlength="8">
+                        <div class="invalid-feedback">Password must be at least 8 characters</div>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-center">
+                <p class="mb-0">Don't have an account? <a href="{{ url_for('main.register') }}">Register here</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get form element
+        const form = document.getElementById('login-form');
+        
+        // Add submit event listener
+        form.addEventListener('submit', function(event) {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            
+            form.classList.add('was-validated');
+        });
+        
+        // Extra client-side validation
+        document.getElementById('username').addEventListener('input', function(e) {
+            const usernameRegex = /^[a-zA-Z0-9_]{3,20}$/;
+            if (this.value && !usernameRegex.test(this.value)) {
+                this.setCustomValidity('Username must be 3-20 characters and contain only letters, numbers, and underscores');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+        
+        document.getElementById('password').addEventListener('input', function(e) {
+            if (this.value && this.value.length < 8) {
+                this.setCustomValidity('Password must be at least 8 characters');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+    });
+</script>
+{% endblock %} 

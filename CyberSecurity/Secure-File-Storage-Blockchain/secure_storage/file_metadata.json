@@ -1,0 +1,10 @@
+{
+    "app.py_20250427214245": {
+        "original_filename": "app.py",
+        "encrypted_path": "secure_storage\\app.py_20250427214245.enc",
+        "description": "app",
+        "timestamp": "20250427214245",
+        "salt": "APsu5StJvCQp3ImJNv9kbg==",
+        "iv": "28s01VYs4M35y5BqyrQrKA=="
+    }
+}

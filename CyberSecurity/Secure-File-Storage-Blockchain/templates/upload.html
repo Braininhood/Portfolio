@@ -1,0 +1,122 @@
+{% extends "layout.html" %}
+
+{% block title %}Upload File{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Upload a File</h4>
+                <p class="card-subtitle text-muted mb-0">Files will be encrypted before storage</p>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('main.upload_file') }}" enctype="multipart/form-data" id="upload-form" class="needs-validation" novalidate
+                      data-max-file-size="{{ config['MAX_CONTENT_LENGTH'] }}">
+                    <div class="mb-3">
+                        <label for="file" class="form-label">Select File</label>
+                        <input type="file" class="form-control" id="file" name="file" required>
+                        <div class="invalid-feedback">Please select a file to upload</div>
+                        <div class="form-text">
+                            The file will be encrypted using AES-256-CBC before storage.<br>
+                            Maximum file size: {{ (config['MAX_CONTENT_LENGTH'] / (1024 * 1024))|int }} MB
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description (optional)</label>
+                        <textarea class="form-control" id="description" name="description" rows="2" maxlength="500"></textarea>
+                        <div class="form-text">
+                            <span id="description-chars">0</span>/500 characters
+                        </div>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary" id="upload-button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload me-2" viewBox="0 0 16 16">
+                                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                                <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
+                            </svg>
+                            Upload File
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <div class="blockchain-info">
+                    <h5 class="mb-2">Security Information</h5>
+                    <p>Your file will be:</p>
+                    <ul>
+                        <li>Encrypted using AES-256-CBC with a unique key</li>
+                        <li>Hashed and recorded in the blockchain for integrity verification</li>
+                        <li>Stored securely with access control</li>
+                    </ul>
+                    <p class="mb-0 text-muted">Only you will have access to the encrypted file unless you explicitly share it.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('upload-form');
+        const fileInput = document.getElementById('file');
+        const description = document.getElementById('description');
+        const descriptionChars = document.getElementById('description-chars');
+        const uploadButton = document.getElementById('upload-button');
+        
+        // Get the max file size from data attribute
+        const maxFileSize = parseInt(form.getAttribute('data-max-file-size'), 10) || 52428800; // 50MB default
+        
+        // Update character count for description
+        description.addEventListener('input', function() {
+            descriptionChars.textContent = this.value.length;
+        });
+        
+        // File validation
+        fileInput.addEventListener('change', function(e) {
+            const file = this.files[0];
+            
+            if (!file) {
+                this.setCustomValidity('Please select a file to upload');
+                return;
+            }
+            
+            // Check file size
+            if (file.size > maxFileSize) {
+                const maxSizeMB = Math.floor(maxFileSize / (1024 * 1024));
+                this.setCustomValidity(`File size exceeds the maximum allowed size of ${maxSizeMB} MB`);
+                return;
+            }
+            
+            // Optional: Validate file type
+            // const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf', 'text/plain'];
+            // if (!allowedTypes.includes(file.type)) {
+            //     this.setCustomValidity('File type not allowed. Please select a valid file type.');
+            //     return;
+            // }
+            
+            // If all validations pass
+            this.setCustomValidity('');
+        });
+        
+        // Form submission
+        form.addEventListener('submit', function(event) {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            } else {
+                // Disable button to prevent double submission
+                uploadButton.disabled = true;
+                uploadButton.innerHTML = `
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Uploading...
+                `;
+            }
+            
+            form.classList.add('was-validated');
+        });
+    });
+</script>
+{% endblock %} 

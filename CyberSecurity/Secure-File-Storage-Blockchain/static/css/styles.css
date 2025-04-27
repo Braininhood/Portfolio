@@ -1,0 +1,107 @@
+/* Main Styles for Secure File Storage System */
+
+body {
+    padding-top: 60px;
+    background-color: #f8f9fa;
+}
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(135deg, #2c3e50, #4ca1af);
+    color: white;
+    padding: 50px 0;
+    border-radius: 10px;
+    margin-bottom: 40px;
+}
+
+/* Feature Cards */
+.feature-card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+    height: 100%;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+}
+
+.feature-icon {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    color: #4ca1af;
+}
+
+/* Footer */
+.footer {
+    margin-top: 50px;
+    padding: 30px 0;
+    background-color: #2c3e50;
+    color: white;
+}
+
+/* Dashboard styles */
+.file-card {
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.file-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.file-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.file-actions {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.file-card:hover .file-actions {
+    opacity: 1;
+}
+
+/* Blockchain explorer */
+.block-card {
+    border-left: 4px solid #4ca1af;
+    margin-bottom: 15px;
+}
+
+.block-hash {
+    font-family: monospace;
+    word-break: break-all;
+}
+
+/* Upload form */
+.upload-area {
+    border: 2px dashed #ddd;
+    border-radius: 10px;
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.upload-area:hover {
+    border-color: #4ca1af;
+    background-color: rgba(76, 161, 175, 0.05);
+}
+
+/* Authentication forms */
+.auth-card {
+    max-width: 400px;
+    margin: 50px auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    padding: 30px;
+}
+
+.auth-title {
+    margin-bottom: 25px;
+    color: #2c3e50;
+} 

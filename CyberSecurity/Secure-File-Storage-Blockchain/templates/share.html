@@ -1,0 +1,123 @@
+{% extends "layout.html" %}
+
+{% block title %}Share File{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col">
+            <h2>Share File</h2>
+            <p class="text-muted">Share your file with other registered users</p>
+        </div>
+        <div class="col-auto">
+            <a href="{{ url_for('main.dashboard') }}" class="btn btn-outline-secondary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left me-1" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+                </svg>
+                Back to Dashboard
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-7">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4 class="mb-0">File Information</h4>
+                </div>
+                <div class="card-body">
+                    <p><strong>Filename:</strong> {{ file.filename }}</p>
+                    <p><strong>Uploaded:</strong> {{ file.uploaded_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                    <p><strong>File ID:</strong> {{ file.id }}</p>
+                    
+                    {% if file.shares %}
+                    <h5 class="mt-4">Currently shared with:</h5>
+                    <ul class="list-group mt-2">
+                        {% for share in file.shares %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ share.shared_user.username }}
+                            <span class="badge bg-secondary rounded-pill">{{ share.shared_at.strftime('%Y-%m-%d') }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <div class="alert alert-info mt-3">
+                        This file is not currently shared with anyone.
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">Share with a User</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('main.share_file', file_id=file.id) }}" id="share-form" class="needs-validation" novalidate>
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" name="username" required 
+                                   placeholder="Enter username to share with">
+                            <div class="invalid-feedback">Please enter a valid username</div>
+                            <div class="form-text">
+                                The user must be registered in the system to share files with them.
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share me-2" viewBox="0 0 16 16">
+                                    <path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/>
+                                </svg>
+                                Share File
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer">
+                    <div class="blockchain-info">
+                        <h5 class="mb-2">Security Information</h5>
+                        <p>When you share a file:</p>
+                        <ul>
+                            <li>The file remains securely encrypted</li>
+                            <li>The blockchain integrity is preserved</li>
+                            <li>User access is logged and controlled</li>
+                            <li>The shared user will see this file in their dashboard</li>
+                        </ul>
+                        <p class="mb-0 text-muted">You can share with multiple users while maintaining security.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('share-form');
+        const usernameInput = document.getElementById('username');
+        
+        // Form validation
+        form.addEventListener('submit', function(event) {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            
+            form.classList.add('was-validated');
+        });
+        
+        // Username validation
+        usernameInput.addEventListener('input', function() {
+            if (this.value.trim() === '') {
+                this.setCustomValidity('Please enter a username');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+    });
+</script>
+{% endblock %} 
