@@ -1,0 +1,51 @@
+# ====== Backend Requirements ======
+# Django framework and REST API
+Django==5.2
+djangorestframework==3.16.0
+djangorestframework_simplejwt==5.5.0
+django-cors-headers==4.7.0
+
+# Security-related packages
+bcrypt==4.0.1
+cryptography==41.0.3
+pycryptodome==3.18.0
+django-axes==7.0.2  # For login attempt security
+django_csp==3.8     # Content Security Policy
+django-sslserver==0.22  # For HTTPS development
+
+# Database
+psycopg2-binary==2.9.10  # For PostgreSQL (optional)
+
+# Environment and config
+python-dotenv==1.0.0
+django-environ==0.12.0
+
+# WSGI server for production
+gunicorn==21.2.0
+
+# ====== Frontend Requirements ======
+# These are npm packages - run 'npm install' in the frontend directory
+
+# Core React
+# react@19.1.0
+# react-dom@19.1.0
+# react-scripts@5.0.1
+# react-router-dom@7.5.3
+
+# HTTP and API communication
+# axios@1.9.0
+
+# Styling and UI
+# styled-components@6.1.17
+
+# Cryptography for client-side encryption
+# crypto-js@4.2.0
+
+# Testing
+# @testing-library/dom@10.4.0
+# @testing-library/jest-dom@6.6.3
+# @testing-library/react@16.3.0
+# @testing-library/user-event@13.5.0
+
+# Performance monitoring
+# web-vitals@2.1.4 

@@ -1,0 +1,25 @@
+{
+  "name": "secure-vault-password-manager",
+  "version": "1.0.0",
+  "description": "A secure password manager web application",
+  "scripts": {
+    "start:backend": "cd backend && python manage.py runserver",
+    "start:frontend": "cd frontend && npm start",
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+    "install:backend": "cd backend && pip install -r requirements.txt",
+    "install:frontend": "cd frontend && npm install",
+    "install:all": "npm run install:backend && npm run install:frontend",
+    "build": "cd frontend && npm run build",
+    "test:backend": "cd backend && python manage.py test",
+    "test:frontend": "cd frontend && npm test",
+    "test": "npm run test:backend && npm run test:frontend"
+  },
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "private": true
+} 
