@@ -1,99 +1,196 @@
 # Network-Monitoring-Tool
 
-Network Monitoring Tool
+An advanced network monitoring tool built with Python and Scapy that detects potential security threats like port scans and SYN floods.
 
-The Network Monitoring Tool is a Python-based application designed to monitor network traffic in real-time, detect potential security threats, and block malicious IP addresses. It leverages Scapy for packet capture and analysis and integrates with threat intelligence feeds to identify known malicious IPs.
-Features
+## Features
 
-   - Real-time Packet Capture: Monitors TCP and UDP traffic on selected network interfaces.
-   - Threat Detection:
-       - Detects SYN flood attacks.
-       - Identifies port scanning activities.
-       - Alerts on traffic from known malicious IP addresses.
-   - Threat Intelligence Integration: Automatically downloads and updates a list of malicious IPs from Emerging Threats.
-   - Automatic IP Blocking: Blocks malicious IPs using Windows Firewall or Linux iptables.
-   - Customizable Thresholds: Allows configuration of detection thresholds for SYN packets and new ports.
-   - Subnet Filtering: Filters traffic based on specified subnets (CIDR format).
-   - Multi-Interface Support: Supports monitoring on multiple network interfaces simultaneously.
-   - Cross-Platform: Works on both Windows and Linux systems.
+- Real-time network traffic monitoring
+- **Port scan detection** - Identifies when an IP address attempts to access multiple ports in a short time
+- **SYN flood detection** - Detects potential denial-of-service attacks with excessive SYN packets
+- **Malicious IP detection** using threat intelligence database
+- **Full IPv4 and IPv6 support**
+- **Custom malicious IP management**
+- **Comprehensive Help & Usage Guide** built into the application
+- Graphical user interface with CustomTkinter
+- Support for multiple network interfaces
+- Network traffic statistics
+- Alerts for potential security threats
 
-### Installation
-    Prerequisites
+## Requirements
 
-    - Python 3.7 or higher
-    - Scapy library: Install via pip install scapy
-    - Npcap (Windows) or libpcap (Linux) for packet capture
-    - Administrator/root privileges are required for network interface access and firewall manipulation.
+### Windows:
+- Python 3.8 or higher
+- [Npcap](https://npcap.com/#download) for packet capture (recommended)
+- Administrator privileges
 
-    Installation Steps
+### Linux:
+- Python 3.8 or higher
+- Root privileges
+- libpcap (usually pre-installed)
 
-    Clone the Repository:
-    git clone https://github.com/your-repo/network-monitoring-tool.git
-    cd network-monitoring-tool
+## Installation
 
-    Install Dependencies:
+1. Clone this repository or download the source code
+2. Install the required dependencies:
+
+```bash
     pip install -r requirements.txt
-    
-    Set Up Npcap (Windows):
-        Download and install Npcap from the [Npcap website](https://npcap.com/#download).
-        Ensure the option "Install in WinPcap API-compatible mode" is checked during installation.
+```
 
-    Set Up libpcap (Linux):
-        Install libpcap using your package manager:
-        sudo apt-get install libpcap-dev  # For Debian/Ubuntu
-        sudo yum install libpcap-devel    # For CentOS/RHEL
+3. **Windows only:** Download and install [Npcap](https://npcap.com/#download)
+   - During installation, select "WinPcap API-compatible Mode"
+   - This tool will not function correctly without Npcap installed
 
-### Usage
+## Usage
 
-    Run the Tool:
-    python network_monitor.py
+### Windows:
+Simply run the `Start_Network_Monitor.bat` file to launch the GUI.
 
-    Main Menu:
+### Linux:
+Run the tool with root privileges:
 
-        Start/Stop Monitoring: Begin or halt network traffic monitoring.
-        Change Interface: Select the network interface(s) to monitor.
-        Configure Detection Thresholds: Set thresholds for SYN packets and new ports.
-        Set Subnet Filter: Filter traffic by subnet (CIDR format).
-        View Detected Threats: Display a list of detected security events.
-        Update Threat Intelligence: Refresh the list of malicious IPs.
-        Exit: Close the application.
+```bash
+sudo python GUI_Network_Monitor.py
+```
 
-    Monitoring:
+## GUI Interface
 
-        Once monitoring starts, the tool will display alerts for detected threats in real-time.
-        Press Ctrl+C to stop monitoring.
+The interface is divided into several sections:
 
-### Configuration
+1. **Network Controls**: 
+   - Start/Stop monitoring
+   - Select network interface
+   - Monitor all interfaces at once
+   - Access the comprehensive Help & Usage Guide
 
-Thresholds
+2. **Threat Detection**:
+   - Configure detection thresholds for various attack types
+   - Adjust sensitivity based on your network environment
 
-You can configure the following thresholds in the tool:
-    SYN Packets/Minute: The number of SYN packets per minute to trigger a SYN flood alert.
-    New Ports/Minute: The number of new ports accessed per minute to trigger a port scan alert.
+3. **Filtering Options**:
+   - Set subnet filters to focus monitoring on specific network segments
+   - Add custom malicious IP addresses to the threat database
+   - View and manage user-added malicious IPs
+   - Update threat intelligence database
 
-Subnet Filter
+4. **Monitoring Tabs**:
+   - Live Monitor: Shows real-time network activity
+   - Detected Threats: Lists all potential security threats found
+   - Statistics: Displays monitoring session statistics
 
-Specify a subnet in CIDR format (e.g., 192.168.1.0/24) to filter traffic and focus on specific network segments.
-Threat Intelligence
-The tool automatically downloads a list of malicious IPs from Emerging Threats. You can manually update this list using the "Update Threat Intelligence" option in the menu.
-Blocking Malicious IPs
+## Threat Detection Capabilities
 
-When a malicious IP is detected, the tool will automatically block it using:
+The tool can detect several types of network security threats:
 
-    Windows: Adds a rule to Windows Firewall.
-    Linux: Adds a rule to iptables.
+1. **Port Scans**: 
+   - Detects when a single IP address accesses multiple ports in a short timeframe
+   - Configurable threshold for detection sensitivity
 
-### Troubleshooting
+2. **SYN Floods**: 
+   - Identifies potential DoS attacks where excessive SYN packets are detected
+   - Configurable threshold to adapt to different network environments
 
-    Permission Errors: Ensure the tool is run with administrator/root privileges.
-    Interface Issues: Verify that the selected interface is active and supports packet capture.
-    Missing Dependencies: Reinstall Scapy and ensure Npcap/libpcap is correctly installed.
+3. **Malicious IP Traffic**: 
+   - Automatically alerts when traffic is detected from known malicious IPs
+   - Uses both built-in threat intelligence and user-defined malicious IPs
 
-### Contributing
+## Custom Malicious IP Management
 
-Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.
+The tool allows you to add your own known malicious IP addresses to the threat database:
 
-### Acknowledgements
+1. Enter an IPv4 or IPv6 address in the "Add Custom Malicious IP" field
+2. Click "Add to Threat Database"
+3. View your added IPs by clicking "Show User-added IPs"
 
-    Scapy: https://scapy.net/
-    Emerging Threats: https://rules.emergingthreats.net/
+All user-added IPs are:
+- Saved to `user_added_ips.txt`
+- Preserved when updating the threat intelligence database
+- Used for detecting malicious traffic alongside the main database
+
+## IPv6 Support
+
+This tool fully supports both IPv4 and IPv6 monitoring:
+
+- Detects threats from both IPv4 and IPv6 sources
+- Can add IPv4 and IPv6 addresses to the custom threat database
+- Displays IP version (IPv4/IPv6) in alerts and logs
+- Supports CIDR notation for both IPv4 and IPv6 subnets in the subnet filter
+
+## Raw Socket Mode vs. Npcap Mode
+
+This tool can run in two modes:
+
+1. **Npcap Mode (Preferred)**
+   - Uses Npcap drivers for packet capture
+   - More reliable and provides more detailed packet information
+   - Required for some advanced features
+   - Shows interfaces with NPF prefixes in debug logs
+
+2. **Raw Socket Mode (Fallback)**
+   - Used when Npcap isn't detected or doesn't work properly
+   - Limited functionality compared to Npcap mode
+   - May not capture all packets or provide all packet details
+   - Shows "Using default interface (raw socket mode)" in logs
+
+The tool automatically tries to use Npcap mode first, then falls back to raw socket mode if needed.
+
+## Help & Usage Guide
+
+A comprehensive help guide is built into the application, accessible via the "Help & Usage Guide" button. This guide includes:
+
+- Detailed explanations of all features
+- Instructions for configuring threat detection thresholds
+- Guidance on interface selection
+- Troubleshooting tips
+- Information about filtering options
+
+## Troubleshooting
+
+### Common Issues:
+
+1. **"No valid sniffing interfaces found!"**
+   - Make sure [Npcap](https://npcap.com/#download) is installed (Windows only)
+   - Run the application with administrator privileges
+   - The tool will automatically fall back to raw socket mode if Npcap interfaces aren't found
+
+2. **Interface selection issues**
+   - Try using the "Monitor All Interfaces" button
+   - If a specific interface isn't working, try another one
+   - Look for interfaces that show an IP address in parentheses - these are most likely to work
+
+3. **Error starting monitoring**
+   - Verify Npcap is properly installed
+   - Make sure you're running with administrator privileges
+   - Check that the selected interface is connected and active
+   - Try disabling any VPN software temporarily
+
+### Installing Npcap
+
+For Windows users, Npcap is recommended for best performance:
+
+1. Download Npcap from: https://npcap.com/#download
+2. Run the installer and follow the instructions
+3. **Important settings during installation:**
+   - Select "Install Npcap in WinPcap API-compatible Mode"
+   - Select "Install Npcap driver"
+   - Select "Enable DLT_NULL fixup" (recommended)
+4. Restart your computer after installation
+5. Run the Network Monitoring Tool as Administrator
+
+## CLI Version
+
+A command-line version is also available. Run it with:
+
+```bash
+python network_Monitoring_Tool.py
+```
+
+Follow the prompts to select your interface and start monitoring.
+
+## License
+
+This project is open source and available under the MIT License.
+
+## Disclaimer
+
+This tool is for educational and network security assessment purposes only. Always use responsibly and only on networks you own or have permission to monitor.
