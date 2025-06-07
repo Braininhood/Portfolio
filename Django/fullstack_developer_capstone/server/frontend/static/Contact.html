@@ -1,0 +1,144 @@
+<html>
+<head>
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="stylesheet" href="/static/bootstrap.min.css">
+  <title>Contact Us - Best Cars Dealership</title>
+</head>
+<body>
+<div>
+  <nav class="navbar navbar-expand-lg navbar-light" style="background-color:darkturquoise; height: 1in;">
+    <div class="container-fluid">
+      <h2 style="padding-right: 5%;">Best Cars Dealership</h2>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" style="font-size: larger;" aria-current="page" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" style="font-size: larger;" href="/about">About Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" style="font-size: larger;" href="/contact">Contact Us</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+  <div class="card" style="width: 80%;margin: auto; margin-top:5%;">
+    <div class="banner">
+      <h1>Contact Us</h1>
+      <p style="text-align: center; font-size: 18px; margin: 20px; color: #333;">
+        Get in touch with us today! We're here to help you find your perfect car.
+      </p>
+    </div>
+    
+    <!-- Contact Information Section -->
+    <div style="display: flex; flex-direction: row; margin: 20px; justify-content: space-around;">
+      
+      <!-- Contact Details Card -->
+      <div class="card" style="width: 45%; padding: 20px;">
+        <h3 style="color: rgb(97, 64, 128); text-align: center; margin-bottom: 20px;">Get In Touch</h3>
+        
+        <div style="margin-bottom: 15px;">
+          <h5 style="color: rgb(97, 64, 128);">📍 Address</h5>
+          <p>1234 Auto Boulevard<br>
+          Car City, CA 90210<br>
+          United States</p>
+        </div>
+        
+        <div style="margin-bottom: 15px;">
+          <h5 style="color: rgb(97, 64, 128);">📞 Phone</h5>
+          <p>Main: (555) 123-CARS (2277)<br>
+          Sales: (555) 123-SALE (7253)<br>
+          Service: (555) 123-SERV (7378)</p>
+        </div>
+        
+        <div style="margin-bottom: 15px;">
+          <h5 style="color: rgb(97, 64, 128);">✉️ Email</h5>
+          <p>info@bestcars.com<br>
+          sales@bestcars.com<br>
+          service@bestcars.com</p>
+        </div>
+        
+        <div style="margin-bottom: 15px;">
+          <h5 style="color: rgb(97, 64, 128);">🕒 Business Hours</h5>
+          <p>Monday - Friday: 9:00 AM - 8:00 PM<br>
+          Saturday: 9:00 AM - 6:00 PM<br>
+          Sunday: 11:00 AM - 5:00 PM</p>
+        </div>
+      </div>
+      
+      <!-- Contact Form Card -->
+      <div class="card" style="width: 45%; padding: 20px;">
+        <h3 style="color: rgb(97, 64, 128); text-align: center; margin-bottom: 20px;">Send Us a Message</h3>
+        
+        <form style="display: flex; flex-direction: column;">
+          <div style="margin-bottom: 15px;">
+            <label for="name" style="font-weight: bold; color: rgb(97, 64, 128);">Full Name:</label>
+            <input type="text" id="name" name="name" style="width: 100%; padding: 8px; margin-top: 5px; border: 2px solid rgb(97, 64, 128); border-radius: 5px;">
+          </div>
+          
+          <div style="margin-bottom: 15px;">
+            <label for="email" style="font-weight: bold; color: rgb(97, 64, 128);">Email:</label>
+            <input type="email" id="email" name="email" style="width: 100%; padding: 8px; margin-top: 5px; border: 2px solid rgb(97, 64, 128); border-radius: 5px;">
+          </div>
+          
+          <div style="margin-bottom: 15px;">
+            <label for="phone" style="font-weight: bold; color: rgb(97, 64, 128);">Phone:</label>
+            <input type="tel" id="phone" name="phone" style="width: 100%; padding: 8px; margin-top: 5px; border: 2px solid rgb(97, 64, 128); border-radius: 5px;">
+          </div>
+          
+          <div style="margin-bottom: 15px;">
+            <label for="interest" style="font-weight: bold; color: rgb(97, 64, 128);">I'm interested in:</label>
+            <select id="interest" name="interest" style="width: 100%; padding: 8px; margin-top: 5px; border: 2px solid rgb(97, 64, 128); border-radius: 5px;">
+              <option value="">Select an option</option>
+              <option value="buying">Buying a Car</option>
+              <option value="selling">Selling My Car</option>
+              <option value="financing">Financing Options</option>
+              <option value="service">Service & Maintenance</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          
+          <div style="margin-bottom: 15px;">
+            <label for="message" style="font-weight: bold; color: rgb(97, 64, 128);">Message:</label>
+            <textarea id="message" name="message" rows="4" style="width: 100%; padding: 8px; margin-top: 5px; border: 2px solid rgb(97, 64, 128); border-radius: 5px; resize: vertical;"></textarea>
+          </div>
+          
+          <button type="submit" style="background-color: rgb(97, 64, 128); color: white; padding: 12px 20px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; margin-top: 10px;">
+            Send Message
+          </button>
+        </form>
+      </div>
+    </div>
+    
+    <!-- Additional Information Section -->
+    <div style="margin: 20px; padding: 20px; background-color: #f8f9fa; border-radius: 10px;">
+      <h3 style="color: rgb(97, 64, 128); text-align: center; margin-bottom: 15px;">Why Choose Best Cars Dealership?</h3>
+      <div style="display: flex; flex-direction: row; justify-content: space-around; text-align: center;">
+        <div style="flex: 1; margin: 0 10px;">
+          <h5 style="color: rgb(97, 64, 128);">🚗 Wide Selection</h5>
+          <p>Over 500 quality vehicles in stock</p>
+        </div>
+        <div style="flex: 1; margin: 0 10px;">
+          <h5 style="color: rgb(97, 64, 128);">💰 Best Prices</h5>
+          <p>Competitive pricing and financing options</p>
+        </div>
+        <div style="flex: 1; margin: 0 10px;">
+          <h5 style="color: rgb(97, 64, 128);">🔧 Expert Service</h5>
+          <p>Certified technicians and quality parts</p>
+        </div>
+        <div style="flex: 1; margin: 0 10px;">
+          <h5 style="color: rgb(97, 64, 128);">⭐ 5-Star Rating</h5>
+          <p>Trusted by thousands of satisfied customers</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html> 

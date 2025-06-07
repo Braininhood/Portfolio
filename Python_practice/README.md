@@ -55,6 +55,14 @@ Each folder contains a standalone Python project focusing on a specific applicat
 - **fiftyville**: SQL detective game for solving fictional crimes
 - **dna**: DNA profile matching system using CSV and sequence files
 
+### IBM Practice Projects
+- **IBM Practice**: Comprehensive collection of IBM course exercises and projects
+  - **Flask Applications**: Web development projects including emotion detection and sentiment analysis
+  - **API Development**: RESTful API creation and consumption exercises
+  - **Data Processing**: NumPy, Pandas, and data manipulation tutorials
+  - **Web Scraping**: HTTP requests and web scraping techniques
+  - **File Operations**: Reading, writing, and processing various file formats
+
 ## Jupyter Notebook Practice Files
 
 The repository also includes various Jupyter notebooks for practicing specific Python concepts:
@@ -93,6 +101,24 @@ The repository also includes various Jupyter notebooks for practicing specific P
 - **Exercise1Challenges.ipynb**: Beginner-level programming challenges
 - **Exercise2Challenges.ipynb**: Intermediate programming challenges
 - **Exercise3Challenges.ipynb**: Advanced programming challenges
+
+### Additional Practice Files
+- **Fun_calc.ipynb**: Fun calculator implementation with interactive features
+
+### IBM Course Materials
+- **practice_project.ipynb**: Comprehensive practice project combining multiple Python concepts
+- **PY0101EN Series**: Complete IBM Python course notebooks covering:
+  - **Strings and Data Types**: String manipulation and basic data types
+  - **Data Structures**: Lists, tuples, sets, and dictionaries
+  - **Control Flow**: Conditions, loops, and exception handling
+  - **Functions and Classes**: Object-oriented programming concepts
+  - **File Operations**: Reading and writing files
+  - **Data Loading**: Working with CSV and data files
+  - **NumPy**: 1D and 2D array operations
+  - **API Integration**: HTTP requests and API consumption
+  - **Web Scraping**: Data extraction from web sources
+- **Pandas_Practice.ipynb**: Data manipulation and analysis with Pandas
+- **Simple_API_2__v2.ipynb**: API development and testing exercises
 
 ## Getting Started
 

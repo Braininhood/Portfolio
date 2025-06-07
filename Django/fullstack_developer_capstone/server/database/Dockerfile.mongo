@@ -1,0 +1,16 @@
+FROM mongo:latest
+
+# Copy data files to container
+COPY data/dealerships.json /docker-entrypoint-initdb.d/dealerships.json
+COPY data/reviews.json /docker-entrypoint-initdb.d/reviews.json
+
+# Create initialization script
+RUN echo 'mongoimport --host localhost --db dealershipsDB --collection dealerships --file /docker-entrypoint-initdb.d/dealerships.json --jsonArray' > /docker-entrypoint-initdb.d/import-data.sh
+RUN echo 'mongoimport --host localhost --db dealershipsDB --collection reviews --file /docker-entrypoint-initdb.d/reviews.json --jsonArray' >> /docker-entrypoint-initdb.d/import-data.sh
+RUN chmod +x /docker-entrypoint-initdb.d/import-data.sh
+
+# Expose port
+EXPOSE 27017
+
+# Start MongoDB and import data
+CMD ["sh", "-c", "mongod --fork --logpath /var/log/mongodb.log --bind_ip_all && sleep 10 && /docker-entrypoint-initdb.d/import-data.sh && mongod --bind_ip_all"] 

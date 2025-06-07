@@ -1,0 +1,105 @@
+<html>
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="static/style.css">
+  <link rel="stylesheet" href="static/bootstrap.min.css">
+<script>
+
+const logout = async () => {
+  console.log('Logout function called');
+  
+  let username = sessionStorage.getItem('username');
+  if (!username) {
+    alert("No user is currently logged in.");
+    return;
+  }
+  
+  try {
+    // Build logout URL and Make GET request to logout endpoint
+    let logout_url = window.location.origin + "/djangoapp/logout";
+    console.log('Logout URL:', logout_url);
+    
+    const res = await fetch(logout_url, {
+      method: "GET",
+      credentials: 'include', // Include cookies for session
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+    
+    console.log('Response status:', res.status);
+    
+    if (res.ok) {
+      const json = await res.json();
+      console.log('Response JSON:', json);
+      
+      // Clear session storage
+      sessionStorage.removeItem('username');
+      
+      // Notify user of logout
+      alert("Logging out " + username + "...");
+      
+      // Redirect to home page
+      window.location.href = window.location.origin;
+    } else {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+  } catch (error) {
+    console.error('Logout error:', error);
+    alert("An error occurred during logout: " + error.message);
+  }
+};
+
+let checkSession = ()=>{
+  let curr_user = sessionStorage.getItem("username");
+
+  if (curr_user && curr_user !== "") {
+    document.getElementById("loginlogout").innerHTML = 
+    '<span class="homepage_links">' + curr_user +'</span>' +
+    '<button class="homepage_links btn btn-link" onclick="logout()" style="border: none; background: none; color: inherit; text-decoration: none; cursor: pointer;">Logout</button>'
+  } else {
+    document.getElementById("loginlogout").innerHTML = 
+    '<a class="homepage_links" href="/login">Login</a>'+
+    '<a class="homepage_links"  href="/register">Register</a>'
+  }
+ }
+</script>
+</head>
+<body onload="checkSession()">
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color:darkturquoise; height: 1in;">
+  <div class="container-fluid">
+    <h2 style="padding-right: 5%;">Dealerships</h2>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" style="font-size: larger;" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" style="font-size: larger;" href="/about">About Us</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" style="font-size: larger;" href="/contact">Contact Us</a>
+        </li>
+      </ul>
+      <span class="navbar-text">
+        <div class="loginlink" id="loginlogout">
+        </div>
+        </span>
+    </div>
+  </div>
+</nav>
+<div style="display: flex;flex-direction: column;">
+<div class="card" style="width: 50%;margin-top: 50px;align-self: center;">
+  <img src="static/car_dealership.jpg" class="card-img-top" alt="...">
+  <div class="banner">
+    <h5>Welcome to our Dealerships!</h5>
+    <a href="/dealers" class="btn" style="background-color: aqua;margin:10px">View Dealerships</a>
+  </div>
+</div>
+</div>
+</body>
+</html>

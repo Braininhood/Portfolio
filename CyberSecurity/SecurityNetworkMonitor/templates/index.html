@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="/static/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Professional Network Security Monitor - Real-time device discovery, monitoring, and security event detection" />
+    
+    <!-- Material-UI Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <title>Network Security Monitor</title>
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/static/js/main.d8286aeb.js?v=1749242855823" as="script">
+    
+    <style>
+        /* Loading screen */
+        .app-loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            z-index: 9999;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-left: 4px solid #00bcd4;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+        
+        .loading-features {
+            margin-top: 40px;
+            text-align: center;
+            max-width: 600px;
+            opacity: 0.7;
+        }
+        
+        .loading-features h3 {
+            color: #00bcd4;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .feature-list li {
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .feature-list li::before {
+            content: "🔹";
+            margin-right: 8px;
+        }
+        
+        /* Hide loading screen when app loads */
+        .app-loaded .app-loading {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease-out;
+        }
+        
+        /* Error fallback styling */
+        .error-boundary {
+            padding: 40px;
+            text-align: center;
+            background: #1a1a2e;
+            color: #fff;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        .error-boundary h1 {
+            color: #f44336;
+            margin-bottom: 20px;
+        }
+        
+        .error-boundary p {
+            color: #ccc;
+            margin-bottom: 30px;
+        }
+        
+        .retry-button {
+            background: #00bcd4;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+        
+        .retry-button:hover {
+            background: #00acc1;
+        }
+
+        /* Hide config data */
+        .django-config-data {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    
+    <!-- Hidden configuration data -->
+    <div class="django-config-data">
+        <div id="api-base-url">{{ request.scheme }}://{{ request.get_host }}/api/v1</div>
+        <div id="ws-base-url">{% if request.is_secure %}wss{% else %}ws{% endif %}://{{ request.get_host }}/ws</div>
+        <div id="csrf-token">{{ csrf_token }}</div>
+    </div>
+    
+    <!-- React Root -->
+    <div id="root">
+        <!-- Loading Screen -->
+        <div class="app-loading">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">Loading Network Security Monitor...</div>
+            <div class="loading-features">
+                <h3>Professional Network Monitoring Platform</h3>
+                <ul class="feature-list">
+                    <li>Real-time Device Discovery</li>
+                    <li>Security Event Detection</li>
+                    <li>Network Traffic Analysis</li>
+                    <li>Port Scanning & Profiling</li>
+                    <li>Professional Dashboard</li>
+                    <li>WebSocket Real-time Updates</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Configuration Script -->
+    <script>
+        // Configuration passed from Django to React
+        window.DJANGO_CONFIG = {
+            API_BASE_URL: document.getElementById('api-base-url').textContent,
+            WS_BASE_URL: document.getElementById('ws-base-url').textContent,
+            CSRF_TOKEN: document.getElementById('csrf-token').textContent
+        };
+        
+        console.log('Django Config:', window.DJANGO_CONFIG);
+    </script>
+    
+    <!-- React Bundle -->
+    <script src="/static/js/main.d8286aeb.js?v=1749242855823"></script>
+    
+    <!-- App Loaded Handler -->
+    <script>
+        // Mark app as loaded after React initializes
+        setTimeout(() => {
+            document.body.classList.add('app-loaded');
+        }, 1000);
+        
+        // Error boundary fallback
+        window.addEventListener('error', (e) => {
+            console.error('Application error:', e.error);
+            const root = document.getElementById('root');
+            if (root && !root.querySelector('.MuiContainer-root')) {
+                root.innerHTML = `
+                    <div class="error-boundary">
+                        <h1>⚠️ Application Error</h1>
+                        <p>There was an error loading the Network Security Monitor.</p>
+                        <p>Error: ${e.error?.message || 'Unknown error'}</p>
+                        <button class="retry-button" onclick="window.location.reload()">
+                            Reload Application
+                        </button>
+                    </div>
+                `;
+            }
+        });
+    </script>
+</body>
+</html> 

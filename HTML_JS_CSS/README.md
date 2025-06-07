@@ -74,6 +74,40 @@ A personal portfolio website with multiple pages showcasing professional informa
 * Bootstrap
 * Responsive design techniques
 
+### IBM Exercises
+
+A comprehensive collection of web development exercises and projects covering modern frontend and backend technologies.
+
+**React.js Projects:**
+* **e-plantShopping** - E-commerce plant shopping application with cart functionality
+* **conference_event_planner** - Event planning application with scheduling features
+* **Ecommers_rtk** - E-commerce application using Redux Toolkit for state management
+* **Content_rating** - Content rating and review system
+* **Custom_hook** - Custom React hooks implementation and usage examples
+* **EventPlanner** - Advanced event planning application
+* **ToDoList** - Task management application with CRUD operations
+* **MyFirstApp** - Basic React application demonstrating core concepts
+* **Feedback_Form** - User feedback collection system
+
+**Node.js Projects:**
+* **expressBookReviews** - Book review API built with Express.js
+* **promisescript.js** - Promise-based JavaScript examples and exercises
+
+**JavaScript Projects:**
+* Various JavaScript exercises demonstrating ES6+ features
+* DOM manipulation examples
+* Asynchronous programming patterns
+
+**HTML/CSS Projects:**
+* **solarsystem.html** - Interactive solar system visualization
+* **Easy convert.html** - Unit conversion utility application
+
+**Technologies Used:**
+* **Frontend**: React 18, Redux Toolkit, HTML5, CSS3, JavaScript ES6+
+* **Backend**: Node.js, Express.js
+* **State Management**: Redux Toolkit, React Context
+* **Development Tools**: npm, Create React App
+
 ## Skills Demonstrated
 
 These projects collectively demonstrate a wide range of front-end development skills:

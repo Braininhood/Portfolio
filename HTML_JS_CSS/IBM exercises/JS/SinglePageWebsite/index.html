@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Andrii Berezutskyi - Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./style.css" />
+  <script src="./script.js" defer></script>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav>
+    <div id="home">
+      <div class="profile_name">
+        <span class="lastname-big">Andrii Berezutskyi</span>
+        <div class="contact_info">
+          <img src="images/envelope.png" alt="email icon" />
+          braininhood@gmail.com
+        </div>
+        <div style="clear:both;"></div>
+        <div class="contact_info">
+          <img src="images/phone.png" alt="phone icon" />
+          07379 426746
+        </div>
+      </div>
+      <div class="topdiv">
+        <a class="topmenu" href="#about-me">About Me</a>
+        <a class="topmenu" href="#skills">Skills</a>
+        <a class="topmenu" href="#projects">Projects</a>
+        <a class="topmenu" href="#recommendations">Recommendations</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- About Me -->
+  <section id="about-me" class="container">
+    <div>
+      <img src="https://miro.medium.com/max/1400/1*qdAW1TjCN57h1lbuuzvchg.gif" class="profile_image" />
+    </div>
+    <div>
+      <h1>Hi, I'm Andrii Berezutskyi! <img src="images/waving-hand.png" width="60px"/></h1>
+      <p>
+        Results-driven Python Developer and Data Scientist with over 15 years of experience delivering scalable, secure, and efficient applications.
+        Skilled in Flask, Django, React.js, and machine learning. Adept at developing full-stack systems, RESTful APIs, and cloud-integrated solutions using AWS.
+      </p>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills">
+    <h2>Skills</h2>
+    <div class="section-desc">Technologies & tools I excel at</div>
+    <div class="all_skills">
+      <div class="skill">
+        <img src="images/html5.png" />
+        <h6>HTML5</h6>
+        <p>10+ years</p>
+      </div>
+      <div class="skill">
+        <img src="images/js.jpeg" />
+        <h6>JavaScript</h6>
+        <p>10+ years</p>
+      </div>
+      <div class="skill">
+        <img src="images/python.png" />
+        <h6>Python</h6>
+        <p>15+ years</p>
+      </div>
+      <div class="skill">
+        <img src="images/react.png" />
+        <h6>React.js</h6>
+        <p>4+ years</p>
+      </div>
+      <div class="skill">
+        <img src="images/aws.png" />
+        <h6>AWS</h6>
+        <p>3+ years</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section class="projects" id="projects">
+    <h2>Projects</h2>
+    <div class="section-desc">Selected work & achievements</div>
+    <div class="projects-container">
+      <div class="project-card">
+        <hr>
+        <h3>CIPHER-APPLICATION</h3>
+        <ul>
+          <li>Full-stack Flask + React app for encryption/decryption, handling 500+ ops/day.</li>
+        </ul>
+      </div>
+      <hr>
+      <div class="project-card">
+        <h3>Network Monitoring Tool</h3>
+        <ul>
+          <li>Security tool with Flask backend and JavaScript frontend to track suspicious traffic.</li>
+        </ul>
+      </div>
+      <hr>
+      <div class="project-card">
+        <h3>Data Visualization Dashboard</h3>
+        <ul>
+          <li>Real-time React.js dashboard displaying dynamic, interactive datasets.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recommendations -->
+  <section id="recommendations">
+    <h2>Recommendations</h2>
+    <div class="section-desc">What others say about me</div>
+    <div class="all_recommendations" id="all_recommendations">
+      <div class="recommendation">
+        <span>&#8220;</span>
+        Andrii consistently delivers clean, efficient, and scalable code. He's not just a developer, but a problem solver.
+        <span>&#8221;</span>
+      </div>
+      <div class="recommendation">
+        <span>&#8220;</span>
+        Working with Andrii was a pleasure. His deep technical knowledge and attention to detail are unmatched.
+        <span>&#8221;</span>
+      </div>
+      <div class="recommendation">
+        <span>&#8220;</span>
+        Andrii brings both strategic thinking and hands-on skills to every project. A true full-stack expert.
+        <span>&#8221;</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recommendation Form -->
+  <section id="contact">
+    <div class="flex_center">
+      <fieldset>
+        <legend class="introduction">Leave a Recommendation</legend>
+        <input type="text" id="rec_name" placeholder="Name (Optional)"> <br/>
+        <textarea id="new_recommendation" cols="500" rows="10" placeholder="Message"></textarea>
+        <div class="flex_center">
+          <button id="recommend_btn" onclick="addRecommendation()">Submit</button>
+        </div>
+      </fieldset>
+    </div>
+  </section>
+
+  <!-- Home Button -->
+  <div class="iconbutton">
+    <a href="#home">
+      <img src="images/home.png" alt="home icon" style="width:30px; height:30px;" />
+    </a>
+  </div>
+
+  <!-- Pop-up -->
+  <div class="popup" id="popup">
+    <img src="images/checkmark--outline.svg" />
+    <h3>Thank you for your recommendation!</h3>
+    <button onclick="showPopup(false)">Ok</button>
+  </div>
+</body>
+</html>

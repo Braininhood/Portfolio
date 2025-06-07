@@ -49,6 +49,27 @@ This repository contains a collection of cybersecurity projects and tools focuse
 - **Files**:
   - `system.py` - Main monitoring implementation
 
+### [System-Information-Collector](./System-Information-Collector/)
+- **Description**: Cross-platform Python script that collects and reports detailed system information for Windows and Linux systems.
+- **Features**:
+  - **System Information**: OS details, version, machine type
+  - **Hardware Information**: CPU, memory, disk, GPU details
+  - **Network Information**: Network interfaces, IP addresses, hardware details
+  - **Software Information**: Installed software (Windows and Linux)
+  - **Browser Information**: Installed browsers with version and user-agent details
+  - **Security Information**: Antivirus and firewall status
+  - Cross-platform support (Windows and Linux)
+  - Automated report generation to text file
+- **Technologies**: Python, psutil, platform libraries
+- **Files**:
+  - `system_info.py` - Main information collection script
+  - `requirements.txt` - Dependencies for the project
+  - `README.md` - Project documentation
+- **Platform Support**: 
+  - Windows: Full support for all features
+  - Linux: Support for Debian-based (dpkg) and RPM-based (rpm) distributions
+- **Usage**: `python system_info.py` (generates `system_info_log.txt`)
+
 ### [OTP-Generator](./OTP-Generator/)
 - **Description**: Secure One-Time Password generator using Fibonacci sequence mapping and proportional mean calculations.
 - **Features**:
@@ -61,6 +82,30 @@ This repository contains a collection of cybersecurity projects and tools focuse
   - `project.py` - Main application with OTP generation logic
   - `test_project.py` - Test suite for the OTP generator
   - `requirements.txt` - Dependencies for the project
+
+### [SecurityNetworkMonitor](./SecurityNetworkMonitor/)
+- **Description**: Comprehensive AI-powered cybersecurity monitoring platform built with Django and React for professional-grade network security monitoring.
+- **Features**:
+  - **AI-Powered Security Engine** with machine learning threat detection using RandomForest algorithms
+  - **Real-time Network Monitoring** with automatic device discovery and live traffic analysis
+  - **Advanced Security Features** including multi-layer threat detection and security event management
+  - **Professional Dashboard** with real-time metrics and interactive charts using WebSocket connectivity
+  - **WebSocket Integration** for real-time bidirectional communication
+  - **RESTful API** with 15+ endpoints for comprehensive security management
+  - **Responsive Design** with Material-UI based interface optimized for all devices
+  - **Background Processing** using Celery for async task management
+- **Technologies**: Django 4.2.7, React 18.2.0, scikit-learn, Django Channels, Redis, Material-UI, Recharts
+- **Files**:
+  - `manage.py` - Django application entry point
+  - `network_monitor/` - Django backend with AI engine
+  - `src/` - React frontend application
+  - `requirements.txt` - Python dependencies
+  - `package.json` - Node.js dependencies
+  - `build-and-deploy.js` - Deployment automation script
+- **Platform Support**: Cross-platform (Windows, Linux, macOS)
+- **Usage**: 
+  - Backend: `python manage.py runserver 8000`
+  - Frontend: `npm start` (development) or served by Django (production)
 
 ### [Network-Monitoring-Tool](./Network-Monitoring-Tool/)
 - **Description**: Advanced network monitoring tool built with Python and Scapy that detects potential security threats like port scans and SYN floods.

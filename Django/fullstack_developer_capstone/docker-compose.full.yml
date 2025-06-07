@@ -1,0 +1,86 @@
+version: '3.9'
+
+services:
+  # MongoDB Database
+  mongo_db:
+    container_name: dealership_mongodb
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    restart: always
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - dealership_network
+
+  # Node.js Backend API
+  nodejs_api:
+    container_name: dealership_nodejs_api
+    build: ./server/database
+    ports:
+      - "3030:3030"
+    depends_on:
+      - mongo_db
+    restart: always
+    networks:
+      - dealership_network
+    environment:
+      - MONGODB_URL=mongodb://mongo_db:27017/dealership
+
+  # Sentiment Analysis Microservice
+  sentiment_analyzer:
+    container_name: dealership_sentiment
+    build: ./server/djangoapp/microservices
+    ports:
+      - "5050:5000"
+    restart: always
+    networks:
+      - dealership_network
+
+  # Django Backend
+  django_backend:
+    container_name: dealership_django
+    build: ./server
+    ports:
+      - "8000:8000"
+    depends_on:
+      - nodejs_api
+      - sentiment_analyzer
+    restart: always
+    networks:
+      - dealership_network
+    environment:
+      - backend_url=http://nodejs_api:3030
+      - sentiment_analyzer_url=http://sentiment_analyzer:5000/
+    volumes:
+      - ./server:/app
+      - static_volume:/app/static
+      - media_volume:/app/media
+
+  # Nginx Reverse Proxy (serves React + proxies APIs)
+  nginx:
+    container_name: dealership_nginx
+    build: 
+      context: .
+      dockerfile: Dockerfile.nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - django_backend
+    restart: always
+    networks:
+      - dealership_network
+    volumes:
+      - ./server/frontend/build:/usr/share/nginx/html
+      - static_volume:/app/static
+      - media_volume:/app/media
+
+volumes:
+  mongo_data:
+  static_volume:
+  media_volume:
+
+networks:
+  dealership_network:
+    driver: bridge 

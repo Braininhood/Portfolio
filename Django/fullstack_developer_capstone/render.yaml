@@ -1,0 +1,58 @@
+services:
+  # Node.js API Service (using MongoDB Atlas with your local data)
+  - type: web
+    name: dealership-nodejs
+    env: node
+    buildCommand: "cd server/database && npm install"
+    startCommand: "cd server/database && npm start"
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "3030"
+      - key: MONGODB_URL
+        # We'll replace this with your Atlas connection string after setup
+        value: mongodb+srv://dealership:YOUR_PASSWORD@cluster.mongodb.net/dealershipsDB
+
+  # Sentiment Analysis Microservice
+  - type: web
+    name: dealership-sentiment
+    env: python
+    buildCommand: "cd server/djangoapp/microservices && pip install -r requirements.txt"
+    startCommand: "cd server/djangoapp/microservices && python app.py"
+    healthCheckPath: /
+    envVars:
+      - key: PORT
+        value: "5000"
+      - key: FLASK_ENV
+        value: production
+
+  # Django Backend with React Frontend
+  - type: web
+    name: dealership-django
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "cd server && gunicorn --bind 0.0.0.0:$PORT djangoproj.wsgi:application --settings=djangoproj.production_settings"
+    healthCheckPath: /djangoapp/get_dealers/
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: djangoproj.production_settings
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      - key: RENDER_EXTERNAL_HOSTNAME
+        value: xrwvm-fullstack-developer-capstone-4q3s.onrender.com
+      - key: backend_url
+        value: https://dealership-nodejs.onrender.com
+      - key: sentiment_analyzer_url
+        value: https://dealership-sentiment.onrender.com
+      - key: DATABASE_URL
+        fromDatabase:
+          name: dealership-db
+          property: connectionString
+
+databases:
+  # PostgreSQL for Django user data
+  - name: dealership-db
+    databaseName: dealership
+    user: dealership_user 

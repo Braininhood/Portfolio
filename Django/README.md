@@ -4,6 +4,35 @@ This directory contains a collection of web applications built with Django, each
 
 ## Project Overview
 
+### Fullstack Developer Capstone
+
+A comprehensive full-stack dealership management system with AI-powered review sentiment analysis, demonstrating modern web development practices and microservices architecture.
+
+**Key Features:**
+* **Modern Architecture**: React frontend, Django API, Node.js microservices, MongoDB database
+* **AI Integration**: NLTK-powered sentiment analysis for customer reviews
+* **Real-time Features**: WebSocket integration for live updates
+* **Microservices**: Containerized services with Docker and Docker Compose
+* **Professional UI**: Material-UI based responsive design with gradient styling
+* **Advanced Filtering**: Real-time dealer filtering by state and location
+* **User Management**: Complete authentication and session handling system
+* **API Gateway**: RESTful API with 15+ endpoints for comprehensive data management
+
+**Project Structure:**
+* `/fullstack_developer_capstone/` - Main project directory
+* `/fullstack_developer_capstone/server/` - Backend services and API
+* `/fullstack_developer_capstone/server/frontend/` - React frontend application
+* `/fullstack_developer_capstone/docker-compose.complete.yml` - Full containerized deployment
+* `/fullstack_developer_capstone/deploy.sh` - Automated deployment script
+
+**Technologies Used:**
+* **Frontend**: React 18, React Router, CSS3 with gradients and animations
+* **Backend**: Django 3.2, Django REST Framework, SQLite
+* **Microservices**: Node.js, Express.js, MongoDB, Flask
+* **AI/ML**: NLTK for natural language processing and sentiment analysis
+* **DevOps**: Docker, Docker Compose, Gunicorn
+* **Database**: SQLite (Django), MongoDB (Node.js services)
+
 ### Wiki
 
 A Wikipedia-like online encyclopedia that allows users to create, edit, and browse informational articles.
