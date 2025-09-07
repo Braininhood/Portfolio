@@ -1,0 +1,85 @@
+PC HARDWARE CHECKER - QUICK START GUIDE
+===============================================
+
+EASY INSTALLATION:
+Choose the best option for your system:
+
+OPTION A - BASIC FEATURES (Most Reliable):
+1. Double-click "launchers\INSTALL_BASIC.bat" 
+2. Run "launchers\RUN_AS_ADMIN.bat" to start
+
+OPTION B - WITH STRESS TESTING:
+1. Double-click "launchers\INSTALL_BASIC.bat" first
+2. Then run "launchers\install_stress_simple.bat"
+3. Run "launchers\RUN_AS_ADMIN.bat" to start
+
+OPTION C - PROFESSIONAL FEATURES:
+1. Double-click "launchers\INSTALL_PROFESSIONAL.bat"
+2. Run "launchers\RUN_AS_ADMIN.bat" to start
+
+OPTION D - PORTABLE VERSION (No Installation):
+1. Double-click "QUICK_START_PORTABLE.bat"
+2. Use the standalone EXE that requires no Python installation
+
+MANUAL INSTALLATION:
+1. Install Python from https://python.org (check "Add to PATH")
+2. Open command prompt in this folder
+3. Run: pip install psutil wmi pywin32 GPUtil --user
+4. Run: python src/main.py
+
+WHAT CAN YOU CHECK?
+- System information and Windows version
+- Processor (CPU) details and performance
+- Memory (RAM) usage and specifications
+- Storage drives and disk space
+- Graphics card (GPU) information
+- Network configuration and statistics
+- Motherboard and BIOS information
+- Hardware stress testing (with stress testing installation)
+
+FEATURES:
+✓ Easy-to-understand explanations for non-technical users
+✓ Clean, modern interface with clear navigation
+✓ Export reports to text or JSON files
+✓ Works with Windows 7, 8, 10, and 11
+✓ No internet connection required after installation
+✓ Safe and secure - no data collection
+
+HOW TO USE:
+1. Click any category in the left menu
+2. View detailed information about that hardware component
+3. Use "Refresh Data" to update information
+4. Use "Save Report" to export all data to a file
+5. Click "Help" for detailed assistance
+
+TROUBLESHOOTING:
+- If some info shows "Unknown", it's normal for older systems
+- For maximum hardware detection, use "run_admin_simple.bat"
+- Try running as administrator for detailed motherboard/BIOS info
+- Use "Refresh Data" if information seems outdated
+- Check README.md for detailed troubleshooting
+
+WMI ISSUES (Fixed in Current Version):
+The threading and COM errors have been resolved! If you still see issues:
+- Try "debug_wmi.bat" to test WMI functionality
+- Use "repair_wmi.bat" for severe WMI service problems
+- Most COM threading issues are now handled automatically
+
+ENHANCED DETECTION:
+Use "run_admin_simple.bat" for best results:
+- Complete motherboard and BIOS information
+- Enhanced WMI hardware detection
+- Full disk and storage details
+- Maximum compatibility across Windows versions
+
+SYSTEM REQUIREMENTS:
+- Windows 7 or higher
+- Python 3.7 or higher
+- 50MB free disk space
+- Administrator rights recommended (but not required)
+
+GET STARTED NOW:
+RECOMMENDED: Double-click "launchers\RUN_AS_ADMIN.bat" for best results
+ALTERNATIVE: Double-click "launchers\RUN_APPLICATION.bat" for standard mode  
+PORTABLE: Double-click "QUICK_START_PORTABLE.bat" for EXE version
+MANUAL: Run "python src/main.py" from command prompt

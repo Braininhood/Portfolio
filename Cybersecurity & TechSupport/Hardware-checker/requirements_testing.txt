@@ -1,0 +1,23 @@
+# Core requirements (existing)
+psutil>=5.9.0
+wmi>=1.5.0
+GPUtil>=1.4.0
+pywin32>=306
+
+# Essential stress testing libraries
+numpy>=1.21.0
+py-cpuinfo>=9.0.0
+
+# Professional monitoring with charts
+matplotlib>=3.5.0
+
+# Optional performance libraries (install what's available)
+# scipy>=1.7.0  # Uncomment if needed for advanced math
+# memory-profiler>=0.60.0  # Uncomment for detailed memory profiling
+# pympler>=0.9  # Uncomment for memory analysis
+
+# Optional GPU libraries (NVIDIA only)
+# pynvml>=11.0.0  # Uncomment for NVIDIA GPU monitoring
+
+# Optional network testing
+# speedtest-cli>=2.1.0  # Uncomment for network speed testing
