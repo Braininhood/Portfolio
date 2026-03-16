@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to MultiBook</title>
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+    <div style="background-color: #28a745; color: #fff; padding: 20px; border-radius: 5px; margin-bottom: 20px;">
+        <h1 style="margin: 0;">Welcome to MultiBook!</h1>
+    </div>
+
+    <p>Dear {{ customer_name|default:customer_email }},</p>
+
+    <p>Thank you for signing up with MultiBook. Your account has been created successfully.</p>
+
+    <p>You can now:</p>
+    <ul>
+        <li>Book cleaning services online</li>
+        <li>Manage your appointments from your dashboard</li>
+        <li>View your order history</li>
+    </ul>
+
+    <p><a href="{{ frontend_url }}/login" style="display: inline-block; padding: 12px 24px; background-color: #28a745; color: #fff; text-decoration: none; border-radius: 5px;">Log in to your account</a></p>
+
+    <p>If you have any questions, please contact us.</p>
+
+    <p>Best regards,<br><strong>MultiBook Team</strong></p>
+
+    <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
+    <p style="font-size: 12px; color: #666;">This is an automated email. Please do not reply directly to this message.</p>
+</body>
+</html>

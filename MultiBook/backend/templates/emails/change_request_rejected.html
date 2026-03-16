@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>Change request update</title></head>
+<body>
+<p>Dear {{ customer_name }},</p>
+<p>Unfortunately your request to change your booking could not be approved.</p>
+<p><strong>Order:</strong> {{ order_number }}</p>
+<p><strong>Requested date:</strong> {{ requested_date }}</p>
+<p><strong>Requested time:</strong> {{ requested_time|default:"—" }}</p>
+{% if review_notes %}<p><strong>Notes:</strong> {{ review_notes }}</p>{% endif %}
+<p>If you have questions, please contact us.</p>
+<p>MultiBook Team</p>
+</body>
+</html>

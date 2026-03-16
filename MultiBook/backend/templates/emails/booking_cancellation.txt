@@ -1,0 +1,20 @@
+BOOKING CANCELLED
+
+Dear {{ customer_name }},
+
+We're sorry to inform you that your booking (Order {{ order_number }}) has been cancelled.
+
+{% if cancellation_reason %}
+Reason: {{ cancellation_reason }}
+{% endif %}
+
+If you have any questions or would like to reschedule, please contact us.
+
+We hope to serve you again in the future.
+
+Best regards,
+MultiBook Team
+
+---
+This is an automated email. Please do not reply directly to this message.
+MultiBook - Multi-Service Booking

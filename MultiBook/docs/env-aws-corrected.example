@@ -1,0 +1,46 @@
+# =============================================================================
+# Corrected .env for AWS EC2 – paste into /var/www/MultiBook/backend/.env
+# Replace ALL placeholders with your real values. Never commit real secrets.
+# =============================================================================
+
+# Django Settings (run: openssl rand -hex 32)
+SECRET_KEY=YOUR_SECRET_KEY
+DEBUG=False
+ALLOWED_HOSTS=localhost,127.0.0.1,YOUR_EC2_IP,YOUR_EC2_DNS
+
+# Database (Supabase Session pooler – use URI from Dashboard → Settings → Database → Session pooler)
+# If password contains @ # % then URL-encode: @ -> %40, # -> %23, % -> %25
+DATABASE_URL=postgresql://postgres.YOUR_PROJECT_REF:YOUR_DB_PASSWORD@aws-0-eu-west-2.pooler.supabase.com:6543/postgres
+
+# Supabase API (Settings → API; never expose service_role to frontend)
+SUPABASE_URL=https://YOUR_PROJECT_REF.supabase.co
+SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_KEY
+SUPABASE_SERVICE_ROLE_KEY=YOUR_SUPABASE_SERVICE_ROLE_KEY
+SUPABASE_JWT_SECRET=YOUR_SUPABASE_JWT_SECRET
+
+# Redis (optional – leave empty if not using Celery)
+REDIS_URL=
+
+# CORS Settings
+CORS_ALLOWED_ORIGINS=https://YOUR_EC2_IP,https://YOUR_EC2_DNS,http://YOUR_EC2_IP,http://YOUR_EC2_DNS
+CORS_ALLOW_CREDENTIALS=True
+FRONTEND_URL=https://YOUR_EC2_IP
+
+# JWT Settings
+JWT_ACCESS_TOKEN_LIFETIME=15
+JWT_REFRESH_TOKEN_LIFETIME=7
+
+# Email Settings (e.g. Gmail)
+EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_USE_TLS=True
+EMAIL_HOST_USER=YOUR_EMAIL
+EMAIL_HOST_PASSWORD=YOUR_GMAIL_APP_PASSWORD
+DEFAULT_FROM_EMAIL=YOUR_EMAIL
+
+# Google Services (optional)
+GOOGLE_MAPS_API_KEY=
+GOOGLE_PLACES_API_KEY=
+GOOGLE_CALENDAR_CLIENT_ID=
+GOOGLE_CALENDAR_CLIENT_SECRET=

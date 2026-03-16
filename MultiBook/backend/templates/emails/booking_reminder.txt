@@ -1,0 +1,26 @@
+APPOINTMENT REMINDER ⏰
+
+Dear Customer,
+
+This is a friendly reminder that you have an appointment with MultiBook TOMORROW.
+
+APPOINTMENT DETAILS
+-------------------
+Service: {{ service_name }}
+Staff: {{ staff_name }}
+Date & Time: {{ start_time|date:"F d, Y" }} at {{ start_time|time:"H:i" }}
+{% if address %}
+Address:
+{{ address.line1 }}
+{% if address.line2 %}{{ address.line2 }}{% endif %}
+{{ address.city }}, {{ address.postcode }}
+{% endif %}
+
+We look forward to seeing you!
+
+Best regards,
+MultiBook Team
+
+---
+This is an automated reminder email. Please do not reply directly to this message.
+MultiBook - Professional Cleaning Services

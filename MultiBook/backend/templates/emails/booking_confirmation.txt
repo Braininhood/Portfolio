@@ -1,0 +1,37 @@
+BOOKING CONFIRMED! ✅
+
+Dear {{ customer_name }},
+
+Thank you for your booking with MultiBook. Your order has been confirmed!
+
+ORDER DETAILS
+-------------
+Order Number: {{ order_number }}
+Total Price: £{{ total_price }}
+Scheduled Date: {{ scheduled_date }}
+{% if scheduled_time %}Scheduled Time: {{ scheduled_time }}{% endif %}
+
+SERVICE ADDRESS:
+{{ address_line1 }}
+{% if address_line2 %}{{ address_line2 }}{% endif %}
+{{ city }}, {{ postcode }}
+United Kingdom
+
+SERVICES:
+{% for item in items %}
+- {{ item.service.name }} - Quantity: {{ item.quantity }} - £{{ item.total_price }}
+{% endfor %}
+
+TRACK YOUR ORDER
+----------------
+You can track your order and view details anytime using your tracking link:
+{{ tracking_url }}
+
+If you have any questions or need to make changes to your booking, please contact us.
+
+Best regards,
+MultiBook Team
+
+---
+This is an automated email. Please do not reply directly to this message.
+MultiBook - Professional Cleaning Services

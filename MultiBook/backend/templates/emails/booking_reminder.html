@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Reminder</title>
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+    <div style="background-color: #fff3cd; padding: 20px; border-radius: 5px; margin-bottom: 20px;">
+        <h1 style="color: #856404; margin: 0;">⏰ Appointment Reminder</h1>
+    </div>
+
+    <p>Dear Customer,</p>
+
+    <p>This is a friendly reminder that you have an appointment with MultiBook <strong>tomorrow</strong>.</p>
+
+    <div style="background-color: #ffffff; border: 1px solid #ddd; padding: 20px; border-radius: 5px; margin: 20px 0;">
+        <h2 style="margin-top: 0; color: #333;">Appointment Details</h2>
+        <p><strong>Service:</strong> {{ service_name }}</p>
+        <p><strong>Staff:</strong> {{ staff_name }}</p>
+        <p><strong>Date & Time:</strong> {{ start_time|date:"l, F d, Y" }} at {{ start_time|time:"H:i" }}</p>
+        {% if address %}
+        <h3 style="margin-top: 20px; color: #333;">Address:</h3>
+        <p>
+            {{ address.line1 }}<br>
+            {% if address.line2 %}{{ address.line2 }}<br>{% endif %}
+            {{ address.city }}, {{ address.postcode }}
+        </p>
+        {% endif %}
+    </div>
+
+    <p>We look forward to seeing you!</p>
+
+    <p>Best regards,<br><strong>MultiBook Team</strong></p>
+
+    <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
+    <p style="font-size: 12px; color: #666;">
+        This is an automated reminder email. Please do not reply directly to this message.<br>
+        MultiBook - Professional Cleaning Services
+    </p>
+</body>
+</html>

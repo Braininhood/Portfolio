@@ -1,0 +1,64 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Dependencies
+node_modules
+
+# Build outputs
+dist
+dist-ssr
+*.local
+
+# Documentation (local reference only)
+docs/
+
+# Testing
+tests/
+test-results/
+screenshots-archive/
+
+# Sensitive files / local scripts
+fix_sql.py
+.env
+.env.local
+.env.production
+.env.*.local
+auth-cookies.json
+Untitled
+
+# Local storage backup (upload to Supabase separately)
+storage-backup/
+
+#csv
+*.csv
+*.xlsx
+*.xls
+*.json
+!package.json
+!package-lock.json
+!tsconfig.json
+!tsconfig*.json
+!**/tsconfig.json
+!**/deno.json
+*.jsonl
+*.jsonl.gz
+*.jsonl.gz.part
+*.jsonl.gz.part.1
+csv/
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

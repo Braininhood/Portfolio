@@ -1,0 +1,14 @@
+Your change request could not be approved
+
+Dear {{ customer_name }},
+
+Unfortunately your request to change your booking could not be approved.
+
+ORDER: {{ order_number }}
+Requested date: {{ requested_date }}
+Requested time: {{ requested_time|default:"—" }}
+{% if review_notes %}Notes: {{ review_notes }}{% endif %}
+
+If you have questions, please contact us.
+
+MultiBook Team

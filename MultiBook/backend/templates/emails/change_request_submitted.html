@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>Change request submitted</title></head>
+<body>
+<p><strong>Change request submitted (Manager/Admin)</strong></p>
+<p>A customer has requested a change to their order.</p>
+<p><strong>Order:</strong> {{ order_number }}</p>
+<p><strong>Requested new date:</strong> {{ requested_date }}</p>
+<p><strong>Requested new time:</strong> {{ requested_time|default:"—" }}</p>
+<p><strong>Reason:</strong> {{ reason|default:"—" }}</p>
+<p><a href="{{ admin_url }}">Review in admin panel</a></p>
+<p>MultiBook Team</p>
+</body>
+</html>

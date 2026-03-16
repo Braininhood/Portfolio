@@ -1,0 +1,13 @@
+Your change request has been approved
+
+Dear {{ customer_name }},
+
+Your request to change your booking has been approved.
+
+ORDER: {{ order_number }}
+New date: {{ requested_date }}
+New time: {{ requested_time|default:"—" }}
+
+You can view your order here: {{ tracking_url }}
+
+MultiBook Team

@@ -1,0 +1,43 @@
+# Django Core (flexible versions to avoid wheel build KeyError: __version__)
+Django>=5.0,<6
+djangorestframework>=3.14
+djangorestframework-simplejwt>=5.3
+django-cors-headers>=4.3
+django-environ>=0.11
+
+# Database (SQLite for dev; PostgreSQL/Supabase for production – install both)
+psycopg2-binary>=2.9.9
+dj-database-url>=2.1.0
+
+# Supabase / JWT
+supabase>=2.0
+PyJWT>=2.8
+
+# Cache & Task Queue (Optional for development)
+redis>=5.0
+celery>=5.3
+django-celery-beat>=2.5
+
+# API Documentation
+drf-spectacular>=0.26
+
+# Payment Processing
+stripe>=7.0
+paypalrestsdk>=1.13
+
+# Notifications
+twilio>=8.10
+sendgrid>=6.11
+
+# Calendar Integration
+# Google Calendar OAuth (required for Google Calendar sync)
+google-api-python-client>=2.100
+google-auth-httplib2>=0.1.1
+google-auth-oauthlib>=1.1.0
+# Microsoft Outlook Calendar
+msal>=1.25
+
+# Utilities
+Pillow>=10.0
+python-dateutil>=2.8
+requests>=2.31

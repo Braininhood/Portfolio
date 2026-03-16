@@ -1,0 +1,21 @@
+Cleaning Complete ✓
+
+Dear {{ customer_name }},
+
+Your cleaning appointment has been completed.
+
+APPOINTMENT DETAILS
+------------------
+Service: {{ service_name }}
+Date: {{ start_time }}
+Order: {{ order_number }}
+
+Thank you for choosing MultiBook. We hope to see you again soon!
+
+Book your next cleaning: {{ frontend_url }}/booking
+
+Best regards,
+MultiBook Team
+
+---
+This is an automated email. Please do not reply directly to this message.

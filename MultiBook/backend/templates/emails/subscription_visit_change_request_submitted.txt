@@ -1,0 +1,13 @@
+Change request submitted (Manager/Admin)
+
+A customer has requested a date/time change for a subscription visit.
+
+Subscription: {{ subscription_number }}
+Visit #: {{ visit_number }}
+Requested new date: {{ requested_date }}
+Requested new time: {{ requested_time|default:"—" }}
+Reason: {{ reason|default:"—" }}
+
+Review in admin panel: {{ admin_url }}
+
+MultiBook Team

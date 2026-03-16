@@ -1,0 +1,91 @@
+# Must match the project your app uses (see .env VITE_SUPABASE_URL)
+project_id = "zdairdvgiifsymgmoswf"
+
+[functions.translate-message]
+verify_jwt = false
+
+[functions.train-avatar]
+verify_jwt = false
+
+[functions.chat-with-avatar]
+verify_jwt = false
+
+[functions.send-push-notification]
+verify_jwt = false
+
+[functions.recommend-mentors]
+verify_jwt = false
+
+[functions.send-message-notification]
+verify_jwt = false
+
+# Auth is validated inside the function via Authorization header + getUser()
+# so requests reach the function and we return 401 from code if invalid
+[functions.create-booking]
+verify_jwt = false
+
+[functions.create-product-checkout]
+verify_jwt = false
+
+# No user JWT needed; validates via Stripe session_id and updates booking by id
+[functions.send-booking-confirmation]
+verify_jwt = false
+
+# Validates via Stripe session_id; optional auth for re-download
+[functions.verify-product-purchase]
+verify_jwt = false
+
+# Payout / Stripe Connect – auth validated inside function via Authorization + getUser()
+[functions.stripe-connect-status]
+verify_jwt = false
+
+[functions.create-stripe-connect-account]
+verify_jwt = false
+
+[functions.stripe-connect-onboarding]
+verify_jwt = false
+
+[functions.stripe-connect-reset]
+verify_jwt = false
+
+# Google Calendar – auth validated inside function if needed
+[functions.google-calendar-auth]
+verify_jwt = false
+
+[functions.google-calendar-callback]
+verify_jwt = false
+
+[functions.google-calendar-sync]
+verify_jwt = false
+
+[functions.add-calendar-event]
+verify_jwt = false
+
+[functions.update-calendar-event]
+verify_jwt = false
+
+[functions.send-notification-email]
+verify_jwt = false
+
+[functions.create-notification]
+verify_jwt = false
+
+[functions.send-reminders]
+verify_jwt = false
+
+[functions.chat-with-avatar-stream]
+verify_jwt = false
+
+[functions.extract-file-content]
+verify_jwt = false
+
+# Auth validated inside via Authorization header
+[functions.cancel-booking]
+verify_jwt = false
+
+[functions.update-booking-status]
+verify_jwt = false
+
+# Admin deletes users – auth and admin role validated inside function
+[functions.admin-delete-user]
+verify_jwt = false

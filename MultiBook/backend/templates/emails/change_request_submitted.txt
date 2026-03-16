@@ -1,0 +1,13 @@
+Change request submitted (Manager/Admin)
+
+A customer has requested a change to their order.
+
+ORDER: {{ order_number }}
+Requested new date: {{ requested_date }}
+Requested new time: {{ requested_time|default:"—" }}
+Reason: {{ reason|default:"—" }}
+
+Please review and approve or reject in the admin panel:
+{{ admin_url }}
+
+MultiBook Team
