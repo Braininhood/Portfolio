@@ -1,0 +1,11 @@
+{
+  "seed": 42,
+  "train_rows": 4500,
+  "val_rows": 500,
+  "mse_val": 0.02878188039176166,
+  "mean_quality": 0.23118499136111906,
+  "parameters": 105985,
+  "device": "cuda",
+  "finished_at": "2026-06-05T20:56:03.051920+00:00",
+  "wall_time_sec": 61.31244380003773
+}

@@ -1,6 +1,6 @@
 # Cybersecurity Portfolio
 
-This repository contains a collection of cybersecurity projects and tools focused on network security, cryptography, authentication mechanisms, vulnerability scanning, system monitoring, and data privacy compliance.
+Part of the [Professional Portfolio](../README.md). A collection of cybersecurity projects and tools focused on network security, cryptography, authentication mechanisms, vulnerability scanning, system monitoring, hardware diagnostics, and data privacy compliance.
 
 ## Projects
 
@@ -106,6 +106,25 @@ This repository contains a collection of cybersecurity projects and tools focuse
 - **Usage**: 
   - Backend: `python manage.py runserver 8000`
   - Frontend: `npm start` (development) or served by Django (production)
+
+### [Hardware-checker](./Hardware-checker/)
+- **Description**: Enterprise-grade PC hardware diagnostic and stress-testing suite (AIDA64-style) for Windows systems.
+- **Features**:
+  - Complete hardware overview (CPU, RAM, GPU, storage, network, motherboard/BIOS)
+  - Professional stress testing (CPU, memory, disk I/O, GPU, network, thermal)
+  - Real-time monitoring with charts, temperature tracking, and performance metrics
+  - TXT and JSON report export with stability ratings and recommendations
+  - WMI repair utilities and stress-test GUI
+- **Technologies**: Python, psutil, CustomTkinter, WMI
+- **Files**:
+  - `src/hardware_detector.py` - Hardware information collection
+  - `src/hardware_stress_tester.py` - Multi-component stress tests
+  - `src/professional_monitor.py` - Real-time monitoring dashboard
+  - `src/stress_test_gui.py` - Graphical stress-test interface
+  - `tools/fix_wmi_classes.py`, `tools/wmi_repair.py` - WMI diagnostics
+  - `requirements.txt`, `BUILD_EXECUTABLE.bat` - Dependencies and build script
+- **Platform Support**: Windows 7/8/10/11 (32-bit and 64-bit)
+- **Documentation**: See [docs/README.md](./Hardware-checker/docs/README.md)
 
 ### [Network-Monitoring-Tool](./Network-Monitoring-Tool/)
 - **Description**: Advanced network monitoring tool built with Python and Scapy that detects potential security threats like port scans and SYN floods.

@@ -1,0 +1,14 @@
+{
+  "seed": 42,
+  "train_rows": 128,
+  "val_rows": 14,
+  "mse_val": 0.11861297488212585,
+  "kl_val": 1.04120671749115,
+  "parameters_student": 278533,
+  "device": "cuda",
+  "teacher_backends": {
+    "play_study": 142
+  },
+  "finished_at": "2026-06-06T21:05:17.853007+00:00",
+  "wall_time_sec": 0.4335924999322742
+}

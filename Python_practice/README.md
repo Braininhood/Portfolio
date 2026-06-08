@@ -1,6 +1,6 @@
 # Python Practice Projects
 
-This directory contains a collection of Python practice projects and exercises demonstrating various Python programming concepts, techniques, and applications.
+Part of the [Professional Portfolio](../README.md). Python practice projects and exercises demonstrating various Python programming concepts, techniques, and applications.
 
 ## Project Folders
 

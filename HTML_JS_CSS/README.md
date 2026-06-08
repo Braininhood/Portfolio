@@ -1,6 +1,6 @@
 # HTML, JavaScript, and CSS Projects
 
-This directory contains a collection of web development projects built with HTML, CSS, and JavaScript, demonstrating various front-end development techniques and concepts.
+Part of the [Professional Portfolio](../README.md). Web development projects built with HTML, CSS, and JavaScript, demonstrating various front-end development techniques and concepts.
 
 ## Project Overview
 
@@ -26,28 +26,6 @@ A Google-like search interface clone that replicates Google's main search, image
 * HTML5
 * CSS3
 * Python (for testing server)
-
-### Trivia
-
-An interactive trivia quiz application with multiple choice and free response questions.
-
-**Key Features:**
-* Multiple choice questions with immediate feedback
-* Free response questions with answer validation
-* Dynamic styling based on correct/incorrect answers
-* User-friendly interface
-
-**Project Structure:**
-* `index.html` - Main trivia quiz interface
-* `script.js` - JavaScript for quiz functionality
-* `styles.css` - Styling for the trivia application
-
-**Technologies Used:**
-* HTML5
-* CSS3
-* JavaScript
-* DOM Manipulation
-* Event Handling
 
 ### Homepage
 
@@ -94,9 +72,10 @@ A comprehensive collection of web development exercises and projects covering mo
 * **promisescript.js** - Promise-based JavaScript examples and exercises
 
 **JavaScript Projects:**
-* Various JavaScript exercises demonstrating ES6+ features
-* DOM manipulation examples
-* Asynchronous programming patterns
+* **Add_Delete task** - Task list with add/delete functionality
+* **Converter** - Unit conversion utility
+* **SinglePageWebsite** - Single-page layout exercise
+* ES6+ features, DOM manipulation, asynchronous programming
 
 **HTML/CSS Projects:**
 * **solarsystem.html** - Interactive solar system visualization

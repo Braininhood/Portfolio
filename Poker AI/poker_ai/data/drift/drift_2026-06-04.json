@@ -1,0 +1,33 @@
+{
+  "date": "2026-06-04",
+  "poker_features_flagged": 0,
+  "features_flagged": 0,
+  "status": "green",
+  "created_at": "2026-06-04T21:43:57.589290+00:00",
+  "hands_compared": 41228,
+  "summary_advice": "Your prepared training data looks stable between the older and newer halves of features.jsonl. Safe to continue training and consider model promotion after league checks.",
+  "method": "Splits features.jsonl into older vs newer halves. Only poker-relevant numeric columns (not hand_id) affect green/yellow/red.",
+  "features": [
+    {
+      "feature": "hand_id",
+      "label": "Hand ID (technical)",
+      "meaning": "Internal row number \u2014 grows every time you import hands. A large \u201cshift\u201d here usually means the library got bigger, not that the player pool changed.",
+      "shift": 1.9973,
+      "ref_mean": 2250843383161511.5,
+      "cur_mean": 6746380241731537.0,
+      "flagged": false,
+      "counts_toward_status": false,
+      "note": "Shown for transparency; does not affect green / yellow / red."
+    },
+    {
+      "feature": "range_l1",
+      "label": "Hero range concentration",
+      "meaning": "How \u201cpeaked\u201d the encoded hero hand range is per row (near 1.0 = one hand type; lower = more mixed / uniform encoding). Shifts can mean different hole-card patterns or sites in newer imports.",
+      "shift": 0.0,
+      "ref_mean": 1.0,
+      "cur_mean": 1.0,
+      "flagged": false,
+      "counts_toward_status": true
+    }
+  ]
+}

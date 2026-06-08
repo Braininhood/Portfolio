@@ -1,0 +1,385 @@
+{
+  "finished_at": "2026-06-05T20:12:47.662120+00:00",
+  "schedule": "round_robin",
+  "hands_played": 18200,
+  "matchups": 91,
+  "wall_sec": 140.45541039993986,
+  "target_wall_sec": 360.0,
+  "workers": 19,
+  "promoted": false,
+  "promotion_pvalue": 0.236,
+  "chip_balance": 0,
+  "big_blind_chips": 100,
+  "formats": [
+    "hu",
+    "6max",
+    "9max"
+  ],
+  "brain_switches_total": 28,
+  "hu_decisions_total": 23847,
+  "multiway_decisions_total": 181579,
+  "leaderboard": [
+    {
+      "agent_id": "rock",
+      "elo": 1708.9,
+      "hands": 2600,
+      "bb_per_100": -155.98,
+      "aivat_bb_per_100": -155.61,
+      "aivat_pvalue": 0.4052,
+      "brain_switches": 6,
+      "hu_decisions": 2526,
+      "multiway_decisions": 26327,
+      "formats": {
+        "hu": {
+          "hands": 871,
+          "aivat_bb_per_100": 114.9
+        },
+        "6max": {
+          "hands": 871,
+          "aivat_bb_per_100": -119.38
+        },
+        "9max": {
+          "hands": 858,
+          "aivat_bb_per_100": -467.0
+        }
+      }
+    },
+    {
+      "agent_id": "tag",
+      "elo": 1694.6,
+      "hands": 2600,
+      "bb_per_100": -172.59,
+      "aivat_bb_per_100": -172.2,
+      "aivat_pvalue": 0.4361,
+      "brain_switches": 5,
+      "hu_decisions": 2591,
+      "multiway_decisions": 25680,
+      "formats": {
+        "hu": {
+          "hands": 871,
+          "aivat_bb_per_100": -35.65
+        },
+        "6max": {
+          "hands": 871,
+          "aivat_bb_per_100": 79.65
+        },
+        "9max": {
+          "hands": 858,
+          "aivat_bb_per_100": -566.49
+        }
+      }
+    },
+    {
+      "agent_id": "nit",
+      "elo": 1674.1,
+      "hands": 2600,
+      "bb_per_100": 13.64,
+      "aivat_bb_per_100": 14.49,
+      "aivat_pvalue": 0.941,
+      "brain_switches": 3,
+      "hu_decisions": 2556,
+      "multiway_decisions": 26436,
+      "formats": {
+        "hu": {
+          "hands": 871,
+          "aivat_bb_per_100": 40.33
+        },
+        "6max": {
+          "hands": 871,
+          "aivat_bb_per_100": -180.16
+        },
+        "9max": {
+          "hands": 858,
+          "aivat_bb_per_100": 185.87
+        }
+      }
+    },
+    {
+      "agent_id": "main_exploiter",
+      "elo": 1633.8,
+      "hands": 2600,
+      "bb_per_100": -429.84,
+      "aivat_bb_per_100": -429.92,
+      "aivat_pvalue": 0.0458,
+      "brain_switches": 7,
+      "hu_decisions": 3867,
+      "multiway_decisions": 26023,
+      "formats": {
+        "hu": {
+          "hands": 871,
+          "aivat_bb_per_100": 204.99
+        },
+        "6max": {
+          "hands": 871,
+          "aivat_bb_per_100": -596.67
+        },
+        "9max": {
+          "hands": 858,
+          "aivat_bb_per_100": -905.19
+        }
+      }
+    },
+    {
+      "agent_id": "passive_reg",
+      "elo": 1625.0,
+      "hands": 2600,
+      "bb_per_100": 152.62,
+      "aivat_bb_per_100": 153.04,
+      "aivat_pvalue": 0.5037,
+      "brain_switches": 0,
+      "hu_decisions": 2523,
+      "multiway_decisions": 25974,
+      "formats": {
+        "hu": {
+          "hands": 871,
+          "aivat_bb_per_100": -35.02
+        },
+        "6max": {
+          "hands": 871,
+          "aivat_bb_per_100": 952.56
+        },
+        "9max": {
+          "hands": 858,
+          "aivat_bb_per_100": -467.69
+        }
+      }
+    },
+    {
+      "agent_id": "main_agent",
+      "elo": 1586.2,
+      "hands": 2600,
+      "bb_per_100": -269.54,
+      "aivat_bb_per_100": -269.11,
+      "aivat_pvalue": 0.236,
+      "brain_switches": 4,
+      "hu_decisions": 3862,
+      "multiway_decisions": 25939,
+      "formats": {
+        "hu": {
+          "hands": 871,
+          "aivat_bb_per_100": -105.14
+        },
+        "6max": {
+          "hands": 871,
+          "aivat_bb_per_100": -291.67
+        },
+        "9max": {
+          "hands": 858,
+          "aivat_bb_per_100": -412.66
+        }
+      }
+    },
+    {
+      "agent_id": "lag",
+      "elo": 1576.0,
+      "hands": 2600,
+      "bb_per_100": 624.39,
+      "aivat_bb_per_100": 623.96,
+      "aivat_pvalue": 0.0322,
+      "brain_switches": 6,
+      "hu_decisions": 3090,
+      "multiway_decisions": 25792,
+      "formats": {
+        "hu": {
+          "hands": 871,
+          "aivat_bb_per_100": 207.72
+        },
+        "6max": {
+          "hands": 871,
+          "aivat_bb_per_100": 127.24
+        },
+        "9max": {
+          "hands": 858,
+          "aivat_bb_per_100": 1550.75
+        }
+      }
+    },
+    {
+      "agent_id": "cql_agent",
+      "elo": 1569.7,
+      "hands": 2600,
+      "bb_per_100": 41.62,
+      "aivat_bb_per_100": 41.9,
+      "aivat_pvalue": 0.8692,
+      "brain_switches": 7,
+      "hu_decisions": 2699,
+      "multiway_decisions": 25476,
+      "formats": {
+        "hu": {
+          "hands": 871,
+          "aivat_bb_per_100": -207.0
+        },
+        "6max": {
+          "hands": 871,
+          "aivat_bb_per_100": -98.79
+        },
+        "9max": {
+          "hands": 858,
+          "aivat_bb_per_100": 437.41
+        }
+      }
+    },
+    {
+      "agent_id": "distilled_gto",
+      "elo": 1516.9,
+      "hands": 2600,
+      "bb_per_100": 280.3,
+      "aivat_bb_per_100": 280.24,
+      "aivat_pvalue": 0.2825,
+      "brain_switches": 3,
+      "hu_decisions": 3923,
+      "multiway_decisions": 25311,
+      "formats": {
+        "hu": {
+          "hands": 871,
+          "aivat_bb_per_100": 70.35
+        },
+        "6max": {
+          "hands": 871,
+          "aivat_bb_per_100": -239.99
+        },
+        "9max": {
+          "hands": 858,
+          "aivat_bb_per_100": 1021.43
+        }
+      }
+    },
+    {
+      "agent_id": "_field",
+      "elo": 1500.0,
+      "hands": 12090,
+      "bb_per_100": -22.5,
+      "aivat_bb_per_100": 0.0,
+      "aivat_pvalue": 1.0,
+      "brain_switches": 0,
+      "hu_decisions": 0,
+      "multiway_decisions": 0,
+      "formats": {}
+    },
+    {
+      "agent_id": "random",
+      "elo": 1453.4,
+      "hands": 2600,
+      "bb_per_100": -56.79,
+      "aivat_bb_per_100": -56.84,
+      "aivat_pvalue": 0.849,
+      "brain_switches": 4,
+      "hu_decisions": 2732,
+      "multiway_decisions": 24692,
+      "formats": {
+        "hu": {
+          "hands": 871,
+          "aivat_bb_per_100": -201.32
+        },
+        "6max": {
+          "hands": 871,
+          "aivat_bb_per_100": -505.37
+        },
+        "9max": {
+          "hands": 858,
+          "aivat_bb_per_100": 545.14
+        }
+      }
+    },
+    {
+      "agent_id": "cfr_stacked",
+      "elo": 1405.0,
+      "hands": 2600,
+      "bb_per_100": -76.62,
+      "aivat_bb_per_100": -76.17,
+      "aivat_pvalue": 0.7489,
+      "brain_switches": 5,
+      "hu_decisions": 4110,
+      "multiway_decisions": 25593,
+      "formats": {
+        "hu": {
+          "hands": 871,
+          "aivat_bb_per_100": 217.94
+        },
+        "6max": {
+          "hands": 871,
+          "aivat_bb_per_100": 158.07
+        },
+        "9max": {
+          "hands": 858,
+          "aivat_bb_per_100": -612.53
+        }
+      }
+    },
+    {
+      "agent_id": "league_exploiter",
+      "elo": 1296.7,
+      "hands": 2600,
+      "bb_per_100": 20.41,
+      "aivat_bb_per_100": 20.84,
+      "aivat_pvalue": 0.934,
+      "brain_switches": 4,
+      "hu_decisions": 4130,
+      "multiway_decisions": 25858,
+      "formats": {
+        "hu": {
+          "hands": 871,
+          "aivat_bb_per_100": -64.64
+        },
+        "6max": {
+          "hands": 871,
+          "aivat_bb_per_100": -323.16
+        },
+        "9max": {
+          "hands": 858,
+          "aivat_bb_per_100": 456.81
+        }
+      }
+    },
+    {
+      "agent_id": "call_station",
+      "elo": 1191.1,
+      "hands": 2600,
+      "bb_per_100": -629.22,
+      "aivat_bb_per_100": -630.29,
+      "aivat_pvalue": 0.0684,
+      "brain_switches": 2,
+      "hu_decisions": 4294,
+      "multiway_decisions": 26721,
+      "formats": {
+        "hu": {
+          "hands": 871,
+          "aivat_bb_per_100": -89.87
+        },
+        "6max": {
+          "hands": 871,
+          "aivat_bb_per_100": -145.98
+        },
+        "9max": {
+          "hands": 858,
+          "aivat_bb_per_100": -1670.56
+        }
+      }
+    },
+    {
+      "agent_id": "fish",
+      "elo": 1068.6,
+      "hands": 2600,
+      "bb_per_100": 762.21,
+      "aivat_bb_per_100": 760.3,
+      "aivat_pvalue": 0.0497,
+      "brain_switches": 0,
+      "hu_decisions": 4791,
+      "multiway_decisions": 27336,
+      "formats": {
+        "hu": {
+          "hands": 871,
+          "aivat_bb_per_100": -117.59
+        },
+        "6max": {
+          "hands": 871,
+          "aivat_bb_per_100": 1082.81
+        },
+        "9max": {
+          "hands": 858,
+          "aivat_bb_per_100": 1324.09
+        }
+      }
+    }
+  ]
+}

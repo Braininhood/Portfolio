@@ -1,0 +1,36 @@
+{
+  "pythonVersion": "3.11",
+  "venvPath": ".",
+  "venv": ".venv",
+  "include": ["src", "tests", "scripts"],
+  "executionEnvironments": [
+    {
+      "root": ".",
+      "pythonVersion": "3.11",
+      "extraPaths": ["src"],
+      "venvPath": ".",
+      "venv": ".venv"
+    },
+    {
+      "root": "scripts",
+      "pythonVersion": "3.11",
+      "extraPaths": ["src", "../apps/api"],
+      "venvPath": ".",
+      "venv": ".venv"
+    },
+    {
+      "root": "tests",
+      "pythonVersion": "3.11",
+      "extraPaths": ["src", "../apps/api"],
+      "venvPath": ".",
+      "venv": ".venv"
+    }
+  ],
+  "overrides": [
+    {
+      "include": ["src/poker_ai/learn/**", "src/poker_ai/models/**"],
+      "reportMissingImports": false,
+      "reportMissingModuleSource": false
+    }
+  ]
+}

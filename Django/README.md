@@ -1,6 +1,6 @@
 # Django Projects
 
-This directory contains a collection of web applications built with Django, each demonstrating different features and functionality of the Django framework.
+Part of the [Professional Portfolio](../README.md). This directory contains a collection of web applications built with Django, each demonstrating different features and functionality of the Django framework.
 
 ## Project Overview
 
@@ -141,11 +141,11 @@ A web application for uploading, cleaning, and visualizing data from various fil
 * Mobile-responsive design
 
 **Project Structure:**
-* `/data_viz_project/` - Main project directory
-* `/data_viz_project/data_project/` - Main app with models, views, and templates
-* `/data_viz_project/data_project/static/` - CSS, JavaScript, and visualization assets
-* `/data_viz_project/data_project/templates/` - HTML templates
-* `/data_viz_project/media/` - User uploaded files and generated visualizations
+* `/data_project/` - Main project directory
+* `/data_project/data_project/` - Main app with models, views, and templates
+* `/data_project/data_project/static/` - CSS, JavaScript, and visualization assets
+* `/data_project/data_project/templates/` - HTML templates
+* `/data_project/project/` - Django project settings and URL configuration
 
 **Technologies Used:**
 * Django for backend

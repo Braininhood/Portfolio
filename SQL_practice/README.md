@@ -1,6 +1,6 @@
 # SQL Practice Projects
 
-This directory contains a collection of SQL practice projects demonstrating various database query techniques and SQL skills.
+Part of the [Professional Portfolio](../README.md). SQL practice projects demonstrating various database query techniques and SQL skills.
 
 ## Projects Overview
 

@@ -1,0 +1,27 @@
+{
+  "cache_key": "058e651b5cedd0a8",
+  "board": "Tc,Td,4s",
+  "sizing_tree_id": "random_v1_950",
+  "ranges_hash": "1a2347dcd5a60c76",
+  "action_labels": [
+    "fold",
+    "check_call",
+    "bet_33",
+    "bet_66",
+    "allin"
+  ],
+  "frequencies": [
+    0.038461538461538464,
+    0.2692307692307692,
+    0.2692307692307693,
+    0.21153846153846154,
+    0.21153846153846154
+  ],
+  "backend": "mock",
+  "meta": {
+    "equity_proxy": 0.605,
+    "spr": 2.727272727272727,
+    "pot_chips": 22,
+    "effective_stack": 60
+  }
+}

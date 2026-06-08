@@ -1,0 +1,18 @@
+# Poker AI API — serves built SPA from apps/web/dist
+FROM python:3.11-slim-bookworm
+
+RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+ENV PATH="/root/.local/bin:${PATH}"
+
+WORKDIR /app
+COPY poker_ai/pyproject.toml poker_ai/uv.lock poker_ai/README.md /app/poker_ai/
+COPY poker_ai/src /app/poker_ai/src
+COPY apps/api /app/apps/api
+COPY apps/web/dist /app/apps/web/dist
+
+WORKDIR /app/poker_ai
+RUN uv sync --all-extras
+
+EXPOSE 8000
+CMD ["uv", "run", "python", "-m", "poker_ai", "serve", "--no-web", "--host", "0.0.0.0"]

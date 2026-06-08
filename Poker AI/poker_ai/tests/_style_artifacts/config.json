@@ -1,0 +1,11 @@
+{
+  "dim": 128,
+  "depth": 2,
+  "heads": 4,
+  "ff_mult": 4,
+  "max_actions": 32,
+  "style_dim": 64,
+  "action_vocab_size": 4096,
+  "player_uid_slots": 16384,
+  "dropout": 0.1
+}

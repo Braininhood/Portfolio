@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "source": "play_hands",
+  "storage": "sqlite",
+  "loader_module": "poker_ai.learn.play_study_loader",
+  "loader_fn": "iter_play_study_decisions",
+  "routing": {
+    "hu": "train_student \u2192 artifacts/student/play_study_hu_v1",
+    "multiway": "train_multiway_student \u2192 artifacts/student/play_study_multiway_v1"
+  },
+  "database_path": "D:\\Poker AI\\poker_ai\\data\\poker_ai.db",
+  "database_exists": true,
+  "sessions": 13,
+  "hands": 140,
+  "hero_decisions": 234,
+  "hero_decisions_hu": 142,
+  "hero_decisions_multiway": 26,
+  "hero_decisions_skipped": 66,
+  "showdown_hands": 68
+}

@@ -1,6 +1,6 @@
 # AWS Data API Portfolio
 
-This repository contains a collection of AWS-related projects and examples for working with cloud services, APIs, and data processing.
+Part of the [Professional Portfolio](../README.md). AWS-related projects and examples for working with cloud services, APIs, and data processing.
 
 ## Contents
 

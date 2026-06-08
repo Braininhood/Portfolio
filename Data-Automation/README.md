@@ -1,6 +1,6 @@
 # Data Automation Web Application
 
-A comprehensive web application for Excel data processing, cohort management, and email automation, built with Django REST API and React frontend. This application transforms the original CLI tool into a user-friendly web interface.
+Part of the [Professional Portfolio](../README.md). A comprehensive web application for Excel data processing, cohort management, and email automation, built with Django REST API and React frontend. This application transforms the original CLI tool into a user-friendly web interface.
 
 ## Features
 

@@ -1,0 +1,25 @@
+[
+  {
+    "match": {
+      "position": "BTN",
+      "street": "preflop",
+      "action_bucket": "bet_aggressive",
+      "spr_bucket": "deep"
+    },
+    "template": "BTN open/aggression with SPR {spr:.1f} ({spr_bucket}) is in-range at {freq:.0%}. Deep stacks favour smaller opens; recommendation: {recommendation} ({policy})."
+  },
+  {
+    "match": {
+      "street": "flop",
+      "action_bucket": "check_call",
+      "board_texture": "dry"
+    },
+    "template": "On a dry flop (texture {board_texture}), check/call at {freq:.0%} caps bluff-catch EV. SPR {spr:.1f} ({spr_bucket}). Recommendation: {recommendation} ({policy})."
+  },
+  {
+    "match": {
+      "action_bucket": "fold"
+    },
+    "template": "Fold is the top frequency ({freq:.0%}) given SPR {spr:.1f} and {street} texture {board_texture}. Recommendation: {recommendation} ({policy})."
+  }
+]

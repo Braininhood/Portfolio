@@ -1,6 +1,6 @@
 # Software Testing Projects and Tutorials
 
-This directory contains a collection of testing projects, test suites, and tutorial notebooks demonstrating various software testing techniques and concepts.
+Part of the [Professional Portfolio](../README.md). Testing projects, test suites, and tutorial notebooks demonstrating various software testing techniques and concepts.
 
 ## Project Overview
 

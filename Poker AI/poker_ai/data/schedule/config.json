@@ -1,0 +1,52 @@
+{
+  "entries": [
+    {
+      "job_type": "features_build",
+      "enabled": false,
+      "time_local": "21:18",
+      "frequency": "daily",
+      "day_of_week": null,
+      "os_task_name": "PokerAI_features_build",
+      "updated_at": "2026-06-01T20:17:25.034830+00:00"
+    },
+    {
+      "job_type": "league_run",
+      "enabled": false,
+      "time_local": "23:18",
+      "frequency": "daily",
+      "day_of_week": null,
+      "os_task_name": "PokerAI_league_run",
+      "updated_at": "2026-06-01T20:17:25.129477+00:00"
+    },
+    {
+      "job_type": "train_hhformer",
+      "enabled": false,
+      "time_local": "21:33",
+      "frequency": "daily",
+      "day_of_week": null,
+      "os_task_name": "PokerAI_train_hhformer",
+      "updated_at": "2026-06-01T20:17:25.059268+00:00"
+    },
+    {
+      "job_type": "train_multiway_student",
+      "enabled": false,
+      "time_local": "22:03",
+      "frequency": "daily",
+      "day_of_week": null,
+      "os_task_name": "PokerAI_train_multiway_student",
+      "updated_at": "2026-06-01T20:17:25.085843+00:00"
+    },
+    {
+      "job_type": "train_student",
+      "enabled": false,
+      "time_local": "22:18",
+      "frequency": "weekly",
+      "day_of_week": "SUN",
+      "os_task_name": "PokerAI_train_student",
+      "updated_at": "2026-06-01T20:17:25.109415+00:00"
+    }
+  ],
+  "nightly_enabled": false,
+  "nightly_start_time": "21:18",
+  "updated_at": "2026-06-01T20:17:25.149554+00:00"
+}

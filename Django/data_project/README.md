@@ -98,7 +98,7 @@ The application demonstrates significant complexity through the integration of m
 1. Clone the repository:
 ```
 git clone <repository-url>
-cd data_viz_project
+cd data_project
 ```
 
 2. Install dependencies:

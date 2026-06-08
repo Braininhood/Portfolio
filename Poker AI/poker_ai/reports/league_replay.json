@@ -1,0 +1,35 @@
+{
+  "finished_at": "2026-06-05T20:30:10.332092+00:00",
+  "hands_scored": 500,
+  "hero_decisions": 1437,
+  "aivat_mode": "sketch",
+  "agents": [
+    {
+      "agent_id": "main_agent",
+      "hero_decisions": 1437,
+      "hands": 500,
+      "bb_per_100": -219.35,
+      "aivat_bb_per_100": -219.35,
+      "action_match_pct": 22.96
+    },
+    {
+      "agent_id": "distilled_gto",
+      "hero_decisions": 1437,
+      "hands": 500,
+      "bb_per_100": -219.35,
+      "aivat_bb_per_100": -219.35,
+      "action_match_pct": 30.97
+    }
+  ],
+  "by_format": {
+    "hu": {
+      "hands": 250.0,
+      "bb_per_100": -197.6
+    },
+    "mw": {
+      "hands": 250.0,
+      "bb_per_100": -241.09
+    }
+  },
+  "report_path": "D:\\Poker AI\\poker_ai\\reports\\league_replay.json"
+}

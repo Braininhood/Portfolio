@@ -1,0 +1,36 @@
+version: "3"
+
+tasks:
+  ci:
+    desc: Lint, type-check, and test (matches pre-push expectations)
+    cmds:
+      - task: lint
+      - task: typecheck
+      - task: test
+
+  lint:
+    desc: Ruff check + format verification (src + tests only; excludes TexasSolver)
+    cmds:
+      - uv run ruff check src tests
+      - uv run ruff format --check src tests
+
+  format:
+    desc: Auto-format with Ruff
+    cmds:
+      - uv run ruff format src tests
+      - uv run ruff check src tests --fix
+
+  typecheck:
+    desc: Mypy (strict) on src and tests
+    cmds:
+      - uv run mypy src tests
+
+  test:
+    desc: Pytest with coverage
+    cmds:
+      - uv run pytest
+
+  sync:
+    desc: Install locked dependencies with uv
+    cmds:
+      - uv sync --all-extras

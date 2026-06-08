@@ -1,5 +1,7 @@
 # Brain Bulders
 
+Part of the [Professional Portfolio](../README.md).
+
 <p align="center">
   <strong>AI-Powered Mentorship Platform</strong><br>
   Connect with experts. Learn. Grow.

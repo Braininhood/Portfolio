@@ -1,0 +1,13 @@
+{
+  "seed": 42,
+  "train_windows": 50143,
+  "val_windows": 5313,
+  "val_players": 2,
+  "knn_top5_acc": 1.0,
+  "knn_top1_acc": 1.0,
+  "loss_final": 1.759037618126188,
+  "parameters": 3030720,
+  "device": "cuda",
+  "finished_at": "2026-06-05T20:09:31.024577+00:00",
+  "wall_time_sec": 120.49017510004342
+}

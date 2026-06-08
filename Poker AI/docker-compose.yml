@@ -1,0 +1,59 @@
+# Local-first Poker AI stack (Phase 12)
+# Usage:
+#   docker compose up -d postgres     # optional Postgres instead of SQLite
+#   docker compose up api             # API + built SPA (build web first)
+#   docker compose --profile observability up -d   # Prometheus + Grafana
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: poker_ai
+      POSTGRES_PASSWORD: poker_ai
+      POSTGRES_DB: poker_ai
+    ports:
+      - "5432:5432"
+    volumes:
+      - poker_ai_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U poker_ai"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.api
+    ports:
+      - "8000:8000"
+    environment:
+      POKER_AI_DATABASE_URL: sqlite+aiosqlite:////data/poker_ai.db
+      POKER_AI_API_CORS_ORIGINS: http://127.0.0.1:8000,http://localhost:8000
+    volumes:
+      - ./poker_ai/artifacts:/app/poker_ai/artifacts
+      - poker_ai_data:/data
+    working_dir: /app/poker_ai
+    command: ["uv", "run", "python", "-m", "poker_ai", "serve", "--no-web", "--host", "0.0.0.0"]
+
+  prometheus:
+    profiles: [observability]
+    image: prom/prometheus:v2.55.0
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./docker/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+
+  grafana:
+    profiles: [observability]
+    image: grafana/grafana:11.2.0
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: poker_ai
+    depends_on:
+      - prometheus
+
+volumes:
+  poker_ai_pg:
+  poker_ai_data:

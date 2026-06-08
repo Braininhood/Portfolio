@@ -1,0 +1,27 @@
+{
+  "cache_key": "045485150f1ea7c7",
+  "board": "Qs,Jh,2h",
+  "sizing_tree_id": "random_v1_233",
+  "ranges_hash": "1a2347dcd5a60c76",
+  "action_labels": [
+    "fold",
+    "check_call",
+    "bet_33",
+    "bet_66",
+    "allin"
+  ],
+  "frequencies": [
+    0.0,
+    0.5914471604202085,
+    0.22470406176888527,
+    0.18384877781090614,
+    0.0
+  ],
+  "backend": "texas",
+  "meta": {
+    "executable": "D:\\Poker AI\\poker_ai\\artifacts\\third_party\\texassolver\\v0.2.0\\TexasSolver-v0.2.0-Windows\\console_solver.exe",
+    "resource_dir": "D:\\Poker AI\\poker_ai\\artifacts\\third_party\\texassolver\\v0.2.0\\TexasSolver-v0.2.0-Windows\\resources",
+    "pot_chips": 22,
+    "effective_stack": 63
+  }
+}

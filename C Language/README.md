@@ -1,6 +1,6 @@
 # C Programming Projects
 
-This repository contains a collection of C programming projects demonstrating various algorithms, data structures, and programming concepts.
+Part of the [Professional Portfolio](../README.md). C programming projects demonstrating various algorithms, data structures, and programming concepts.
 
 ## Projects
 

@@ -1,0 +1,19 @@
+{
+  "updated_at": "2026-06-05T19:30:09.112017+00:00",
+  "alerts": [
+    {
+      "player_uid": "play_bot:main_agent",
+      "display_name": "Main Agent",
+      "detected_at": "2026-06-05",
+      "description": "Aggression factor shifted 1.2 -> 2.8 (play vs AI)",
+      "confidence": 0.81
+    },
+    {
+      "player_uid": "play_bot:tag",
+      "display_name": "Tag",
+      "detected_at": "2026-06-05",
+      "description": "Aggression factor shifted 4.0 -> 3.0 (play vs AI)",
+      "confidence": 0.7
+    }
+  ]
+}

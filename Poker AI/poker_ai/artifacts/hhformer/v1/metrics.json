@@ -1,0 +1,17 @@
+{
+  "seed": 42,
+  "epochs": 50,
+  "batch_size": 256,
+  "train_hands": 38006,
+  "val_hands": 4222,
+  "map_top1_acc": 0.8218002081165453,
+  "mcp_top1_acc": 0.029152542372881354,
+  "sop_auc": 0.9757279894054252,
+  "probe_auc": 0.7773436380587071,
+  "final_loss": 1.0385012502638287,
+  "parameters": 5312574,
+  "device": "cuda",
+  "finished_at": "2026-06-05T19:44:45.978821+00:00",
+  "wall_time_sec": 677.1762578999624,
+  "steps_per_epoch": 149
+}

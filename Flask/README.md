@@ -1,6 +1,6 @@
 # Flask Projects
 
-This directory contains Flask-based web applications and microservices demonstrating various Flask features and architectural patterns.
+Part of the [Professional Portfolio](../README.md). Flask-based web applications and microservices demonstrating various Flask features and architectural patterns.
 
 ## Projects
 

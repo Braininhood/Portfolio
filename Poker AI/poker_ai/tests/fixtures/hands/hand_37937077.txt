@@ -1,0 +1,28 @@
+$0.05/$0.10, NLH, 6 Players
+
+SB: $12.21 (122.1 bb)
+BB: $10.42 (104.2 bb)
+UTG: $13.48 (134.8 bb)
+Hero (MP): $16.22 (162.2 bb)
+CO: $22.32 (223.2 bb)
+BTN: $10 (100 bb)
+Preflop: Hero Ks Qd
+UTG folds
+Hero raises to $0.22
+3 folds
+BB raises to $0.64
+Hero calls $0.42
+Flop: ($1.33) 2d 4s Td (2 players)
+BB bets $0.83
+Hero calls $0.83
+Turn: ($2.99) Js (2 players)
+BB bets $1.86
+Hero calls $1.86
+River: ($6.71) 3c (2 players)
+BB checks
+Hero bets $8.10
+BB calls $7.09 and is all-in
+Final Board: 2d 4s Td Js 3c
+Results: $20.89 pot ($0.94 rake)
+BB showed 6d Ad and won $19.95 ($9.53 net)
+Hero showed Ks Qd and won $0.00 (-$10.42 net)

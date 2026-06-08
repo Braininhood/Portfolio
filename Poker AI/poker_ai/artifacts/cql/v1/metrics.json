@@ -1,0 +1,9 @@
+{
+  "alpha": 1.0,
+  "epochs": 15,
+  "train_rows": 1025,
+  "final_loss": 0.34355688488424624,
+  "finished_at": "2026-06-05T20:05:08.365776+00:00",
+  "source_student": "D:\\Poker AI\\poker_ai\\artifacts\\student\\v1",
+  "conservative": true
+}

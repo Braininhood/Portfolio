@@ -1,0 +1,6 @@
+{
+  "extends": "../../pyrightconfig.json",
+  "venvPath": "../../poker_ai",
+  "venv": ".venv",
+  "extraPaths": ["../../poker_ai/src", "."]
+}

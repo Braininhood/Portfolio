@@ -1,0 +1,101 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# Type checking
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Ruff
+.ruff_cache/
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
+apps/web/dist/
+*.log
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Artifacts (keep structure, ignore large files)
+poker_ai/artifacts/**/*.pt
+poker_ai/artifacts/**/*.pth
+poker_ai/artifacts/**/*.safetensors
+poker_ai/artifacts/**/*.onnx
+poker_ai/artifacts/solver_cache/spots/
+
+# Reports (runtime generated)
+poker_ai/reports/**/*.log
+poker_ai/reports/**/*.err.log
+
+# Data (runtime generated)
+poker_ai/data/*.db
+poker_ai/data/processed/
+poker_ai/features.jsonl
+poker_ai/**/*.jsonl
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# Data folders (not in repo)
+hand/
+_legacy/

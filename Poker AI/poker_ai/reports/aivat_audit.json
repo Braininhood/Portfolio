@@ -1,0 +1,11 @@
+{
+  "finished_at": "2026-06-05T20:29:34.538472+00:00",
+  "aivat_mode": "full",
+  "hands": 1000,
+  "naive_bb100": 0.0,
+  "full_bb100": 0.0,
+  "naive_stderr": 126.275537,
+  "full_stderr": 126.275527,
+  "stderr_reduction_pct": 0.0,
+  "report_path": "D:\\Poker AI\\poker_ai\\reports\\aivat_audit.json"
+}

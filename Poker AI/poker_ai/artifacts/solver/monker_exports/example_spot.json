@@ -1,0 +1,14 @@
+{
+  "board": "Qs,Jh,2h",
+  "n_active": 3,
+  "num_seats": 6,
+  "pot_chips": 12,
+  "effective_stack": 88,
+  "strategy": {
+    "fold": 0.08,
+    "check": 0.42,
+    "bet_33": 0.28,
+    "bet_66": 0.15,
+    "allin": 0.07
+  }
+}

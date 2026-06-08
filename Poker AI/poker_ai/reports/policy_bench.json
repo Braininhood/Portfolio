@@ -1,0 +1,57 @@
+[
+  {
+    "policy_name": "heuristic",
+    "policy_version": "0.1.0",
+    "n_samples": 500,
+    "street": "Flop",
+    "device": "cpu",
+    "mean_ms": 0.0065477993339300156,
+    "p50_ms": 0.006499991286545992,
+    "p99_ms": 0.0072009966243058434,
+    "max_ms": 0.015600002370774746
+  },
+  {
+    "policy_name": "postflop_equity",
+    "policy_version": "0.1.0",
+    "n_samples": 500,
+    "street": "Flop",
+    "device": "cpu",
+    "mean_ms": 7.026960200630128,
+    "p50_ms": 6.965400010813028,
+    "p99_ms": 8.002141988254152,
+    "max_ms": 8.60370002919808
+  },
+  {
+    "policy_name": "stacked",
+    "policy_version": "0.3.0",
+    "n_samples": 500,
+    "street": "Flop",
+    "device": "cpu",
+    "mean_ms": 5.024195000063628,
+    "p50_ms": 4.967349988874048,
+    "p99_ms": 6.435656987014226,
+    "max_ms": 7.352199987508357
+  },
+  {
+    "policy_name": "distilled",
+    "policy_version": "1.0.0",
+    "n_samples": 500,
+    "street": "Flop",
+    "device": "cpu",
+    "mean_ms": 5.020376600790769,
+    "p50_ms": 4.943949985317886,
+    "p99_ms": 6.510721982922405,
+    "max_ms": 7.243899977765977
+  },
+  {
+    "policy_name": "distilled",
+    "policy_version": "1.0.0",
+    "n_samples": 500,
+    "street": "Flop",
+    "device": "cpu",
+    "mean_ms": 5.031075399601832,
+    "p50_ms": 4.967149987351149,
+    "p99_ms": 6.272596968919969,
+    "max_ms": 6.650600000284612
+  }
+]

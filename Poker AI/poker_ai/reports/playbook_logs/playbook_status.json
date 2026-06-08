@@ -1,0 +1,20 @@
+{
+  "phase": "playbook_full_finished",
+  "stopped_at": "2026-06-03T20:35:00Z",
+  "phase1_ingest_perf": "done",
+  "phase7b_multiway_train": "done",
+  "phase9_league_6h": "running",
+  "production_equity_backfill": "done",
+  "preflop_8max": "done",
+  "preflop_9max": "done",
+  "preflop_10max": "done",
+  "phase7b_tests": "done",
+  "phase7b_validate_student": "done",
+  "phase10_verify": "done",
+  "runner": "scripts/run_playbook_full.py",
+  "note": "Restart with: cd poker_ai && .venv\\Scripts\\python.exe -u scripts\\run_playbook_full.py",
+  "started_at": "2026-06-03T19:49:24.291341+00:00",
+  "updated_at": "2026-06-04T18:21:50.643722+00:00",
+  "league_pid": 108184,
+  "finished_at": "2026-06-04T18:21:50.636705+00:00"
+}

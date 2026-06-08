@@ -1,0 +1,89 @@
+{
+  "generated_note": "Python entries from pyproject.toml; manual row for TexasSolver. Regenerate Python list with: pip-licenses --format=json",
+  "entries": [
+    {
+      "package": "poker-ai",
+      "version": "0.1.0",
+      "license_type": "MIT",
+      "url": null,
+      "note": "This application"
+    },
+    {
+      "package": "fastapi",
+      "version": "0.115+",
+      "license_type": "MIT",
+      "url": "https://github.com/fastapi/fastapi",
+      "note": "API server"
+    },
+    {
+      "package": "uvicorn",
+      "version": "0.32+",
+      "license_type": "BSD-3-Clause",
+      "url": "https://github.com/encode/uvicorn",
+      "note": null
+    },
+    {
+      "package": "sqlalchemy",
+      "version": "2.0+",
+      "license_type": "MIT",
+      "url": "https://www.sqlalchemy.org/",
+      "note": "ORM"
+    },
+    {
+      "package": "pytorch",
+      "version": "2.2+",
+      "license_type": "BSD-3-Clause",
+      "url": "https://pytorch.org/",
+      "note": "Training framework (optional ml extra)"
+    },
+    {
+      "package": "phevaluator",
+      "version": "0.5+",
+      "license_type": "Apache-2.0",
+      "url": "https://github.com/HenryRLee/PokerHandEvaluator",
+      "note": "Hand evaluator"
+    },
+    {
+      "package": "TexasSolver",
+      "version": "bundled",
+      "license_type": "AGPL-3.0",
+      "url": "https://github.com/bupticybee/TexasSolver",
+      "note": "AGPL — offline teacher only; student MODEL_CARD cites source availability"
+    },
+    {
+      "package": "react",
+      "version": "18.3+",
+      "license_type": "MIT",
+      "url": "https://react.dev/",
+      "note": "Web dashboard (apps/web)"
+    },
+    {
+      "package": "vite",
+      "version": "5.4+",
+      "license_type": "MIT",
+      "url": "https://vitejs.dev/",
+      "note": "Frontend build tool"
+    },
+    {
+      "package": "open-spiel",
+      "version": "1.6+",
+      "license_type": "Apache-2.0",
+      "url": "https://github.com/google-deepmind/open_spiel",
+      "note": "CFR validation (dev optional)"
+    },
+    {
+      "package": "numpy",
+      "version": "2.0+",
+      "license_type": "BSD-3-Clause",
+      "url": "https://numpy.org/",
+      "note": null
+    },
+    {
+      "package": "typer",
+      "version": "0.12+",
+      "license_type": "MIT",
+      "url": "https://github.com/fastapi/typer",
+      "note": "CLI"
+    }
+  ]
+}

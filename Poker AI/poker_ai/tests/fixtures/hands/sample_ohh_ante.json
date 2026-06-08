@@ -1,0 +1,40 @@
+{
+  "ohh": {
+    "game_number": "999888778",
+    "small_blind_amount": 0.50,
+    "big_blind_amount": 1.0,
+    "bet_limit": {"bet_type": "NL"},
+    "hero_player_id": 0,
+    "antes": [0.25, 0.25, 0.25],
+    "players": [
+      {"name": "P0", "id": 0, "starting_stack": 100.0, "seat": 1},
+      {"name": "P1", "id": 1, "starting_stack": 100.0, "seat": 2},
+      {"name": "P2", "id": 2, "starting_stack": 100.0, "seat": 3}
+    ],
+    "rounds": [
+      {
+        "street": "Preflop",
+        "cards": [],
+        "actions": [
+          {"player_id": 0, "action": "Post Ante", "amount": 0.25, "is_allin": false},
+          {"player_id": 1, "action": "Post Ante", "amount": 0.25, "is_allin": false},
+          {"player_id": 2, "action": "Post Ante", "amount": 0.25, "is_allin": false},
+          {"player_id": 0, "action": "Post SB", "amount": 0.50, "is_allin": false},
+          {"player_id": 1, "action": "Post BB", "amount": 1.0, "is_allin": false},
+          {"player_id": 0, "action": "Dealt Cards", "cards": ["Ah", "Kh"], "amount": 0.0, "is_allin": false},
+          {"player_id": 0, "action": "Raise", "amount": 3.0, "is_allin": false},
+          {"player_id": 1, "action": "Fold", "amount": 0.0, "is_allin": false},
+          {"player_id": 2, "action": "Fold", "amount": 0.0, "is_allin": false}
+        ]
+      }
+    ],
+    "pots": [
+      {
+        "number": 0,
+        "amount": 4.25,
+        "rake": 0.0,
+        "player_wins": [{"player_id": 0, "win_amount": 4.25, "cashout_fee": 0.0, "cashout_amount": 0.0}]
+      }
+    ]
+  }
+}

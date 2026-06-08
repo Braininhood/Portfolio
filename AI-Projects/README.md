@@ -1,6 +1,6 @@
 # AI Projects Portfolio
 
-This repository contains a collection of AI and machine learning projects demonstrating various techniques and applications.
+Part of the [Professional Portfolio](../README.md). A collection of AI and machine learning projects demonstrating various techniques and applications.
 
 ## Projects
 

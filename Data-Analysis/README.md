@@ -1,6 +1,6 @@
 # Data Analysis Portfolio
 
-This repository contains a comprehensive collection of data analysis projects, tutorials, and exercises demonstrating various techniques in data manipulation, visualization, statistical analysis, and machine learning.
+Part of the [Professional Portfolio](../README.md). A comprehensive collection of data analysis projects, tutorials, and exercises demonstrating various techniques in data manipulation, visualization, statistical analysis, and machine learning.
 
 ## Main Project
 
@@ -144,7 +144,7 @@ This repository contains a comprehensive collection of data analysis projects, t
 
 ## Web Applications
 
-### [Django Data Visualization Web App](../Django/data_viz_project/)
+### [Django Data Visualization Web App](../Django/data_project/)
 - **Description**: Full-featured web application for uploading, cleaning, and visualizing data from various file formats.
 - **Key Features**:
   - User authentication with encrypted profiles

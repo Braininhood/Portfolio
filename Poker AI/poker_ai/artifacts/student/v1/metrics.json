@@ -1,0 +1,17 @@
+{
+  "seed": 42,
+  "train_rows": 1017,
+  "val_rows": 112,
+  "mse_val": 0.0178388599306345,
+  "kl_val": 0.22505083680152893,
+  "parameters_student": 278533,
+  "device": "cuda",
+  "teacher_backends": {
+    "play_study": 104,
+    "texas": 536,
+    "mock": 488,
+    "monker": 1
+  },
+  "finished_at": "2026-06-05T20:05:03.164618+00:00",
+  "wall_time_sec": 5.190136299934238
+}

@@ -1,0 +1,37 @@
+title: Poker AI — System Blueprint
+version: "1.0"
+sections:
+  - id: ingest
+    title: Ingest & canonical store
+    body: |
+      Hand histories (PHH/OHH) parse into SQLite via ``poker_ai ingest``.
+      Player UIDs are HMAC-stable; features and models read only from this store.
+
+  - id: features
+    title: Feature layer
+    body: |
+      Phase 3 tensors, board texture, range vectors. HHFormer tokens for sequence models.
+
+  - id: solvers
+    title: Offline teachers
+    body: |
+      Tabular CFR+ preflop charts, TexasSolver postflop cache (AGPL), optional Monker JSON.
+      Student distillation produces fast ``DistilledPolicy`` weights.
+
+  - id: policy
+    title: Runtime policy stack
+    body: |
+      ``RouterPolicy`` switches HU vs multi-way brains. ``/decide`` exposes ``propose()``
+      with symbolic explanations (template engine, no LLM).
+
+  - id: league
+    title: Self-play league
+    body: |
+      Mixed HU / 6-max / 9-max sims with AIVAT scoring. Promotions gated on significance.
+      Leaderboard JSON feeds the dashboard ``/league`` page.
+
+  - id: dashboard
+    title: Phase 10 dashboard
+    body: |
+      FastAPI on :8000, Vite React on :5173. Replayer, live WebSocket sim, profiles,
+      solver spots, league, drift (Phase 11). Air-gapped by design — no outbound network.

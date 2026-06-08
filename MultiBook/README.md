@@ -1,5 +1,7 @@
 # MultiBook — Multi-Service Booking System
 
+Part of the [Professional Portfolio](../README.md).
+
 **Status: ✅ Complete | Production-ready**
 
 A comprehensive, enterprise-grade appointment booking system combining the best features from HouseCallPro and Bookly. Built for any service business — cleaning, labour, garden, handy work, property boards, housing associations.

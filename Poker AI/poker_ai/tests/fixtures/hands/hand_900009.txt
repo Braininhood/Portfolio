@@ -1,0 +1,20 @@
+$0.02/$0.05, NLH, 9 Players
+SB: $2 (40 bb)
+BB: $2 (40 bb)
+UTG: $2 (40 bb)
+P4: $2 (40 bb)
+P5: $2 (40 bb)
+P6: $2 (40 bb)
+P7: $2 (40 bb)
+Hero (MP): $5 (100 bb)
+BTN: $2 (40 bb)
+Preflop: Hero Jc Tc
+UTG folds
+P4 folds
+P5 folds
+P6 folds
+P7 folds
+Hero raises to $0.12
+BTN folds
+SB folds
+BB folds

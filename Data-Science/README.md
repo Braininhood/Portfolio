@@ -1,6 +1,6 @@
 # Data Science Projects
 
-This directory contains a collection of data science projects organized into separate folders (DS0-DS9). Each project focuses on different data science and machine learning techniques.
+Part of the [Professional Portfolio](../README.md). This directory contains a collection of data science projects organized into separate folders (DS0-DS9). Each project focuses on different data science and machine learning techniques.
 
 ## Project Structure Overview
 

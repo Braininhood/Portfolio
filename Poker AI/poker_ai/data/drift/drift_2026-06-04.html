@@ -1,0 +1,12 @@
+<html><head><meta charset='utf-8'><title>Drift report</title>
+<style>body{font-family:sans-serif;margin:1rem} table{border-collapse:collapse}
+td,th{border:1px solid #ccc;padding:6px} .flag{background:#fff3cd}
+.info{color:#666;font-size:0.9em}</style></head><body>
+<h1>Drift report 2026-06-04</h1>
+<p>Status: <strong>GREEN</strong> — 0 poker-relevant feature(s) flagged.</p>
+<p class='info'>Your prepared training data looks stable between the older and newer halves of features.jsonl. Safe to continue training and consider model promotion after league checks.</p>
+<p class='info'><em>Compared older half vs newer half of your prepared features file (41,228 hands). Hand ID shifts are ignored for status.</em></p>
+<table><tr><th>Feature</th><th>Older avg</th><th>Newer avg</th><th>Shift</th><th>Counts?</th></tr>
+<tr class=''><td><strong>Hand ID (technical)</strong><br><span class='info'>Internal row number — grows every time you import hands. A large “shift” here usually means the library got bigger, not that the player pool changed.</span></td><td>2250843383161511.5</td><td>6746380241731537.0</td><td>1.9973</td><td>No (info only)</td></tr>
+<tr class=''><td><strong>Hero range concentration</strong><br><span class='info'>How “peaked” the encoded hero hand range is per row (near 1.0 = one hand type; lower = more mixed / uniform encoding). Shifts can mean different hole-card patterns or sites in newer imports.</span></td><td>1.0</td><td>1.0</td><td>0.0</td><td>Yes</td></tr>
+</table></body></html>

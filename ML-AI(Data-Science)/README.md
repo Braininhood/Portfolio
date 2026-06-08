@@ -1,6 +1,6 @@
 # Machine Learning and AI Projects
 
-This directory contains a collection of machine learning and data science projects showcasing various techniques and algorithms in the field.
+Part of the [Professional Portfolio](../README.md). This directory contains a collection of machine learning and data science projects showcasing various techniques and algorithms in the field.
 
 ## Projects Overview
 

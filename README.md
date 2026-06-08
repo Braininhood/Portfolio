@@ -16,7 +16,7 @@ A comprehensive portfolio showcasing expertise across software development, data
 
 ## Portfolio Overview
 
-This repository contains **22+ project categories** spanning:
+This repository contains **23+ project categories** spanning:
 
 | Domain | Highlights |
 |--------|------------|
@@ -27,6 +27,7 @@ This repository contains **22+ project categories** spanning:
 | **Cybersecurity** | Threat detection, vulnerability scanning, encryption, GDPR compliance |
 | **Data Automation** | Excel processing, cohort management, email automation |
 | **Booking & Marketplace** | Multi-service booking (MultiBook), AI mentorship (Brain builders_lite) |
+| **Poker AI** | Local-first NL Hold'em analysis, GTO solvers, hand history import, AI training |
 | **Systems Programming** | C algorithms, memory management, cryptography |
 
 ---
@@ -51,6 +52,20 @@ AI and machine learning projects demonstrating NLP, computer vision, genetic alg
 | **shopping/** | ML model for shopping behavior prediction |
 | **tictactoe/** | Minimax algorithm for adversarial game AI |
 | **traffic/** | TensorFlow CNN for traffic sign recognition |
+
+---
+
+### [Poker AI](./Poker%20AI/) — Local-First Poker Analysis & Training
+
+**Status: Production** | Python 3.11 · uv · FastAPI · Vite dashboard | 100% local, no cloud
+
+Professional poker analysis and training platform: import hand histories (PokerStars, OHH, PHH), analyze leaks, train AI models, play against bots, generate GTO preflop charts.
+
+**Dashboard:** Setup, Import, Status, Tasks, Play, Drill, Equity, League, Models, Health — `http://127.0.0.1:5173`
+
+**Structure:** `poker_ai/` (CLI, migrations, TexasSolver integration), `apps/` (api, web), `doc/` (architecture, CLI, roadmap, GTO theory), `scripts/` (install.ps1 / install.sh)
+
+**Privacy:** All data stays on your machine — no accounts, no subscriptions, MIT license
 
 ---
 
@@ -228,7 +243,6 @@ Security tools, monitoring, and compliance applications.
 | Project | Description |
 |---------|-------------|
 | **search/** | Google-like interface (main, image, advanced), `server.py` for testing |
-| **trivia/** | Interactive quiz (multiple choice, free response) |
 | **homepage/** | Multi-page portfolio (index, skills, experience, contact) |
 | **IBM exercises/** | See below |
 
@@ -272,7 +286,7 @@ Python · JavaScript · TypeScript · SQL · C · HTML/CSS · R
 Django · Flask · React 18 · Next.js · Express.js · Redux Toolkit · Material-UI · Bootstrap · Tailwind CSS · Vite
 
 ### Data & ML
-Pandas · NumPy · Scikit-learn · TensorFlow · NLTK · Matplotlib · Seaborn · Recharts
+Pandas · NumPy · Scikit-learn · TensorFlow · NLTK · Matplotlib · Seaborn · Recharts · GTO / CFR solvers
 
 ### Cloud & DevOps
 AWS (Lambda, S3, API Gateway, EC2) · Docker · Docker Compose · Celery · Redis · Stripe Connect
@@ -287,7 +301,7 @@ Cryptography · Scapy · psutil · pytest · OWASP · GDPR compliance · PyQt5 �
 
 ## Getting Started
 
-Each project includes its own `README.md` (where available) with setup instructions.
+Each category and major project includes its own `README.md` with setup instructions. Large apps (**MultiBook**, **Brain builders_lite**, **Poker AI**) use their own install scripts — see each project folder.
 
 **Typical setup:**
 ```bash

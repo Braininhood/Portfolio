@@ -1,0 +1,10 @@
+{
+  "name": "Poker AI Dashboard",
+  "short_name": "Poker AI",
+  "description": "Local-first offline poker analysis dashboard",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#059669",
+  "icons": []
+}

@@ -1,0 +1,14 @@
+$0.01/$0.02, NLH, 6 Players
+SB: $1 (50 bb)
+BB: $1 (50 bb)
+UTG: $1 (50 bb)
+Hero (BTN): $2 (100 bb)
+CO: $1 (50 bb)
+MP: $1 (50 bb)
+Preflop: Hero Ah Kh
+UTG folds
+MP folds
+CO folds
+Hero raises to $0.06
+SB folds
+BB folds

@@ -1,0 +1,11 @@
+{
+  "promoted_at": "2026-06-06T21:05:19Z",
+  "routes": [
+    "hu",
+    "multiway"
+  ],
+  "play_study_dirs": {
+    "hu": "play_study_hu_v1",
+    "multiway": "play_study_multiway_v1"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "cache_key": "ff2903be903e7d16",
+  "board": "Qs,Jh,2h",
+  "sizing_tree_id": "monker_export",
+  "ranges_hash": "monker_export",
+  "action_labels": [
+    "fold",
+    "check",
+    "bet_33",
+    "bet_66",
+    "allin"
+  ],
+  "frequencies": [
+    0.08,
+    0.42,
+    0.28,
+    0.15,
+    0.07
+  ],
+  "backend": "monker",
+  "meta": {
+    "n_active": 3,
+    "num_seats": 6,
+    "pot_chips": 12,
+    "effective_stack": 88,
+    "source": "artifacts\\solver\\monker_exports\\example_spot.json"
+  }
+}

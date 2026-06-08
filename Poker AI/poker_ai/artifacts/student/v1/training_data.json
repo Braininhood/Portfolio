@@ -1,0 +1,21 @@
+{
+  "hhformer_dir": "artifacts\\hhformer\\v1",
+  "cache_dir": "artifacts\\solver_cache",
+  "student_config": {
+    "hhformer_dim": 256,
+    "state_extras_dim": 28,
+    "hidden_dim": 512,
+    "n_actions": 5,
+    "dropout": 0.1
+  },
+  "train_config": {
+    "epochs": 30,
+    "batch_size": 128,
+    "lr": 0.001,
+    "weight_decay": 0.01,
+    "val_frac": 0.1,
+    "seed": 42,
+    "device": "auto",
+    "freeze_hhformer": true
+  }
+}
